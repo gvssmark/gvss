@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width:300px;
+  margin-left:30px;
+  border-radius:20px;
+  
+}
+
+.button2 {background-color: #008CBA;} /* Blue */
+.button3 {background-color: #f44336;} /* Red */ 
+.button4 {background-color: #e7e7e7; color: black;} /* Gray */ 
+.button5 {background-color: #555555;} /* Black */
+</style>
+
+</head>
+<body style="background-color:powderblue; width:360px; margin-left: 0px; font-size:small;">
+
+<div style="width:360px; margin:auto">
+<div id='city_div' style="display:none; margin:auto; ">
+<br><br>
+<h3 align=center>Place of Stay</h3>
+<p id='getnCityNmes' ></p>
+<div onclick="hide()" align= center style="background:yellow; width:360px;  height:25px; bottom:0">Home</div>
+</div>
+<div id='inThisCity' style="display:none">
+<br><br><br>
+<h3 align=center>Retirees living in </h3>
+
+<p id='inThisCityPara' style="margin-left:20px; "></p>
+<br><br>
+<div onclick="hide()" align= center style="background:yellow; width:360px;   height:25px;  bottom:0; position:fixed; ">Home</div>
+</div>
+
+<div style="text-align:center; width:360px; height:50px; position:fixed; background-color: yellow; top:0px;    ">
+
+<h3 id='header'>IB AP Retirees' Google Group</h3>
+
+</div>
+<div id='buttons_div'>
+<br><br><br><br>
+<button onclick="searchByName()"  class="button">Search by Name</button><br><br>
+<button onclick="eventsThisWeek()" class="button button2">Events This Week</button><br><br>
+<button onclick="showcities()" class="button button3">Lives in</button><br><br>
+<button class="button button4">Who Worked in This Branch</button><br><br>
+<button class="button button5">About</button><br>
+</div>
+
+<div id="div1" style="display:none">
+<input type="text"  id='myInput' onkeyup="dispdata()" style="margin-top:55px; width:180px; margin-left:25%; height:30px; border-radius:15px;  background-color: cyan;  border:0px;  outline:0;" placeholder="Search for a Name here...">
+
+<p id='getnames' style="margin-left :50px; "></p>
+</div>
+<div  id="div2" style="width:360px; margin: auto; position:center; ; display:none">
+<br><br><br>
+<div id='photo' style="position:float; top:0; margin-left:20px;"></div>
+<p id="details" style="margin-left:20px; "> </p>
+<input style=" border-radius: 15px; height: 25px;  background: yellow;  position: fixed; width:360px; margin:auto; bottom:0px;  " type=button id='btn1' value='Close' onclick='hide()' 
+</div>
+
+</div>
+
+
+
+<script>
+
+
+tempData=""
+newcities = []
+mycities=[]
+livesin=[]
+cityTable=""
+selectedCity=""
+inThisCity=""
+cd= new Date()
+fd = new Date();
+monthsArray=["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+fd.setDate(fd.getDate() + 7);
+//cd.setDate(cd.getDate() + 21);
+currMonth =cd.getMonth()+1
+currDate  =cd.getDate()
+futureMonth =fd.getMonth()+1
+
+futureDate =fd.getDate()
+//JSON Data from the following url
+url='https://script.google.com/macros/s/AKfycbyfbQlpdG_V0K931wbGKSI8d8tXCkT3KGME5Urt4W5J43HrZyoDaOpcdYyjNHCJ-ubeWA/exec'
+
+async function getMyData (){
+response= await fetch(url)
+data= await response.json()
+tempData=data["user"]
+
+brworked = tempData.filter(a => a.brlist.toLowerCase().includes("governor".toLowerCase())) // yet to be coded
+//places = Array.from(new Set(tempData.map(a=> `${a.add3.trim()}-${a.pin}`))).sort();
+
+//dispdata()
+//branchesList()
+
+//mypins = Array.from(new Set(tempData.map(s => s.pin))).sort()
+mycities = Array.from(new Set(tempData.map(s => s.add3))).sort()
+
+//newcities = Array.from(new Set(tempData.map(s => s.pin)))
+//.map( pin => {
+//return {
+//pin: pin, 
+//place: tempData.find(s => s.pin === pin).add3
+//};
+//});
+}
+
+getMyData()
+
+function showcities(){  // onclick of Lives in button
+cityTable ="<table id='citiesTable' width=340px border=1 align=center style='border-collapse:collapse; margin-left=0;'>"
+for (i=0; i<mycities.length; i++)
+{cityTable += "<tr><td>"+mycities[i] +"<td>" +mycities[i+1]
+i=i+1 }
+cityTable =  cityTable + '</table>'
+
+document.getElementById("city_div").style.display = "block";
+document.getElementById("buttons_div").style.display = "none";
+document.getElementById("getnCityNmes").innerHTML=cityTable
+var table = document.getElementById("citiesTable");
+if (table != null) {
+    for (var i = 0; i < table.rows.length; i++) {
+        for (var j = 0; j < table.rows[i].cells.length; j++)
+        table.rows[i].cells[j].onclick = function () {
+            tableText(this);
+        };
+    }
+}
+}
+
+
+
+function searchByName(){ // onclik button search by name
+document.getElementById("div1").style.display = "block";
+document.getElementById("buttons_div").style.display = "none";
+}
+
+function dispdata(){ // take input from input box and display names containing the text
+let  filter = document.getElementById("myInput").value.toLowerCase()
+if (filter.length<=4){document.getElementById("getnames").innerHTML="" }
+if (filter.length>=3){
+toTable = tempData.filter(a => a.name.toLowerCase().includes(filter.toLowerCase()))
+.sort((a, b) => {
+    let fa = a.name.toLowerCase(), fb = b.name.toLowerCase();
+    if (fa < fb) {return -1;}
+    if (fa > fb) {return  1;}
+    return 0;
+}).map (a => [a.srno, a.name]);
+tablebody=""
+toTable.forEach(function(a){tablebody+= "<span onClick='nameclick(this.id)' id="+ a[0] + ">" +a[1].toUpperCase() + "</span><br>"})
+document.getElementById("getnames").innerHTML=tablebody
+}
+}
+
+
+
+function nameclick(membershipNo){  // on click of a name will show biodata . this data is to formatted
+document.getElementById("div2").style.display = "block";
+document.getElementById("div1").style.display = "none";
+document.getElementById("inThisCity").style.display = "none";
+
+document.getElementById("myInput").value=""
+//membno= membershipNo*1-1 ; 
+membData= tempData.filter(a => a.srno ===membershipNo*1)
+monthsArray=["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+//toDisplay = "Name:  " + membData[0].name + "<br>"
+//toDisplay += "SR No:" + membData[0].srno + "<br>"
+toDisplay = "Address 1:" + membData[0].add1 + "<br>"
+toDisplay += "Address 2: " + membData[0].add2 + "<br>"
+toDisplay += "Address 3: " + membData[0].add3 + "-"+ membData[0].pin +  "<br>"
+toDisplay += "Address 4: " + membData[0].add4 + "<br>"
+toDisplay += "Email: " + membData[0].email + "<br>"
+toDisplay += "Mobile 1: " + membData[0].mob1 + "<br>"
+toDisplay += "Mobile 2: " + membData[0].mob2+ "<br>"
+toDisplay += "Fixed: " + membData[0].fix + "<br>"
+toDisplay += "Retired on: " + membData[0].retdate + "<br>"
+toDisplay += "Last Br: " + membData[0].lastbr+ "<br>"
+toDisplay += "Pension Br: " + membData[0].penbr + "<br>"
+toDisplay += "Birthdat: " + monthsArray[membData[0].bm] + "," +  membData[0].bd+ "<br>"
+toDisplay += "Marriage Anniversary : " + monthsArray[membData[0].mm] + ", " +  membData[0].md + "<br>"
+toDisplay += "Branches Worked: " + membData[0].brlist + "<br>"
+picture = "<img  src='https://drive.google.com/uc?export=view&id=" + membData[0].photoid + "' border=0 align='center' alt='Smiley face' width='50' height='50' style='border-radius:25px;'> "
+document.getElementById("photo").innerHTML=picture
+document.getElementById("details").innerHTML=toDisplay
+document.getElementById("header").innerHTML=membData[0].name 
+}
+
+
+
+function hide(){ // to hide the div elements
+document.getElementById("div2").style.display = "none";
+document.getElementById("div1").style.display = "none";
+document.getElementById("getnames").innerHTML="" 
+document.getElementById("header").innerHTML="IB AP Retirees' Google Group"
+document.getElementById("photo").innerHTML=""
+document.getElementById("buttons_div").style.display = "block";
+document.getElementById("city_div").style.display = "none";
+document.getElementById("inThisCity").style.display = "none";
+
+
+
+}
+
+function eventsThisWeek(){  // onclick of Events this week button. this will show the birthday and marriage anniversaries. Will add 
+if(currMonth!=futureMonth){
+bdThisWeek = tempData.filter(a => ((a.bm === currMonth && a.bd >= currDate) || (a.bm === futureMonth && a.bd <=futureDate)))
+.sort(function(a, b){return (a.bm - b.bm || a.bd - b.bd   ) })
+.map(a => [a.srno, a.name, a.bm, a.bd])
+}
+
+else{
+bdThisWeek = tempData.filter(a => ((a.bm === currMonth && a.bd >= currDate && a.bd<= futureDate)))
+.sort(function(a, b){return (a.bm - b.bm || a.bd - b.bd   ) })
+.map(a => [a.srno, a.name, a.bm, a.bd])
+}
+
+if(currMonth!=futureMonth){
+mdThisWeek = tempData.filter(a => ((a.mm === currMonth && a.md >= currDate) || (a.mm === futureMonth && a.md <=futureDate))).sort(function(a, b){return (a.mm - b.mm || a.md - b.md ) }).map(a => [a.srno, a.name, a.mm, a.md])
+}
+else{
+mdThisWeek = tempData.filter(a => ((a.mm === currMonth && a.md >= currDate && a.md <= futureDate)))
+.sort(function(a, b){return (a.mm - b.mm || a.md - b.md ) })
+.map(a => [a.srno, a.name, a.mm, a.md])
+}
+
+document.getElementById("div2").style.display = "block";
+document.getElementById("div1").style.display = "none";
+document.getElementById("buttons_div").style.display = "none";
+
+bdtable="<table  border=1 align=center style='  border-collapse: collapse; border: 1px solid black; '><tr><td colspan=2 align=center style='background:pink;'> Birthdays"
+bdThisWeek.forEach(function(a){bdtable += "<tr><td><span onClick='nameclick(this.id)' id="+ a[0] + ">" + a[1]+ "</span><td>" + monthsArray[a[2]]+", "+ a[3]})
+
+bdtable += "<tr><td  colspan=2 align=center style='background:pink;'>Marriage Anniversaries"
+mdThisWeek.forEach(function(a){bdtable += "<tr><td><span onClick='nameclick(this.id)' id="+ a[0] + ">" + a[1]+ "</span><td>" + monthsArray[a[2]]+", "+ a[3]})
+
+bdtable += "</table><br><br>"
+document.getElementById("details").innerHTML=bdtable
+}
+
+
+function branchesList(){  // branches worked unique list. not yet coded
+allbr = tempData.map(a => a.brlist)
+var myNewArray = allbr.reduce(function(prev, curr) {
+  return prev.concat(curr);
+});
+myNewArray.split(",")
+trimm = myNewArray.split(",")
+trimmed = trimm.map(a => a.trim())
+
+uniqueArray = trimmed.filter(function(item, pos) {
+    return trimmed.indexOf(item) == pos;
+})
+}
+
+
+
+function tableText(tableCell) { //  for Lives in table
+selectedCity=tableCell.innerHTML
+livesin = tempData.filter(a => a.add3.toLowerCase().includes(selectedCity.trim().toLowerCase())).map(a => [a.srno, a.name, a.add3,  a.pin])
+
+livesin.sort(function(a,b) {
+    return a[3]-b[3]
+});
+   selectedCityPersons()
+}
+
+function selectedCityPersons(){
+cityPinsArray = Array.from(new Set(livesin.map(s => s[3]))).sort()
+citytable=""
+for (i=0; i<cityPinsArray.length; i++)
+{
+thisPin = cityPinsArray[i]
+citytable += "<b  style='color:red'>" + selectedCity +"-" +thisPin +"</b><br>"
+tempcity = livesin.filter(a => a[3] === thisPin)
+tempcity.sort(function(a, b){
+    if(a[1] < b[1]) { return -1; }
+    if(a[1] > b[1]) { return 1; }
+    return 0;
+})
+tempcity.forEach(function(a){citytable+= "<span onClick='nameclick(this.id)' id="+ a[0] + ">" +a[1] + "</span><br>"})
+citytable+= "<hr>"
+}
+document.getElementById("inThisCityPara").innerHTML=citytable
+document.getElementById("inThisCity").style.display = "block";
+document.getElementById("city_div").style.display = "none"
+}
+
+
+
+</script>
+
+
+</body>
+</html>

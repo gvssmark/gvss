@@ -3,8 +3,27 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IBAP RETIREES GOOGLE GROUP</title>
-<style>
 
+
+<style>
+table {
+  /* Not required only for visualizing */
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table thead tr th {
+  /* Important */
+  background-color: red;
+  position: sticky;
+  z-index: 100;
+  top: 0;
+}
+
+td {
+  /* Not required only for visualizing */
+  padding: 1em;
+}
 .button {
   background-color: #4CAF50; /* Green */
   border: none;
@@ -26,6 +45,8 @@
 .button3 {background-color: #f44336;} /* Red */ 
 .button4 {background-color: #e7e7e7; color: black;} /* Gray */ 
 .button5 {background-color: #555555;} /* Black */
+.button6 {background-color: lightpink;} /* Black */
+
 </style>
 
 </head>
@@ -47,7 +68,7 @@
 <div onclick="hide()" align= center style="background:yellow; width:360px;   height:25px;  bottom:0; position:fixed; ">Home</div>
 </div>
 
-<div style="text-align:center; width:360px; height:50px; position:fixed; background-color: yellow; top:0px;   ">
+<div style="text-align:center; width:360px; height:50px; position:fixed; background-color: yellow; top:0px;    ">
 
 <h3 id='header'>IB AP Retirees' Google Group</h3>
 
@@ -58,6 +79,7 @@
 <button onclick="eventsThisWeek()" class="button button2">Events This Week</button><br><br>
 <button onclick="showcities()" class="button button3">Lives in</button><br><br>
 <button class="button button4">Who Worked in This Branch</button><br><br>
+<button onclick="rawDataTable()" class="button button6">Raw Data</button><br><br>
 <button class="button button5">About</button><br>
 </div>
 
@@ -74,6 +96,11 @@
 <div onclick="hide()" align= center style="background:yellow; width:360px;   height:25px;  bottom:0; position:fixed;  box-shadow: 0 8px 8px 0  rgba(0,0,0,0.5);">Home</div>
 
 </div>
+
+<div>
+<p id='radDataText'></p>
+</div>
+
 
 </div>
 
@@ -205,6 +232,16 @@ document.getElementById("details").innerHTML=toDisplay
 document.getElementById("header").innerHTML=membData[0].name 
 }
 
+function rawDataTable(){
+rawTable="<table  border=1 align=center style='  width: 330px; font-size: small; border-collapse: collapse; border: 1px solid black; '><thead><th>SR No<th>Name<th>Place<th>Mobile</thead>"
+
+
+xx=""
+tempData.forEach(function(a){xx += "<tr><td>" + a.srno +"<td>"+ a.name +"<td>" + a.add3 +"<td>"+a.mob1})
+rawTable += xx + "</table>"
+document.getElementById("radDataText").innerHTML=rawTable
+
+}
 
 
 function hide(){ // to hide the div elements

@@ -23,8 +23,9 @@ table thead tr th {
 
 td {
   /* Not required only for visualizing */
-  padding: 1em;
+  padding: .5em;
 }
+
 .button {
   background-color: #4CAF50; /* Green */
   border: none;
@@ -207,7 +208,7 @@ function nameclick(membershipNo){  // on click of a name will show biodata . thi
 document.getElementById("div2").style.display = "block";
 document.getElementById("div1").style.display = "none";
 document.getElementById("inThisCity").style.display = "none";
-
+document.getElementById("rawDataDiv").style.display = "none";
 document.getElementById("myInput").value=""
 //membno= membershipNo*1-1 ; 
 membData= tempData.filter(a => a.srno ===membershipNo*1)
@@ -239,7 +240,7 @@ rawTable="<table  border=1 align=center style=' width:100%;  font-size: x-small;
 
 
 xx=""
-tempData.forEach(function(a){xx += "<tr><td>" + a.srno +"<td>"+ a.name +"<td>" + a.add3 +"<td>"+a.mob1})
+tempData.forEach(function(a){xx += "<tr><td>" + a.srno +"<td> <span onClick='nameclick(this.id)' id="+a.srno+ ">"+ a.name +" </span><td>" + a.add3 +"<td>"+a.mob1})
 rawTable += xx + "</table>"
 document.getElementById("radDataText").innerHTML=rawTable
 document.getElementById("buttons_div").style.display = "none";

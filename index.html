@@ -18,6 +18,7 @@ table thead tr th {
   position: sticky;
   z-index: 100;
   top: 0;
+  color:white;
 }
 
 td {
@@ -97,8 +98,9 @@ td {
 
 </div>
 
-<div>
+<div id="rawDataDiv" style="width:360px; margin: auto; position:center; ; display:none">
 <p id='radDataText'></p>
+<div onclick="hide()" align= center style="background:yellow; width:360px;   height:25px;  bottom:0; position:fixed;  box-shadow: 0 8px 8px 0  rgba(0,0,0,0.5);">Home</div>
 </div>
 
 
@@ -233,13 +235,16 @@ document.getElementById("header").innerHTML=membData[0].name
 }
 
 function rawDataTable(){
-rawTable="<table  border=1 align=center style='  width: 330px; font-size: small; border-collapse: collapse; border: 1px solid black; '><thead><th>SR No<th>Name<th>Place<th>Mobile</thead>"
+rawTable="<table  border=1 align=center style=' width:100%;  font-size: x-small; border-collapse: collapse; border: 1px solid black; '><thead><th>SR No<th>Name<th>Place<th>Mobile</thead>"
 
 
 xx=""
 tempData.forEach(function(a){xx += "<tr><td>" + a.srno +"<td>"+ a.name +"<td>" + a.add3 +"<td>"+a.mob1})
 rawTable += xx + "</table>"
 document.getElementById("radDataText").innerHTML=rawTable
+document.getElementById("buttons_div").style.display = "none";
+document.getElementById("rawDataDiv").style.display = "block"; 
+
 
 }
 
@@ -253,6 +258,7 @@ document.getElementById("photo").innerHTML=""
 document.getElementById("buttons_div").style.display = "block";
 document.getElementById("city_div").style.display = "none";
 document.getElementById("inThisCity").style.display = "none";
+document.getElementById("rawDataDiv").style.display = "none";
 
 
 

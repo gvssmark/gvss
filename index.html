@@ -6,6 +6,13 @@
 
 
 <style>
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
 table {
   /* Not required only for visualizing */
   border-collapse: collapse;
@@ -94,7 +101,7 @@ b{color:red; }
 <div id="div1" style="display:none">
 <input type="text"  id='myInput' onkeyup="dispdata()" style="margin-top:55px; width:180px; margin-left:25%; height:30px; border-radius:15px;  background-color: cyan;  border:0px;  outline:0;  "  placeholder="Search for a Name here...">
 
-<p id='getnames' style="margin-left :5px; "></p>
+<p id='getnames' style="margin-left :50px; "></p>
 <div onclick="hide()" align= center style="background:yellow; width:360px;   height:25px;  bottom:0; position:fixed; ">Home</div>
 </div>
 <div  id="div2" style="width:360px; margin: auto; position:center; ; display:none">
@@ -106,7 +113,7 @@ b{color:red; }
 </div>
 
 <div id="rawDataDiv" style="width:360px; margin: auto; position:center; ; display:none">
-
+<input type="number"  id='searchMobile' onkeyup="searchMobi()" style=" margin-bottom:0px; margin-top:55px; width:180px; margin-left:25%; height:30px; border-radius:15px;  background-color: cyan;  border:0px;  outline:0;  "  placeholder="Search for a Mobile Number...">
 <p id='radDataText'></p>
 <div onclick="hide()" align= center style="background:yellow; width:360px;   height:25px;  bottom:0; position:fixed;  box-shadow: 0 8px 8px 0  rgba(0,0,0,0.5);">Home</div>
 </div>
@@ -249,10 +256,10 @@ picture = "<img  src='https://drive.google.com/uc?export=view&id=" + membData[0]
 monthsArray=["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 //toDisplay = "Name:  " + membData[0].name + "<br>"
 //toDisplay += "SR No:" + membData[0].srno + "<br>"
-toDisplay = "<table border=1 width=350px><tr><td  ><b>Address :</b><br>" + membData[0].add1 + "<br>"
+toDisplay = "<table border=1 width=340px;><tr><td  ><b>Address :</b><br>" + membData[0].add1 + "<br>"
 toDisplay +=  membData[0].add2 + "<br>"
 toDisplay +=  membData[0].add3 + "-"+ membData[0].pin +  "<br>"
-toDisplay += membData[0].add4 + "<br><td>" + picture+" <tr><td colspan=2><b>Contacts:</b><br>" 
+toDisplay += membData[0].add4 + "<br><td style='width:100px;'>" + picture+" <tr><td colspan=2><b>Contacts:</b><br>" 
 toDisplay += "Email: " + membData[0].email + "<br>"
 toDisplay += "<b>Phones </b><br>" + membData[0].mob1 + "/ " +membData[0].mob2+ "/ " + membData[0].fix 
 toDisplay += "<tr><td colspan=2>"
@@ -269,7 +276,7 @@ document.getElementById("header").innerHTML=membData[0].name
 }
 
 function rawDataTable(){
-rawTable="<table  border=1 align=center style=' margin-top:55px; width:100%;  font-size: x-small; border-collapse: collapse; border: 1px solid black; '><thead><th>SR No<th>Name<th>Place<th>Mobile</thead>"
+rawTable="<table id='mobileTable' border=1 align=center style=' margin-top:5px; width:100%;  font-size: x-small; border-collapse: collapse; border: 1px solid black; '><thead><th style='height:50px; '>SR No<th>Name<th>Place<th>Mobile</thead>"
 
 
 xx=""
@@ -383,6 +390,25 @@ document.getElementById("inThisCity").style.display = "block";
 document.getElementById("city_div").style.display = "none"
 }
 
+
+function searchMobi() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("searchMobile");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("mobileTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[3];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }
+}
 
 
 </script>

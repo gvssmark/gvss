@@ -99,7 +99,7 @@ b{color:red; }
 </div>
 <div  id="div2" style="width:360px; margin: auto; position:center; ; display:none">
 <br><br><br>
-<div id='photo' style="position:float; top:0; margin-left:20px;"></div>
+<div id='photo' style="float:center; top:0; margin-left:0px; width:100px; margin:auto; "></div>
 <p id="details" style="margin-left:20px; "> </p>
 <div onclick="hide()" align= center style="background:yellow; width:360px;   height:25px;  bottom:0; position:fixed;  box-shadow: 0 8px 8px 0  rgba(0,0,0,0.5);">Home</div>
 
@@ -245,25 +245,25 @@ document.getElementById("rawDataDiv").style.display = "none";
 document.getElementById("myInput").value=""
 //membno= membershipNo*1-1 ; 
 membData= tempData.filter(a => a.srno ===membershipNo*1)
+picture = "<img  src='https://drive.google.com/uc?export=view&id=" + membData[0].photoid + "' border=0 align='center' alt='Smiley face' width='100' height='100' style='border-radius:10px;'> "
 monthsArray=["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 //toDisplay = "Name:  " + membData[0].name + "<br>"
 //toDisplay += "SR No:" + membData[0].srno + "<br>"
-toDisplay = "Address 1:" + membData[0].add1 + "<br>"
-toDisplay += "Address 2: " + membData[0].add2 + "<br>"
-toDisplay += "Address 3: " + membData[0].add3 + "-"+ membData[0].pin +  "<br>"
-toDisplay += "Address 4: " + membData[0].add4 + "<br>"
+toDisplay = "<table border=1><tr><td  ><b>Address :</b><br>" + membData[0].add1 + "<br>"
+toDisplay +=  membData[0].add2 + "<br>"
+toDisplay +=  membData[0].add3 + "-"+ membData[0].pin +  "<br>"
+toDisplay += membData[0].add4 + "<br><td>" + picture+" <tr><td colspan=2><b>Contacts:</b><br>" 
 toDisplay += "Email: " + membData[0].email + "<br>"
-toDisplay += "Mobile 1: " + membData[0].mob1 + "<br>"
-toDisplay += "Mobile 2: " + membData[0].mob2+ "<br>"
-toDisplay += "Fixed: " + membData[0].fix + "<br>"
-toDisplay += "Retired on: " + membData[0].retdate + "<br>"
+toDisplay += "<b>Phones </b><br>" + membData[0].mob1 + "/ " +membData[0].mob2+ "/ " + membData[0].fix 
+toDisplay += "<tr><td colspan=2>"
+toDisplay += "Retired on: " + new Date(membData[0].retdate).toDateString() + "<br>"
 toDisplay += "Last Br: " + membData[0].lastbr+ "<br>"
 toDisplay += "Pension Br: " + membData[0].penbr + "<br>"
 toDisplay += "Birthdat: " + monthsArray[membData[0].bm] + "," +  membData[0].bd+ "<br>"
-toDisplay += "Marriage Anniversary : " + monthsArray[membData[0].mm] + ", " +  membData[0].md + "<br>"
-toDisplay += "Branches Worked: " + membData[0].brlist + "<br>"
-picture = "<img  src='https://drive.google.com/uc?export=view&id=" + membData[0].photoid + "' border=0 align='center' alt='Smiley face' width='50' height='50' style='border-radius:25px;'> "
-document.getElementById("photo").innerHTML=picture
+toDisplay += "Marriage Anniversary : " + monthsArray[membData[0].mm] + ", " +  membData[0].md + "<tr><td colspan=2>"
+toDisplay += "Branches Worked: " + membData[0].brlist + "</table><br>"
+
+//document.getElementById("photo").innerHTML=picture
 document.getElementById("details").innerHTML=toDisplay
 document.getElementById("header").innerHTML=membData[0].name 
 }

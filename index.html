@@ -11,7 +11,9 @@ table {
   border-collapse: collapse;
   width: 100%;
 }
-
+tr:hover {
+  background-color: #f1f1f1;
+}
 table thead tr th {
   /* Important */
   background-color: red;
@@ -62,7 +64,8 @@ b{color:red; }
 <br><br>
 <h3 align=center>Place of Stay</h3>
 <p id='getnCityNmes' ></p>
-<div onclick="hide()" align= center style="background:yellow; width:360px;  height:25px; bottom:0">Home</div>
+<br><br><br>
+<div onclick="hide()" align= center style="background:yellow; width:360px;  height:25px; bottom:0;  position:fixed;">Home</div>
 </div>
 <div id='inThisCity' style="display:none">
 <br><br><br>
@@ -164,6 +167,10 @@ data= await response.json()
 tempData=data["user"]
 
 brworked = tempData.filter(a => a.brlist.toLowerCase().includes("governor".toLowerCase())) // yet to be coded
+
+whoworked = tempData.filter(a => a.brlist.toLowerCase().includes("governor".toLowerCase())).map(a => ({srno: a.srno, name: a.name})).sort((a, b ) => a.name.localeCompare(b.name))
+
+
 //places = Array.from(new Set(tempData.map(a=> `${a.add3.trim()}-${a.pin}`))).sort();
 
 //dispdata()

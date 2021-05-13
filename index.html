@@ -15,8 +15,8 @@ input::-webkit-inner-spin-button {
 
 table {
   /* Not required only for visualizing */
-  border-collapse: collapse;
-  width: 100%;
+  border-collapse: collapse; margin:auto;  
+  width: 95%;
 }
 tr:hover {
   background-color: #f1f1f1;
@@ -66,6 +66,16 @@ b{color:red; }
 </head>
 <body style="background-color:powderblue; width:360px; margin-left: 0px; font-size:small;">
 
+<div style='margin-top:65px' id='logindiv'>
+<table border=1 >
+<tr><td>SR No:<td><input id='loginSrNo' type="password">
+
+<tr><td align=center colspan=2><input type="button" value='Submit' onclick="verifyLogin()"  >
+
+</table>
+</div>
+
+
 <div style="width:360px; margin:auto">
 <div id='city_div' style="display:none; margin:auto; ">
 <br><br>
@@ -88,7 +98,7 @@ b{color:red; }
 <h3 id='header'>IB AP Retirees' Google Group</h3>
 
 </div>
-<div id='buttons_div'>
+<div id='buttons_div' style='display:none; '>
 <br><br><br><br>
 <button onclick="searchByName()"  class="button">Search by Name</button><br><br>
 <button onclick="eventsThisWeek()" class="button button2">Events This Week</button><br><br>
@@ -141,6 +151,19 @@ All the three groups are separate. Retired staff members can choose any one , or
 
 
 <script>
+
+function verifyLogin(){
+logsrno = document.getElementById("loginSrNo").value
+logindata= tempData.filter(a => a.srno ===logsrno*1)
+if(logindata.length === 1){
+document.getElementById("buttons_div").style.display = "block";
+document.getElementById("logindiv").style.display = "none";
+
+
+}
+
+}
+
 
 function aboutDiv(){
 document.getElementById("about").style.display = "block";
@@ -276,7 +299,7 @@ document.getElementById("header").innerHTML=membData[0].name
 }
 
 function rawDataTable(){
-rawTable="<table id='mobileTable' border=1 align=center style=' margin-top:5px; width:100%;  font-size: x-small; border-collapse: collapse; border: 1px solid black; '><thead><th style='height:50px; '>SR No<th>Name<th>Place<th>Mobile</thead>"
+rawTable="<table id='mobileTable' border=1 align=center style=' margin-top:5px;   font-size: x-small; border-collapse: collapse; border: 1px solid black; '><thead><th style='height:50px; '>SR No<th>Name<th>Place<th>Mobile</thead>"
 
 
 xx=""
@@ -302,7 +325,8 @@ document.getElementById("inThisCity").style.display = "none";
 document.getElementById("rawDataDiv").style.display = "none";
 document.getElementById("about").style.display = "none";
 
-
+document.getElementById("myInput").value="" 
+document.getElementById("searchMobile").value="" 
 
 }
 

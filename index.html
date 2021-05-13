@@ -68,7 +68,10 @@ b{color:red; }
 
 <div style='margin-top:65px' id='logindiv'>
 
-<input id='loginSrNo' placeholder= "Enter SR No to view address book" style="margin-top:55px; margin-left:30px; width:300px;  height:30px; border-radius:15px;  background-color: cyan;  border:0px;  outline:0;  " type="password" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"><br><br><br>
+<input id='loginSrNo' placeholder= "Enter SR No to view address book" style="margin-top:55px; margin-left:30px; width:300px;  height:30px; border-radius:15px;  background-color: cyan;  border:0px;  outline:0;  " type="password" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" 
+onfocus="javascript:document.getElementById('notAmember').style.display = 'none' "
+
+><br><br><br>
 
 <input  class="button button2" type="button" value='Submit'  onclick="verifyLogin()"  >
 <br><br>

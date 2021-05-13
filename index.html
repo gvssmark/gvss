@@ -200,6 +200,8 @@ brworked = tempData.filter(a => a.brlist.toLowerCase().includes("governor".toLow
 
 whoworked = tempData.filter(a => a.brlist.toLowerCase().includes("governor".toLowerCase())).map(a => ({srno: a.srno, name: a.name})).sort((a, b ) => a.name.localeCompare(b.name))
 
+whoworkedhere=""
+whoworked.forEach(function(a){whoworkedhere+= "<span onClick='nameclick(this.id)' id="+ a.srno + ">" +a.name + "</span><br>"})
 
 //places = Array.from(new Set(tempData.map(a=> `${a.add3.trim()}-${a.pin}`))).sort();
 

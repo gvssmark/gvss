@@ -132,10 +132,10 @@ onfocus="javascript:document.getElementById('notAmember').style.display = 'none'
 </div>
 
 <div  id='about'  style=" width:340px; margin: auto; position:center; margin-top:60px;    display:none">
-<p style="font-size:15px; margin-left:10px ; text-align:justify; ">
-<b>IBAP-Retirees Google Group</b> was started  with an intention, to have a common platform, to discuss about Retirees Issues and for exchanges of thoughts of common interest, among the retirees of Indian Bank of AP & Telangana States. This group is not affiliated to any Association. No membership fees to join this group. Presently, we have 360 members in this group.<br><br>
+<p style="font-size:15px; margin:5px ; text-align:justify; ">
+<b>IBAP-Retirees Google Group</b> was started  with an intention, to have a common platform, to discuss about Retirees Issues and for exchanges of thoughts of common interest, among the retirees of Indian Bank of AP & Telangana States. This group is not affiliated to any Association. No membership fees to join this group. Presently, we have <span id='a1'></span> members in this group.<br><br>
 
-<b>Address Book</b>    Later we thought, it will be convenient to have an address book of  Indian Bank Retirees of Telangana and Andhra Pradesh, with Photos. So we have designed a format to have the details of the retirees and upto now 310 retired staff members irrespective of their designation in the Bank and irrespective of their affiliation to the associations gave their details.<br><br>
+<b>Address Book</b>    Later we thought, it will be convenient to have an address book of  Indian Bank Retirees of Telangana and Andhra Pradesh, with Photos. So we have designed a format to have the details of the retirees and upto now <span id='a2'></span> retired staff members irrespective of their designation in the Bank and irrespective of their affiliation to the associations gave their details.<br><br>
 
 <b>IB Friends WhatsApp group</b>      Subsequently, we have started IB Friends WhatsApp group for the convenience of Smart Phone mobile users. Presently there are 201 participants in this group.<br><br>
 
@@ -172,6 +172,8 @@ document.getElementById("loginSrNo").value=""
 function aboutDiv(){
 document.getElementById("about").style.display = "block";
 document.getElementById("buttons_div").style.display = "none";
+a1.innerHTML=tempData.length
+a2.innerHTML=tempData.length
 
 }
 

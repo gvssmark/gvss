@@ -200,7 +200,7 @@ url='https://script.google.com/macros/s/AKfycbyfbQlpdG_V0K931wbGKSI8d8tXCkT3KGME
 async function getMyData (){
 response= await fetch(url)
 data= await response.json()
-tempData=data["user"]
+tempData=data["user"].sort((a, b) => a.srno - b.srno);
 
 brworked = tempData.filter(a => a.brlist.toLowerCase().includes("governor".toLowerCase())) // yet to be coded
 

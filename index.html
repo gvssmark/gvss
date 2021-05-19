@@ -190,6 +190,7 @@ document.getElementById("loginSrNo").value=""
 
 function aboutDiv(){
 document.getElementById("about").style.display = "block";
+document.getElementById("footerdiv").style.display = "block";
 document.getElementById("buttons_div").style.display = "none";
 
 document.getElementById("div2").style.display = "none";
@@ -201,7 +202,7 @@ document.getElementById("photo").innerHTML=""
 document.getElementById("city_div").style.display = "none";
 document.getElementById("inThisCity").style.display = "none";
 document.getElementById("rawDataDiv").style.display = "none";
-document.getElementById("about").style.display = "block";
+
 
 document.getElementById("myInput").value="" 
 document.getElementById("searchMobile").value="" 
@@ -266,6 +267,7 @@ getMyData()
 function showcities(){  // onclick of Lives in button
 document.getElementById("footerdiv").style.display = "block";
 document.getElementById("header").innerHTML="IB AP Retirees' Google Group"
+document.getElementById("about").style.display = "none";
 cityTable ="<table id='citiesTable' width=340px border=1 align=center style='border-collapse:collapse; margin-left=0;'>"
 for (i=0; i<mycities.length; i++)
 {cityTable += "<tr><td>"+mycities[i] +"<td>" +mycities[i+1]
@@ -275,7 +277,8 @@ cityTable =  cityTable + '</table>'
 document.getElementById("city_div").style.display = "block";
 document.getElementById("buttons_div").style.display = "none";
 document.getElementById("div2").style.display = "none";
-  document.getElementById("div1").style.display = "none";
+document.getElementById("div1").style.display = "none";
+
 document.getElementById("rawDataDiv").style.display = "none";
 
 document.getElementById("getnCityNmes").innerHTML=cityTable

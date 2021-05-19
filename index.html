@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,16 +60,34 @@ td {
 .button5 {background-color: #555555;} /* Black */
 .button6 {background-color: lightpink;} /* Black */
 
+.b1 {background-color: #008CBA;} /* Blue */
+.b2 {background-color: #f44336;} /* Red */ 
+.b3 {background-color: #e7e7e7; color: black;} /* Gray */ 
+.b4 {background-color: #555555;} /* Black */
+.b5 {background-color: lightpink;} /* Black */
+.b6 {background-color:  #4CAF50; /* Green */
 
 b{color:red; }
 </style>
 
 </head>
 <body style="background-color:powderblue; width:360px; margin-left: 0px; font-size:small;">
+<div id='footerdiv' align= center style=" width:360px;   height:25px;  bottom:0; position:fixed; display:none; color:white">
+<table style="text-align:center; td:width:20%">
+<tr>
+<td class='b1' onclick="searchByName()"  >Search
+<td class='b2' onclick="eventsThisWeek()">Events
+<td  class='b3' onclick="showcities()">Cities
+<td class='b4' onclick="rawDataTable()">Data
+<td class='b6' onclick="aboutDiv()">About
+</table>
+</div>
+
+
 
 <div style='margin-top:65px' id='logindiv'>
 
-<input id='loginSrNo' placeholder= "Enter SR No to view address book" style="margin-top:55px; margin-left:30px; width:300px;  height:30px; border-radius:15px;  background-color: cyan;  border:0px;  outline:0;  " type="password" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" 
+<input id='loginSrNo' placeholder= "Enter SR No to view address book" style="margin-top:55px; margin-left:30px; width:300px;  height:30px; border-radius:15px;  background-color: cyan;  border:0px;  outline:0;  " type="number" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" 
 onfocus="javascript:document.getElementById('notAmember').style.display = 'none' "
 
 ><br><br><br>
@@ -85,7 +104,7 @@ onfocus="javascript:document.getElementById('notAmember').style.display = 'none'
 <h3 align=center>Place of Stay</h3>
 <p id='getnCityNmes' ></p>
 <br><br><br>
-<div onclick="hide()" align= center style="background:yellow; width:360px;  height:25px; bottom:0;  position:fixed;">Home</div>
+
 </div>
 <div id='inThisCity' style="display:none">
 <br><br><br>
@@ -93,7 +112,7 @@ onfocus="javascript:document.getElementById('notAmember').style.display = 'none'
 
 <p id='inThisCityPara' style="margin-left:20px; "></p>
 <br><br>
-<div onclick="hide()" align= center style="background:yellow; width:360px;   height:25px;  bottom:0; position:fixed; ">Home</div>
+
 </div>
 
 <div style="text-align:center; width:360px; height:50px; position:fixed; background-color: yellow; top:0px;    ">
@@ -115,20 +134,20 @@ onfocus="javascript:document.getElementById('notAmember').style.display = 'none'
 <input type="text"  id='myInput' onkeyup="dispdata()" style="margin-top:55px; width:180px; margin-left:25%; height:30px; border-radius:15px;  background-color: cyan;  border:0px;  outline:0;  "  placeholder="Search for a Name here...">
 
 <p id='getnames' style="margin-left :50px; "></p>
-<div onclick="hide()" align= center style="background:yellow; width:360px;   height:25px;  bottom:0; position:fixed; ">Home</div>
+
 </div>
 <div  id="div2" style="width:360px; margin: auto; position:center; ; display:none">
 <br><br><br>
 <div id='photo' style="float:center; top:0; margin-left:0px; width:100px; margin:auto; "></div>
 <p id="details" style="margin-left:5px; "> </p>
-<div onclick="hide()" align= center style="background:yellow; width:360px;   height:25px;  bottom:0; position:fixed;  box-shadow: 0 8px 8px 0  rgba(0,0,0,0.5);">Home</div>
+
 
 </div>
 
 <div id="rawDataDiv" style="width:360px; margin: auto; position:center; ; display:none">
 <input type="number"  id='searchMobile' onkeyup="searchMobi()" style=" margin-bottom:0px; margin-top:55px; width:180px; margin-left:25%; height:30px; border-radius:15px;  background-color: cyan;  border:0px;  outline:0;  "  placeholder="Search for a Mobile Number...">
 <p id='radDataText'></p>
-<div onclick="hide()" align= center style="background:yellow; width:360px;   height:25px;  bottom:0; position:fixed;  box-shadow: 0 8px 8px 0  rgba(0,0,0,0.5);">Home</div>
+
 </div>
 
 <div  id='about'  style=" width:340px; margin: auto; position:center; margin-top:60px;    display:none">
@@ -144,7 +163,7 @@ All the three groups are separate. Retired staff members can choose any one , or
 
 
 </p>
-<div onclick="hide()" align= center style="background:yellow; width:340px;   height:25px;   bottom:0; position:fixed;  box-shadow: 0 8px 8px 0  rgba(0,0,0,0.5);">Home</div>
+
 </div>
 
 
@@ -172,6 +191,21 @@ document.getElementById("loginSrNo").value=""
 function aboutDiv(){
 document.getElementById("about").style.display = "block";
 document.getElementById("buttons_div").style.display = "none";
+
+document.getElementById("div2").style.display = "none";
+document.getElementById("div1").style.display = "none";
+document.getElementById("getnames").innerHTML="" 
+document.getElementById("header").innerHTML="IB AP Retirees' Google Group"
+document.getElementById("photo").innerHTML=""
+
+document.getElementById("city_div").style.display = "none";
+document.getElementById("inThisCity").style.display = "none";
+document.getElementById("rawDataDiv").style.display = "none";
+document.getElementById("about").style.display = "block";
+
+document.getElementById("myInput").value="" 
+document.getElementById("searchMobile").value="" 
+
 a1.innerHTML=tempData.length
 a2.innerHTML=tempData.length
 
@@ -202,33 +236,36 @@ response= await fetch(url)
 data= await response.json()
 tempData=data["user"].sort((a, b) => a.srno - b.srno);
 
+alphasorted = tempData.sort((a, b) => {
+    let fa = a.name.toLowerCase(), fb = b.name.toLowerCase();
+    if (fa < fb) {return -1;}
+    if (fa > fb) {return  1;}
+    return 0;
+})
+allmarriagedays = alphasorted.filter(a => a.mm != 0)
+allbirthdays = alphasorted.filter(a => a.bm != 0)
+
 brworked = tempData.filter(a => a.brlist.toLowerCase().includes("governor".toLowerCase())) // yet to be coded
 
 whoworked = tempData.filter(a => a.brlist.toLowerCase().includes("governor".toLowerCase())).map(a => ({srno: a.srno, name: a.name})).sort((a, b ) => a.name.localeCompare(b.name))
 
+
+
 whoworkedhere=""
 whoworked.forEach(function(a){whoworkedhere+= "<span onClick='nameclick(this.id)' id="+ a.srno + ">" +a.name + "</span><br>"})
 
-//places = Array.from(new Set(tempData.map(a=> `${a.add3.trim()}-${a.pin}`))).sort();
 
-//dispdata()
-//branchesList()
 
-//mypins = Array.from(new Set(tempData.map(s => s.pin))).sort()
+
 mycities = Array.from(new Set(tempData.map(s => s.add3))).sort()
 
-//newcities = Array.from(new Set(tempData.map(s => s.pin)))
-//.map( pin => {
-//return {
-//pin: pin, 
-//place: tempData.find(s => s.pin === pin).add3
-//};
-//});
 }
 
 getMyData()
 
 function showcities(){  // onclick of Lives in button
+document.getElementById("footerdiv").style.display = "block";
+document.getElementById("header").innerHTML="IB AP Retirees' Google Group"
 cityTable ="<table id='citiesTable' width=340px border=1 align=center style='border-collapse:collapse; margin-left=0;'>"
 for (i=0; i<mycities.length; i++)
 {cityTable += "<tr><td>"+mycities[i] +"<td>" +mycities[i+1]
@@ -237,6 +274,9 @@ cityTable =  cityTable + '</table>'
 
 document.getElementById("city_div").style.display = "block";
 document.getElementById("buttons_div").style.display = "none";
+document.getElementById("div2").style.display = "none";
+document.getElementById("rawDataDiv").style.display = "none";
+
 document.getElementById("getnCityNmes").innerHTML=cityTable
 var table = document.getElementById("citiesTable");
 if (table != null) {
@@ -254,6 +294,22 @@ if (table != null) {
 function searchByName(){ // onclik button search by name
 document.getElementById("div1").style.display = "block";
 document.getElementById("buttons_div").style.display = "none";
+document.getElementById("footerdiv").style.display = "block";
+
+document.getElementById("div2").style.display = "none";
+
+document.getElementById("getnames").innerHTML="" 
+document.getElementById("header").innerHTML="IB AP Retirees' Google Group"
+document.getElementById("photo").innerHTML=""
+document.getElementById("buttons_div").style.display = "none";
+document.getElementById("city_div").style.display = "none";
+document.getElementById("inThisCity").style.display = "none";
+document.getElementById("rawDataDiv").style.display = "none";
+document.getElementById("about").style.display = "none";
+
+document.getElementById("myInput").value="" 
+document.getElementById("searchMobile").value="" 
+
 }
 
 function dispdata(){ // take input from input box and display names containing the text
@@ -269,7 +325,7 @@ toTable = tempData.filter(a => a.name.toLowerCase().includes(filter.toLowerCase(
 }).map (a => [a.srno, a.name]);
 tablebody=""
 toTable.forEach(function(a){tablebody+= "<span onClick='nameclick(this.id)' id="+ a[0] + ">" +a[1].toUpperCase() + "</span><br>"})
-document.getElementById("getnames").innerHTML=tablebody
+document.getElementById("getnames").innerHTML=tablebody+"<br><br><br>"
 }
 }
 
@@ -280,6 +336,10 @@ document.getElementById("div2").style.display = "block";
 document.getElementById("div1").style.display = "none";
 document.getElementById("inThisCity").style.display = "none";
 document.getElementById("rawDataDiv").style.display = "none";
+document.getElementById("about").style.display = "none";
+document.getElementById("city_div").style.display = "none";
+
+
 document.getElementById("myInput").value=""
 //membno= membershipNo*1-1 ; 
 membData= tempData.filter(a => a.srno ===membershipNo*1)
@@ -307,6 +367,7 @@ document.getElementById("header").innerHTML=membData[0].name
 }
 
 function rawDataTable(){
+document.getElementById("footerdiv").style.display = "block";
 rawTable="<table id='mobileTable' border=1 align=center style=' margin-top:5px;   font-size: x-small; border-collapse: collapse; border: 1px solid black; '><thead><th style='height:50px; '>SR No<th>Name<th>Place<th>Mobile</thead>"
 
 
@@ -316,6 +377,20 @@ rawTable += xx + "</table><br><br>"
 document.getElementById("radDataText").innerHTML=rawTable
 document.getElementById("buttons_div").style.display = "none";
 document.getElementById("rawDataDiv").style.display = "block"; 
+
+document.getElementById("div2").style.display = "none";
+document.getElementById("div1").style.display = "none";
+document.getElementById("getnames").innerHTML="" 
+document.getElementById("header").innerHTML="IB AP Retirees' Google Group"
+document.getElementById("photo").innerHTML=""
+document.getElementById("buttons_div").style.display = "none";
+document.getElementById("city_div").style.display = "none";
+document.getElementById("inThisCity").style.display = "none";
+document.getElementById("rawDataDiv").style.display = "block";
+document.getElementById("about").style.display = "none";
+
+document.getElementById("myInput").value="" 
+document.getElementById("searchMobile").value="" 
 
 
 }
@@ -339,6 +414,7 @@ document.getElementById("searchMobile").value=""
 }
 
 function eventsThisWeek(){  // onclick of Events this week button. this will show the birthday and marriage anniversaries. Will add 
+document.getElementById("footerdiv").style.display = "block";
 if(currMonth!=futureMonth){
 bdThisWeek = tempData.filter(a => ((a.bm === currMonth && a.bd >= currDate) || (a.bm === futureMonth && a.bd <=futureDate)))
 .sort(function(a, b){return (a.bm - b.bm || a.bd - b.bd   ) })
@@ -363,6 +439,20 @@ mdThisWeek = tempData.filter(a => ((a.mm === currMonth && a.md >= currDate && a.
 document.getElementById("div2").style.display = "block";
 document.getElementById("div1").style.display = "none";
 document.getElementById("buttons_div").style.display = "none";
+
+//document.getElementById("div2").style.display = "none";
+document.getElementById("div1").style.display = "none";
+document.getElementById("getnames").innerHTML="" 
+document.getElementById("header").innerHTML="IB AP Retirees' Google Group"
+document.getElementById("photo").innerHTML=""
+document.getElementById("buttons_div").style.display = "none";
+document.getElementById("city_div").style.display = "none";
+document.getElementById("inThisCity").style.display = "none";
+document.getElementById("rawDataDiv").style.display = "none";
+document.getElementById("about").style.display = "none";
+
+document.getElementById("myInput").value="" 
+document.getElementById("searchMobile").value="" 
 
 bdtable="<table  border=1 align=center style='  border-collapse: collapse; border: 1px solid black; '><tr><td colspan=2 align=center style='background:pink;'> Birthdays"
 bdThisWeek.forEach(function(a){bdtable += "<tr><td><span onClick='nameclick(this.id)' id="+ a[0] + ">" + a[1]+ "</span><td>" + monthsArray[a[2]]+", "+ a[3]})
@@ -402,6 +492,22 @@ livesin.sort(function(a,b) {
 }
 
 function selectedCityPersons(){
+document.getElementById("footerdiv").style.display = "block";
+
+document.getElementById("div2").style.display = "none";
+document.getElementById("div1").style.display = "none";
+document.getElementById("getnames").innerHTML="" 
+document.getElementById("header").innerHTML="IB AP Retirees' Google Group"
+document.getElementById("photo").innerHTML=""
+document.getElementById("buttons_div").style.display = "none";
+document.getElementById("city_div").style.display = "none";
+document.getElementById("inThisCity").style.display = "none";
+document.getElementById("rawDataDiv").style.display = "none";
+document.getElementById("about").style.display = "none";
+
+document.getElementById("myInput").value="" 
+document.getElementById("searchMobile").value="" 
+
 cityPinsArray = Array.from(new Set(livesin.map(s => s[3]))).sort()
 citytable=""
 for (i=0; i<cityPinsArray.length; i++)
@@ -442,6 +548,28 @@ function searchMobi() {
   }
 }
 
+
+function allevents(){
+table=""
+for (i=0; i<tempData.length; i++){
+m_month = tempData[i].mm
+b_month = tempData[i].bm
+m_month = m_month ? m_month : 0
+b_month = b_month ? b_month : 0
+
+
+mymcolor = m_month ? "'cyan'" : "'red'"
+mybcolor = b_month ? "'cyan'" : "'red'"
+
+
+
+table +="<tr><td>" + tempData[i].srno
+table +="<td>" + tempData[i].name
+table +="<td class="+ mymcolor +">" + monthsArray[m_month] + tempData[i].md  
+table +="<td class="+ mybcolor +">" + monthsArray[b_month] + tempData[i].bd  
+}
+return "<table border=1>" + table + "</table>"
+}
 
 </script>
 

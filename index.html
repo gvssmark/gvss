@@ -382,7 +382,9 @@ rawTable="<table id='mobileTable' border=1 align=center style=' margin-top:5px; 
 
 
 xx=""
-tempData.forEach(function(a){xx += "<tr><td>" + a.srno +"<td> <span onClick='nameclick(this.id)' id="+a.srno+ ">"+ a.name +" </span><td>" + a.add3 +"<td>"+a.mob1})
+  rawtempData=tempData.sort((a, b) => a.srno - b.srno);
+
+rawtempData.forEach(function(a){xx += "<tr><td>" + a.srno +"<td> <span onClick='nameclick(this.id)' id="+a.srno+ ">"+ a.name +" </span><td>" + a.add3 +"<td>"+a.mob1})
 rawTable += xx + "</table><br><br>"
 document.getElementById("radDataText").innerHTML=rawTable
 document.getElementById("buttons_div").style.display = "none";

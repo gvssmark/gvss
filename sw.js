@@ -5,7 +5,8 @@ self.addEventListener('install', (e) => {
       '/gvss/index.js',
        '/gvss//index.html',
       '/gvss/images/ibap192.png',
-      ])),
+      '/gvss/images/ibap512.png',
+            ])),
   );
 });
 

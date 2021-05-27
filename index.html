@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -236,7 +235,7 @@ futureMonth =fd.getMonth()+1
 
 futureDate =fd.getDate()
 //JSON Data from the following url
-url='https://script.google.com/macros/s/AKfycbyfbQlpdG_V0K931wbGKSI8d8tXCkT3KGME5Urt4W5J43HrZyoDaOpcdYyjNHCJ-ubeWA/exec'
+url='https://script.google.com/macros/s/AKfycbwU43y7aw-hY8rjx77YgViB5Vs2H5yv7i5GMuUUfB6YMLbEQn3D/exec'
 
 async function getMyData (){
 response= await fetch(url)
@@ -252,15 +251,16 @@ alphasorted = tempData.sort((a, b) => {
 allmarriagedays = alphasorted.filter(a => a.mm != 0)
 allbirthdays = alphasorted.filter(a => a.bm != 0)
 
-brworked = tempData.filter(a => a.brlist.toLowerCase().includes("governor".toLowerCase())) // yet to be coded
+brworked = tempData.filter(a => a.newbrlist.toLowerCase().includes("governor".toLowerCase())) // yet to be coded
 
-whoworked = tempData.filter(a => a.brlist.toLowerCase().includes("governor".toLowerCase())).map(a => ({srno: a.srno, name: a.name})).sort((a, b ) => a.name.localeCompare(b.name))
+whoworked = tempData.filter(a => a.newbrlist.toLowerCase().includes("governor".toLowerCase())).map(a => ({srno: a.srno, name: a.name})).sort((a, b ) => a.name.localeCompare(b.name))
 
 
 
 whoworkedhere=""
 whoworked.forEach(function(a){whoworkedhere+= "<span onClick='nameclick(this.id)' id="+ a.srno + ">" +a.name + "</span><br>"})
 
+branchesList()
 
 
 
@@ -478,7 +478,7 @@ document.getElementById("details").innerHTML=bdtable
 
 
 function branchesList(){  // branches worked unique list. not yet coded
-allbr = tempData.map(a => a.brlist)
+allbr = tempData.map(a => a.newbrlist)
 var myNewArray = allbr.reduce(function(prev, curr) {
   return prev.concat(curr);
 });

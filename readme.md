@@ -4,7 +4,7 @@ Raw Date: rawTable
 Branches Worked: brworked_table_text
 
 
-Divs
+**Divs**
 
 footerdiv: will display the footer
 div_brworked: Branches worked table
@@ -17,7 +17,7 @@ photo: holder for photo
 rawDataDiv: holder for full srno, name, place, mobile number of all members
 about: about this group
 
-Paragraphs:
+**Paragraphs**:
 getnames_brworked
 notAmember: Will display a non member message
 getnCityNmes: City Names table
@@ -28,13 +28,13 @@ getnames: on keyup in search by name, members name display
 details: member biodata table 
 radDataText: para for members data of srno, name, place, mobile number
 
-Inputs:
+**Inputs:**
 loginSrNo: Captures SR No for login
 myInput: search by name 
 searchMobile: input for searching / filtering table
 
 
-Functions:
+**Functions:**
 verifyLogin(): Verifies whether the SR No is correct.
 searchMobi(): filters mobile numbers
 aboutDiv(): to display the about div

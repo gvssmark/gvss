@@ -54,7 +54,7 @@ showcities(): Hide/show, getting selected city
 searchByName():Hide/Show div
 dispdata(): on keyup in myInput - show name in seach by name
 nameclick(membershipNo): on clik of name display biodata/ show hide divs
-rawDataTable(): Show / Hide Div
+rawDataTable(): Show / Hide Div 
 hide(): show/hide - not being used
 eventsThisWeek(): Show Hide
 tableText(tableCell): On click on a table gets the city and pin codes

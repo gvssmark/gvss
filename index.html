@@ -85,7 +85,7 @@ b{color:red; }
 <td  class='b3' onclick="showcities()">Cities
 <td  class='b1' onclick="brworked_table()">BrWorked
 <td class='b4' onclick="rawDataTable()">Data
-<td class='b6' onclick="aboutDiv()">About
+<!--<td class='b6' onclick="aboutDiv()">About -->
 </table>
 </div>
 
@@ -97,6 +97,10 @@ b{color:red; }
 
 </div>
 
+<div id="div_brworked_list" style="display:none">
+<p id='para_brworked_list' style="margin-left :5px; "></p>
+</div>
+
 
 
 <!--   Branches Worked   End             -->
@@ -105,7 +109,6 @@ b{color:red; }
 
 <input id='loginSrNo' placeholder= "Enter SR No to view address book" style="margin-top:55px; margin-left:30px; width:300px;  height:30px; border-radius:15px;  background-color: cyan;  border:0px;  outline:0;  " type="number" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" 
 onfocus="javascript:document.getElementById('notAmember').style.display = 'none' "
-
 ><br><br><br>
 
 <input  class="button button2" type="button" value='Submit'  onclick="verifyLogin()"  >
@@ -160,9 +163,10 @@ onfocus="javascript:document.getElementById('notAmember').style.display = 'none'
 
 </div>
 
-<div id="rawDataDiv" style="width:360px; margin: auto; position:center; ; display:none">
+<div id="rawDataDiv" style="width:360px; margin: auto; position:center; ; display:none;    ">
 <input type="number"  id='searchMobile' onkeyup="searchMobi()" style=" margin-bottom:0px; margin-top:55px; width:180px; margin-left:25%; height:30px; border-radius:15px;  background-color: cyan;  border:0px;  outline:0;  "  placeholder="Search for a Mobile Number...">
-<p id='radDataText'></p>
+
+<p id='radDataText' style=""></p>
 
 </div>
 
@@ -204,24 +208,13 @@ document.getElementById("loginSrNo").value=""
 
 
 function aboutDiv(){
- document.documentElement.scrollTop = 0;
+hide()
 document.getElementById("about").style.display = "block";
-document.getElementById("footerdiv").style.display = "block";
-document.getElementById("buttons_div").style.display = "none";
-document.getElementById("div2").style.display = "none";
-document.getElementById("div1").style.display = "none";
-document.getElementById("getnames").innerHTML="" 
-document.getElementById("header").innerHTML="IB AP Retirees' Google Group"
-document.getElementById("photo").innerHTML=""
-document.getElementById("city_div").style.display = "none";
-document.getElementById("inThisCity").style.display = "none";
-document.getElementById("rawDataDiv").style.display = "none";
-document.getElementById("myInput").value="" 
-document.getElementById("searchMobile").value="" 
 a1.innerHTML=tempData.length
 a2.innerHTML=tempData.length
+document.getElementById("header").innerHTML="IB AP Retirees' Google Group"
 }
-
+brselected=""
 tempData=""
 newcities = []
 mycities=[]
@@ -279,29 +272,16 @@ document.getElementById("getnCityNmes").innerHTML=cityTable
 }
 
 function brworked_table(){
-document.documentElement.scrollTop = 0;
-document.getElementById("footerdiv").style.display = "block";
-document.getElementById("about").style.display = "none";
-document.getElementById("buttons_div").style.display = "none";
-document.getElementById("city_div").style.display = "none";
-document.getElementById("div2").style.display = "none";
-document.getElementById("div1").style.display = "none";
-document.getElementById("rawDataDiv").style.display = "none";
+hide()
 document.getElementById("div_brworked").style.display = "block";
 }
 
 
 function showcities(){  // onclick of Lives in button
+hide()
 document.documentElement.scrollTop = 0;
-document.getElementById("footerdiv").style.display = "block";
-document.getElementById("header").innerHTML="IB AP Retirees' Google Group"
-document.getElementById("about").style.display = "none";
 document.getElementById("city_div").style.display = "block";
-document.getElementById("buttons_div").style.display = "none";
-document.getElementById("div2").style.display = "none";
-document.getElementById("div1").style.display = "none";
-document.getElementById("rawDataDiv").style.display = "none";
-document.getElementById("div_brworked").style.display = "none";
+
 var table = document.getElementById("citiesTable");
 if (table != null) {
     for (var i = 0; i < table.rows.length; i++) {
@@ -316,22 +296,10 @@ if (table != null) {
 
 
 function searchByName(){ // onclik button search by name
+hide()
 document.documentElement.scrollTop = 0;
 document.getElementById("div1").style.display = "block";
-document.getElementById("buttons_div").style.display = "none";
-document.getElementById("footerdiv").style.display = "block";
-document.getElementById("div2").style.display = "none";
 document.getElementById("getnames").innerHTML="" 
-document.getElementById("header").innerHTML="IB AP Retirees' Google Group"
-document.getElementById("photo").innerHTML=""
-document.getElementById("buttons_div").style.display = "none";
-document.getElementById("city_div").style.display = "none";
-document.getElementById("inThisCity").style.display = "none";
-document.getElementById("rawDataDiv").style.display = "none";
-document.getElementById("about").style.display = "none";
-document.getElementById("myInput").value="" 
-document.getElementById("searchMobile").value="" 
-document.getElementById("div_brworked").style.display = "none";
 }
 
 
@@ -344,6 +312,17 @@ ttext += "<tr><td>" + uniqueArray[i]
 }
 brworked_table_text += ttext + "</table>"
 getnames_brworked.innerHTML=brworked_table_text
+
+var table = document.getElementById("id_brWorked");
+if (table != null) {
+    for (var i = 0; i < table.rows.length; i++) {
+        for (var j = 0; j < table.rows[i].cells.length; j++)
+        table.rows[i].cells[j].onclick = function () {
+            brworkedtableText(this);
+        };
+    }
+}
+
 }
 
 
@@ -371,12 +350,8 @@ document.getElementById("getnames").innerHTML=tablebody+"<br><br><br>"
 
 function nameclick(membershipNo){  // on click of a name will show biodata . this data is to formatted
 document.documentElement.scrollTop = 0;
+hide()
 document.getElementById("div2").style.display = "block";
-document.getElementById("div1").style.display = "none";
-document.getElementById("inThisCity").style.display = "none";
-document.getElementById("rawDataDiv").style.display = "none";
-document.getElementById("about").style.display = "none";
-document.getElementById("city_div").style.display = "none";
 document.getElementById("myInput").value=""
 //membno= membershipNo*1-1 ; 
 membData= tempData.filter(a => a.srno ===membershipNo*1)
@@ -403,6 +378,7 @@ document.getElementById("details").innerHTML=toDisplay
 document.getElementById("header").innerHTML=membData[0].name 
 }
 
+
 function rawDataTable_create(){
 rawTable="<table id='mobileTable' border=1 align=center style=' margin-top:5px;   font-size: x-small; border-collapse: collapse; border: 1px solid black; '><thead><th style='height:50px; '>SR No<th>Name<th>Place<th>Mobile</thead>"
 xx=""
@@ -412,27 +388,11 @@ rawTable += xx + "</table><br><br>"
 }
 
 function rawDataTable(){
-document.documentElement.scrollTop = 0;
-document.getElementById("div_brworked").style.display = "none";
-document.getElementById("footerdiv").style.display = "block";
-document.getElementById("radDataText").innerHTML=rawTable
-document.getElementById("buttons_div").style.display = "none";
+hide()
 document.getElementById("rawDataDiv").style.display = "block"; 
-document.getElementById("div2").style.display = "none";
-document.getElementById("div1").style.display = "none";
-document.getElementById("getnames").innerHTML="" 
-document.getElementById("header").innerHTML="IB AP Retirees' Google Group"
-document.getElementById("photo").innerHTML=""
-document.getElementById("buttons_div").style.display = "none";
-document.getElementById("city_div").style.display = "none";
-document.getElementById("inThisCity").style.display = "none";
-document.getElementById("rawDataDiv").style.display = "block";
-document.getElementById("about").style.display = "none";
-
-document.getElementById("myInput").value="" 
 document.getElementById("searchMobile").value="" 
-
-
+document.getElementById("radDataText").innerHTML=rawTable
+document.getElementById("footerdiv").style.display = "block";
 }
 
 
@@ -441,19 +401,20 @@ document.documentElement.scrollTop = 0;
 document.getElementById("div_brworked").style.display = "none";
 document.getElementById("div2").style.display = "none";
 document.getElementById("div1").style.display = "none";
-document.getElementById("getnames").innerHTML="" 
-document.getElementById("header").innerHTML="IB AP Retirees' Google Group"
-document.getElementById("photo").innerHTML=""
-document.getElementById("buttons_div").style.display = "block";
+document.getElementById("buttons_div").style.display = "none";
 document.getElementById("city_div").style.display = "none";
 document.getElementById("inThisCity").style.display = "none";
 document.getElementById("rawDataDiv").style.display = "none";
 document.getElementById("about").style.display = "none";
-
-document.getElementById("myInput").value="" 
-document.getElementById("searchMobile").value="" 
-
+document.getElementById("footerdiv").style.display = "block";
+document.getElementById("header").innerHTML="IB AP Retirees' Google Group"
+document.getElementById("div_brworked_list").style.display = "none";
+document.getElementById("div_brworked").style.display = "none";
 }
+
+
+
+
 function eventsThisWeek_create(){
 if(currMonth!=futureMonth){
 bdThisWeek = tempData.filter(a => ((a.bm === currMonth && a.bd >= currDate) || (a.bm === futureMonth && a.bd <=futureDate)))
@@ -486,34 +447,13 @@ bdtable += "</table><br><br>"
 
 
 function eventsThisWeek(){  // onclick of Events this week button. this will show the birthday and marriage anniversaries. Will add 
-document.documentElement.scrollTop = 0;
-document.getElementById("footerdiv").style.display = "block";
-document.getElementById("div_brworked").style.display = "none";
-
+hide()
 document.getElementById("div2").style.display = "block";
-document.getElementById("div1").style.display = "none";
-document.getElementById("buttons_div").style.display = "none";
-
-//document.getElementById("div2").style.display = "none";
-document.getElementById("div1").style.display = "none";
-document.getElementById("getnames").innerHTML="" 
-document.getElementById("header").innerHTML="IB AP Retirees' Google Group"
-document.getElementById("photo").innerHTML=""
-document.getElementById("buttons_div").style.display = "none";
-document.getElementById("city_div").style.display = "none";
-document.getElementById("inThisCity").style.display = "none";
-document.getElementById("rawDataDiv").style.display = "none";
-document.getElementById("about").style.display = "none";
-
-document.getElementById("myInput").value="" 
-document.getElementById("searchMobile").value="" 
-
-
 document.getElementById("details").innerHTML=bdtable
 }
 
 
-function branchesList(){  // branches worked unique list. not yet coded
+function branchesList(){  
 allbr = tempData.map(a => a.newbrlist)
 var myNewArray = allbr.reduce(function(prev, curr) {
   return prev.concat(curr);
@@ -527,7 +467,53 @@ uniqueArray = trimmed.filter(function(item, pos) {
 })
 }
 
+function unq(a){
+return Array.from(new Set(a));
+}
 
+function weWorkedHere(){
+alphasorted = tempData.sort((a, b) => {
+    let fa = a.name.toLowerCase(), fb = b.name.toLowerCase();
+    if (fa < fb) {return -1;}
+    if (fa > fb) {return  1;}
+    return 0;
+})
+
+workedlist=""
+ggg = alphasorted.map(a => ({srno: a.srno, name: a.name, brlist: a.newbrlist}))
+for (i=0; i<ggg.length; i++){
+name=ggg[i].name
+brarray= ggg[i].brlist.split(",")
+brarray = unq(brarray)
+for (j=0; j<brarray.length; j++)
+if(brarray[j] === brselected){
+//alert(ggg[i].name)
+workedlist +=  "<tr><td><span onClick='nameclick(this.id)' id="+ ggg[i].srno + ">" + ggg[i].name + "</span>"
+}
+}
+
+}
+
+function brworkedtableText(tableCell) { //  for Lives in table
+brselected=tableCell.innerHTML
+//alert(brselected);
+
+weWorkedHere()
+//alert(workedlist)
+//workedlist +="<h4 >Members Worked in " + brselected+ "</h4><br><table border=1>" + workedlist + "</table><br><br><br>"
+
+document.getElementById("para_brworked_list").innerHTML="<br><br><h4 style='text-align: center;; color:red; '>Members Worked in " + brselected+ "</h4><br><table border=1>" + workedlist + "</table><br><br><br>"
+
+document.getElementById("div_brworked_list").style.display = "block";
+document.getElementById("input_brworked").value=""
+document.getElementById("div_brworked").style.display = "none";
+
+
+//whoworked = tempData.filter(a => a.newbrlist.toLowerCase()===(brselected.toLowerCase())).map(a => ({srno: a.srno, name: a.name})).sort((a, b ) => a.name.localeCompare(b.name))
+//whoworkedhere=""
+//whoworked.forEach(function(a){whoworkedhere+= "<span onClick='nameclick(this.id)' id="+ a.srno + ">" +a.name + "</span><br>"})
+
+}
 
 function tableText(tableCell) { //  for Lives in table
 selectedCity=tableCell.innerHTML
@@ -540,22 +526,7 @@ livesin.sort(function(a,b) {
 }
 
 function selectedCityPersons(){
-document.documentElement.scrollTop = 0;
-document.getElementById("footerdiv").style.display = "block";
-document.getElementById("div_brworked").style.display = "none";
-document.getElementById("div2").style.display = "none";
-document.getElementById("div1").style.display = "none";
-document.getElementById("getnames").innerHTML="" 
-document.getElementById("header").innerHTML="IB AP Retirees' Google Group"
-document.getElementById("photo").innerHTML=""
-document.getElementById("buttons_div").style.display = "none";
-document.getElementById("city_div").style.display = "none";
-document.getElementById("inThisCity").style.display = "none";
-document.getElementById("rawDataDiv").style.display = "none";
-document.getElementById("about").style.display = "none";
-
-document.getElementById("myInput").value="" 
-document.getElementById("searchMobile").value="" 
+hide()
 
 cityPinsArray = Array.from(new Set(livesin.map(s => s[3]))).sort()
 citytable=""

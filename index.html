@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -109,6 +110,8 @@ b{color:red; }
 
 <!--   Branches Worked   End             -->
 
+
+
 <div style='margin-top:65px' id='logindiv'>
 
 <input id='loginSrNo' placeholder= "Enter SR No to view address book" style="margin-top:55px; margin-left:30px; width:300px;  height:30px; border-radius:15px;  background-color: cyan;  border:0px;  outline:0;  " type="number" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" 
@@ -150,7 +153,7 @@ onfocus="javascript:document.getElementById('notAmember').style.display = 'none'
 <button onclick="showcities()" class="button button3">Lives in</button><br><br>
 <button onclick="brworked_table()" class="button button4">Who Worked in This Branch</button><br><br>
 <button onclick="rawDataTable()" class="button button6">Mobile Search</button><br><br>
-<button  class="button button3" style="text-decoration: none;"><a href='https://docs.google.com/forms/d/e/1FAIpQLSeBrp4C8dL5uSj3HmE8r9bBpgwTGcuzzPAyce7Y1BDotK2jVw/viewform?usp=sf_link'>Data Correction</a> </button><br><br>
+<button   onclick="clickDataCorrection()" class="button button3" style="text-decoration: none;">Data Correction </button><br><br>
 <button onclick="aboutDiv()"class="button button5">About</button><br>
 </div>
 
@@ -174,6 +177,28 @@ onfocus="javascript:document.getElementById('notAmember').style.display = 'none'
 <p id='radDataText' style=""></p>
 
 </div>
+<div  id='dataCorrection'  style=" width:340px; margin: auto; position:center; margin-top:60px;    display:none">
+<p>
+1.Data of certain members may not appear for correction as the data was directly collected from them -- not through the Google Form.<br>
+2. Even though the data was submitted though Google Form, the gmail account used at that time is different from the gmail account you are using now<br>
+3.Please note the <mark>Modifications</mark> done to original data, for better presentation. 
+<table border=1>
+<tr><td>Data<td>Originally Submitted<td>Data Corrected as
+<tr><td>Name<td><mark>GVSS </mark> MARKANDEYULU<td>Markandeyulu G V S S
+<TR><TD>Address1<td>E 904 Vertex Sadguru Krupa<mark>.</mark><td>E 904 Vertex Sadguru Krupa
+<TR><TD>Address2<td>Nizampet Road<td>Nizampet Road
+<TR><TD>Address3<td>Hyderabad<td>Hyderabad
+<TR><TD>Address4<td><mark>telangana</mark><td>Telangana
+<tr><td colspan=3>Branches Worked(Original Data):<br>Sion, Raipur, Governorpet, <mark>Grameena Bank</mark>, ,Agartala, Guwahati,<mark>ZO. </mark>Hyderabad, Mogalrajapuram,<mark>Zo </mark>Vijayawada,STC, Vijayawada, Jubilee Hills, <mark>,ZO </mark>Hyderabad
+<tr><td colspan=3>Branches Worked(Corrected
+Data):<br>Sion, Raipur, Governorpet, Kanaka Durga Grameena Bank,Agartala, Guwahati, Zonal Office Hyderabad, Mogalrajapuram,Zonal Office Vijayawada, STC Vijayawada, Jubilee Hills, ,Zonal Office Hyderabad
+</table>
+<p style="font-size:large; text-align:center">
+<a href='https://docs.google.com/forms/d/e/1FAIpQLSeBrp4C8dL5uSj3HmE8r9bBpgwTGcuzzPAyce7Y1BDotK2jVw/viewform?usp=sf_link'>Proceed to Data Correction</a> 
+</p>
+</p>
+</div>
+
 
 <div  id='about'  style=" width:340px; margin: auto; position:center; margin-top:60px;    display:none">
 <p style="font-size:15px; margin:5px ; text-align:justify; ">
@@ -198,6 +223,14 @@ All the three groups are separate. Retired staff members can choose any one , or
 
 
 <script>
+
+function clickDataCorrection(){
+document.getElementById("dataCorrection").style.display = "block";
+document.getElementById("buttons_div").style.display = "none";
+document.getElementById("footerdiv").style.display = "block";
+
+}
+
 
 function verifyLogin(){
 logsrno = document.getElementById("loginSrNo").value

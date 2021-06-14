@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,10 +35,10 @@ tr:hover {
 table thead tr th {
   /* Important */
   background-color: red;
-  position: sticky;
+// position: sticky;
   z-index: 100;
 // margin-top:55px; 
- top: 0;
+//top: 0;
   color:white;
 }
 
@@ -79,7 +80,10 @@ a:link {
 .b5 {background-color: lightpink;} /* Black */
 .b6 {background-color:  #4CAF50; /* Green */
 
-b{color:red; }
+b {color:red; }
+
+
+
 </style>
 
 </head>
@@ -128,6 +132,9 @@ onfocus="javascript:document.getElementById('notAmember').style.display = 'none'
 
 <input  class="button button2" type="button" value='Submit'  onclick="verifyLogin()"  >
 <br><br>
+
+<p class='caution' style="font-size:large; margin:5px; ">This application behaves like a native app. <br/><b>Back Button</b> will alway <b>EXIT</b> from the app.<br/> Use Menus provided in the app to navigate. </p>
+
 <p align=center id='notAmember' style="display:none; font-size:x-large; margin:auto; "><b>You are not a Member<br><a href='https://docs.google.com/forms/d/e/1FAIpQLSeBrp4C8dL5uSj3HmE8r9bBpgwTGcuzzPAyce7Y1BDotK2jVw/viewform?usp=sf_link'>Submit Your Data</a></b></p>
 </div>
 
@@ -136,7 +143,10 @@ onfocus="javascript:document.getElementById('notAmember').style.display = 'none'
 <div id='city_div' style="display:none; margin:auto; ">
 <br><br>
 <h3 align=center>Place of Stay</h3>
-<p id='getnCityNmes' ></p>
+<div style="background:powderblue; width:360px;   height:40px; margin-top:50px; top:0; position:fixed; ">
+<input type="text"  id='input_placeofStay' onkeyup="searchPlace()" style="margin-top:5px; width:180px; margin-left:25%; height:30px; border-radius:15px;  background-color: white;  border:0px;  outline:0;  "  placeholder="Search for a Place of stay...">
+</div>
+<p style="margin-top:50px;" id='getnCityNmes' ></p>
 <br><br><br>
 
 </div>
@@ -183,9 +193,12 @@ onfocus="javascript:document.getElementById('notAmember').style.display = 'none'
 </div>
 
 <div id="rawDataDiv" style="width:360px; margin: auto; position:center; ; display:none;    ">
-<input type="number"  id='searchMobile' onkeyup="searchMobi()" style=" margin-bottom:0px; margin-top:55px; width:180px; margin-left:25%; height:30px; border-radius:15px;  background-color: cyan;  border:0px;  outline:0;  "  placeholder="Search for a Mobile Number...">
 
-<p id='radDataText' style=""></p>
+<div style="background:powderblue; width:360px;   height:40px; margin-top:50px; top:0; position:fixed; ">
+<input type="number"  id='searchMobile' onkeyup="searchMobi()" style=" margin-bottom:0px; margin-top:0px; width:180px; margin-left:25%; height:30px; border-radius:15px;  background-color: cyan;  border:0px;  outline:0;  "  placeholder="Search for a Mobile Number...">
+</div>
+
+<p id='radDataText' style="margin-top:70px;  scroll:auto; "></p>
 
 </div>
 <div  id='dataCorrection'  style=" width:340px; margin: auto; position:center; margin-top:60px;    display:none">
@@ -205,9 +218,9 @@ For Data updation please send a WhatsApp Message/ Email to the following persons
 
 <div  id='about'  style=" width:340px; margin: auto; position:center; margin-top:60px;    display:none">
 <p style="font-size:15px; margin:5px ; text-align:justify; ">
-<b>IBAP-Retirees Google Group</b> was started  with an intention, to have a common platform, to discuss about Retirees Issues and for exchanges of thoughts of common interest, among the retirees of Indian Bank of AP & Telangana States. This group is not affiliated to any Association. No membership fees to join this group. Presently, we have <span id='a1'></span> members in this group.<br><br>
+<b>IBAP-Retirees Google Group</b> was started  with an intention, to have a common platform, to discuss about Retirees Issues and for exchanges of thoughts of common interest, among the retirees of Indian Bank of AP & Telangana States. This group is not affiliated to any Association. No membership fees to join this group. Presently, we have <b><span id='a1'></span> </b>members in this group.<br><br>
 
-<b>Address Book</b>    Later we thought, it will be convenient to have an address book of  Indian Bank Retirees of Telangana and Andhra Pradesh, with Photos. So we have designed a format to have the details of the retirees and upto now <span id='a2'></span> retired staff members irrespective of their designation in the Bank and irrespective of their affiliation to the associations gave their details.<br><br>
+<b>Address Book</b>    Later we thought, it will be convenient to have an address book of  Indian Bank Retirees of Telangana and Andhra Pradesh, with Photos. So we have designed a format to have the details of the retirees and upto now <b><span id='a2'></span></b> retired staff members irrespective of their designation in the Bank and irrespective of their affiliation to the associations gave their details.<br><br>
 
 <b>IB Friends WhatsApp group</b>      Subsequently, we have started IB Friends WhatsApp group for the convenience of Smart Phone mobile users. Presently there are 201 participants in this group.<br><br>
 
@@ -231,12 +244,14 @@ All the three groups are separate. Retired staff members can choose any one , or
 function showHome(){
 hide()
 document.getElementById("buttons_div").style.display = "block";
+document.getElementById("homeDiv").style.display = "none";
 }
 
 
 
 function clickDataCorrection(){
-
+hide()
+document.getElementById("homeDiv").style.display = "block";
 document.getElementById("dataCorrection").style.display = "block";
 document.getElementById("buttons_div").style.display = "none";
 document.getElementById("footerdiv").style.display = "block";
@@ -259,6 +274,8 @@ document.getElementById("loginSrNo").value=""
 
 function aboutDiv(){
 hide()
+
+document.getElementById("homeDiv").style.display = "block";
 document.getElementById("about").style.display = "block";
 a1.innerHTML=tempData.length
 a2.innerHTML=tempData.length
@@ -434,7 +451,7 @@ document.getElementById("header").innerHTML=membData[0].name
 
 
 function rawDataTable_create(){
-rawTable="<table id='mobileTable' border=1 align=center style=' margin-top:5px;   font-size: x-small; border-collapse: collapse; border: 1px solid black; '><thead><th style='height:50px; '>SR No<th>Name<th>Place<th>Mobile</thead>"
+rawTable="<br><table id='mobileTable' border=1 align=center style=' margin-top:5px;   font-size: x-small; border-collapse: collapse; border: 1px solid black; '><thead ><th style='height:50px; '>SR No<th>Name<th>Place<th>Mobile</thead>"
 xx=""
   rawtempData=tempData.sort((a, b) => a.srno - b.srno);
 rawtempData.forEach(function(a){xx += "<tr><td>" + a.srno +"<td> <span onClick='nameclick(this.id)' id="+a.srno+ ">"+ a.name +" </span><td>" + a.add3 +"<td>"+a.mob1})
@@ -443,6 +460,7 @@ rawTable += xx + "</table><br><br>"
 
 function rawDataTable(){
 hide()
+document.getElementById("homeDiv").style.display = "block";
 document.getElementById("rawDataDiv").style.display = "block"; 
 document.getElementById("searchMobile").value="" 
 document.getElementById("radDataText").innerHTML=rawTable
@@ -504,6 +522,8 @@ bdtable += "</table><br><br>"
 
 function eventsThisWeek(){  // onclick of Events this week button. this will show the birthday and marriage anniversaries. Will add 
 hide()
+
+document.getElementById("homeDiv").style.display = "block";
 document.getElementById("div2").style.display = "block";
 document.getElementById("details").innerHTML=bdtable
 }
@@ -622,6 +642,26 @@ function searchBranch() {
     }       
   }
 }
+
+function searchPlace() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("input_placeofStay");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("citiesTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }
+}
+
 
 
 function searchMobi() {

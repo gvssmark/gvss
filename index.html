@@ -444,6 +444,8 @@ toDisplay += "Pension Br: " + membData[0].penbr + "<br>"
       }
       if (membData[0].mm !== "") {
         toDisplay += "Marriage Anniversary : " + monthsArray[membData[0].mm] + ", " + membData[0].md + "<tr><td colspan=2>"
+      }else{
+      toDisplay += "<tr><td colspan=2>"
       }
   
   toDisplay += "Branches Worked: " + membData[0].brlist + "</table><br>"

@@ -34,9 +34,11 @@
 .modal-content {
   background-color:pink;
   margin: auto;
-  padding: 20px;
+  padding: 2px;
+  padding-bottom:2px;
   border: 1px solid #888;
-  width: 80%;
+  width: 95%;
+  border-radius:15px;
 }
 
 /* The Close Button */
@@ -288,7 +290,7 @@ All the three groups are separate. Retired staff members can choose any one , or
   <!-- Modal content -->
   <div class="modal-content">
     <span class="close">&times;</span>
-    <h4 id="nameHeader">Sudhakar Babu</h4>
+    <h4 align=center id="nameHeader">Sudhakar Babu</h4>
     <p id="modalData">
     
     </p>
@@ -511,7 +513,7 @@ toDisplay += "Pension Br: " + membData[0].penbr + "<br>"
       toDisplay += "<tr><td colspan=2>"
       }
   
-  toDisplay += "Branches Worked: " + membData[0].brlist + "</table><br>"
+  toDisplay += "Branches Worked: " + membData[0].brlist + "</table>"
 
 //document.getElementById("photo").innerHTML=picture
 //document.getElementById("details").innerHTML=toDisplay

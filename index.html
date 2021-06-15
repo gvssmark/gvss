@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html>
 
@@ -213,7 +214,7 @@
         <td class='b2' onclick="eventsThisWeek()">Events
         <td class='b3' onclick="showcities()">Lives in
         <td class='b1' onclick="brworked_table()">BrWorked
-        <td class='b4' onclick="rawDataTable()">Mobile
+        <td class='b4' onclick="rawDataTable()">Data
           <!--<td class='b6' onclick="aboutDiv()">About -->
     </table>
 
@@ -325,8 +326,17 @@
 
       <div style="background:powderblue; width:360px;   height:40px; margin-top:50px; top:0; position:fixed; ">
         <input type="text" id='searchMobile' onkeyup="searchMobi()"
-          style=" margin-bottom:0px; margin-top:0px; width:180px; margin-left:25%; height:30px; border-radius:15px;  background-color: cyan;  border:0px;  outline:0;  "
-          placeholder="Search for a Name...">
+          style=" margin-bottom:0px; margin-top:0px; width:180px; margin-left:10px; height:30px; border-radius:15px;  background-color: cyan;  border:0px;  outline:0;  "
+          placeholder="Select the filter..">
+           <b>Filter By:</b>
+  <select style="background:yellow; " id="mySelect" onchange="mySelectFunction() ">
+    <option value=1>Name</option>
+    <option value=0>SR No</option>
+    <option value=2>Place</option>
+    <option value=3>Mobile</option>
+  </select>
+          
+        
       </div>
 
       <p id='radDataText' style="margin-top:70px;  scroll-y:auto; "></p>
@@ -882,16 +892,23 @@ document.getElementById("radDataText").innerHTML = ""
       }
     }
 
+colno=1
+function mySelectFunction() {
+colno=document.getElementById("mySelect").value
+searchMobile.value=""
+//alert(document.getElementById("mySelect").value)
+}
 
 
-    function searchMobi() {
+    function searchMobi(a) {
       var input, filter, table, tr, td, i, txtValue;
+      a=colno;
       input = document.getElementById("searchMobile");
       filter = input.value.toUpperCase();
       table = document.getElementById("mobileTable");
       tr = table.getElementsByTagName("tr");
       for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[1];
+        td = tr[i].getElementsByTagName("td")[a];
         if (td) {
           txtValue = td.textContent || td.innerText;
           if (txtValue.toUpperCase().indexOf(filter) > -1) {

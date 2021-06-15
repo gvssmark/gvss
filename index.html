@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 
@@ -619,9 +620,9 @@
     xx = ""
     function rawDataTable_create() {
       rawTable = "<br><br>Click on Table Heading for sorting<br><table id='mobileTable' border=1 align=center style=' margin-top:5px;   font-size: x-small; border-collapse: collapse; border: 1px solid black; '><thead ><th style='height:50px; '  onclick='getThSort(1)' >SR No<th onclick='getThSort(2)' >Name<th onclick='getThSort(3)' >Place<th onclick='getThSort(4)' >Mobile</thead>"
-      //xx=""
-      //nameSort=tempData.sort((a, b) => a.srno - b.srno);
-      nameSort.forEach(function (a) { xx += "<tr><td>" + a.srno + "<td> <span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + " </span><td>" + a.add3 + "<td>" + a.mob1 })
+     
+     
+ //     nameSort.forEach(function (a) { xx += "<tr><td>" + a.srno + "<td> <span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + " </span><td>" + a.add3 + "<td>" + a.mob1 })
       document.getElementById("radDataText").innerHTML = ""
       rawTable += xx + "</table><br><br>"
       document.getElementById("radDataText").innerHTML = rawTable
@@ -640,27 +641,31 @@
 
     function getThSort(whatSelected) {
       //alert(whatSelected*10);
-
-
+  xx = ""
+document.getElementById("radDataText").innerHTML = ""
 
       if (whatSelected === 1) {
+      document.getElementById("radDataText").innerHTML = ""
         xx = ""
         srnoSort.forEach(function (a) { xx += "<tr><td>" + a.srno + "<td> <span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + " </span><td>" + a.add3 + "<td>" + a.mob1 })
         rawDataTable_create()
       }
 
       if (whatSelected === 2) {
+      document.getElementById("radDataText").innerHTML = ""
         xx = ""
         nameSort.forEach(function (a) { xx += "<tr><td>" + a.srno + "<td> <span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + " </span><td>" + a.add3 + "<td>" + a.mob1 })
         rawDataTable_create()
       }
       if (whatSelected === 3) {
+      document.getElementById("radDataText").innerHTML = ""
         xx = ""
         placeSort.forEach(function (a) { xx += "<tr><td>" + a.srno + "<td> <span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + " </span><td>" + a.add3 + "<td>" + a.mob1 })
         rawDataTable_create()
       }
 
       if (whatSelected === 4) {
+      document.getElementById("radDataText").innerHTML = ""
         xx = ""
         mobileSort.forEach(function (a) { xx += "<tr><td>" + a.srno + "<td> <span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + " </span><td>" + a.add3 + "<td>" + a.mob1 })
         rawDataTable_create()

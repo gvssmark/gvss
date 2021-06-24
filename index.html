@@ -600,8 +600,10 @@
       toDisplay += membData[0].add2 + "<br>"
       toDisplay += membData[0].add3 + "-" + membData[0].pin + "<br>"
       toDisplay += membData[0].add4 + "<br><td style='width:100px;'>" + picture + " <tr><td colspan=2><b>Email: :</b><br>"
-      toDisplay += membData[0].email + "<br>"
-      toDisplay += "<b>Phones </b><br>" + membData[0].mob1 + "/ " + membData[0].mob2 + "/ " + membData[0].fix
+      toDisplay +="<a href = 'mailto:"+ membData[0].email + "'><mark>Send Email to "+membData[0].email +"</mark><br>"
+      toDisplay += "<b>Phones </b><br><a style='text-decoration: none;' href='tel:" + membData[0].mob1 + "'><mark style='text-decoration: none;line-height: 1.6 ' >&nbsp; Call  " + membData[0].mob1+"&nbsp;  </mark></a> / " + membData[0].mob2 + "/ " + membData[0].fix
+   //   toDisplay += membData[0].email + "<br>"
+   //   toDisplay += "<b>Phones </b><br>" + membData[0].mob1 + "/ " + membData[0].mob2 + "/ " + membData[0].fix
       toDisplay += "<tr><td colspan=2>"
       toDisplay += "<b>Retired on:</b> " + new Date(membData[0].retdate).toDateString() + "<br>"
       toDisplay += "<b>Last Br:</b> " + membData[0].lastbr + "<br>"

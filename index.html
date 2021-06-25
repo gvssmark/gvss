@@ -481,7 +481,7 @@
       data = await response.json()
       tempData = data["user"].sort((a, b) => a.srno - b.srno);
 
-      alphasorted1 = tempData.sort((a, b) => {
+      alphasorted = tempData.sort((a, b) => {
         let fa = a.name.toLowerCase(), fb = b.name.toLowerCase();
         if (fa < fb) { return -1; }
         if (fa > fb) { return 1; }

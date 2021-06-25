@@ -733,23 +733,31 @@ document.getElementById("radDataText").innerHTML = ""
 
 
     function eventsThisWeek_create() {
+      
+               alphasorted = tempData.sort((a, b) => {
+        let fa = a.name.toLowerCase(), fb = b.name.toLowerCase();
+        if (fa < fb) { return -1; }
+        if (fa > fb) { return 1; }
+        return 0;
+      })
+      
       if (currMonth != futureMonth) {
-        bdThisWeek = tempData.filter(a => ((a.bm === currMonth && a.bd >= currDate) || (a.bm === futureMonth && a.bd <= futureDate)))
+        bdThisWeek = alphasorted.filter(a => ((a.bm === currMonth && a.bd >= currDate) || (a.bm === futureMonth && a.bd <= futureDate)))
           .sort(function (a, b) { return (a.bm - b.bm || a.bd - b.bd) })
           .map(a => [a.srno, a.name, a.bm, a.bd])
       }
 
       else {
-        bdThisWeek = tempData.filter(a => ((a.bm === currMonth && a.bd >= currDate && a.bd <= futureDate)))
+        bdThisWeek = alphasorted.filter(a => ((a.bm === currMonth && a.bd >= currDate && a.bd <= futureDate)))
           .sort(function (a, b) { return (a.bm - b.bm || a.bd - b.bd) })
           .map(a => [a.srno, a.name, a.bm, a.bd])
       }
 
       if (currMonth != futureMonth) {
-        mdThisWeek = tempData.filter(a => ((a.mm === currMonth && a.md >= currDate) || (a.mm === futureMonth && a.md <= futureDate))).sort(function (a, b) { return (a.mm - b.mm || a.md - b.md) }).map(a => [a.srno, a.name, a.mm, a.md])
+        mdThisWeek = alphasorted.filter(a => ((a.mm === currMonth && a.md >= currDate) || (a.mm === futureMonth && a.md <= futureDate))).sort(function (a, b) { return (a.mm - b.mm || a.md - b.md) }).map(a => [a.srno, a.name, a.mm, a.md])
       }
       else {
-        mdThisWeek = tempData.filter(a => ((a.mm === currMonth && a.md >= currDate && a.md <= futureDate)))
+        mdThisWeek = alphasorted.filter(a => ((a.mm === currMonth && a.md >= currDate && a.md <= futureDate)))
           .sort(function (a, b) { return (a.mm - b.mm || a.md - b.md) })
           .map(a => [a.srno, a.name, a.mm, a.md])
       }

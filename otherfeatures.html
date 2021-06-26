@@ -7,7 +7,7 @@
   background-color: lightblue;
   color: red;
   cursor: pointer;
-  padding: 18px;
+  padding: 15px 0px ;
   width: 100%;
   border: none;
   text-align: left;
@@ -16,84 +16,153 @@
   transition: 0.4s;
 }
 
-.active, .accordion:hover {
-  background-color: #ccc;
-}
-
-.accordion:after {
- content: '\02795'; /* Unicode character for "plus" sign (+) */
-  color: #777;
-  font-weight: bold;
-  float: right;
-  margin-left: 5px;
-}
-
-.active:after {
-  content: '\02796'; /* Unicode character for "plus" sign (+) */
-}
-
 .panel {
-  padding: 0 18px;
-  background-color: white;
-  max-height: 0;
-  overflow: hidden;
+  padding: 0 1px;
+  background-color: lightblue;
+ 
+  overflow: auto;
   transition: max-height 0.2s ease-out;
+  display:none;
 }
-body{background:lightblue;}
+body{background:lightblue; font-size:small;}
 h2{text-align:center; color:red;}
+p{background:lightblue; font-size:small;}
+div{background:lightblue; font-size:small;}
 </style>
 </head>
 <body>
 
 <h2>Welfare Schemes</h2>
 
-<button class="accordion">Medical Aid on Declaration</button>
-<div class="panel">
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+<b>Preferential rate of Interest to retired staff (after 60 years age)</b>
+<li> Retired staff members are eligible for 1.5% additional rate of interest on
+Term Deposits subject to a maximum of Rs. 200 lacs where they are the
+principal account holders.<br><br>
+<b>IB Pension Loan For Pensioners</b>
+<li> 15 months Monthly pension
+<li> Max. Entry level age -- 75 years
+<li> Max. Exit level age -- 78 years
+<li> Repayment -- 10 years Maximum<br><br>
+
+<b>IB Pension Loan For Family Pensioners</b>
+<li> 12 months pension subject to a maximum of Rs.2.00 lakhs
+<li> Max. Entry level age -- 70 years
+<li> Max. Exit level age -- 73 years
+<li> Repayment -- 3 years maximum<br><br>
+
+
+
+
+<button onclick="showthis('div1')" class="accordion">Medical Aid on Declaration</button>
+<div id="div1" class="panel" >
+  <p>Medical Aid on declaration basis - .</p>
 </div>
 
-<button class="accordion">Reimbursement of Insurance Premium</button>
-<div class="panel">
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+<button onclick="showthis('div2')" class="accordion">Reimbursement of Insurance Premium</button>
+<div id='div2' class="panel">
+  <p>Reimbursement of Insurance Premium</p>
 </div>
 
-<button class="accordion">Health Checkup</button>
-<div class="panel">
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+<button onclick="showthis('div3')" class="accordion">Health Checkup</button>
+<div id='div3' class="panel">
+  <p>  Health Checkup.<br>  </p>
 </div>
 
-<button class="accordion">Holiday Homes</button>
-<div class="panel">
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-</div>
-<button class="accordion">Arogya Raksha</button>
-<div class="panel">
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+<button onclick="showthis('div4')"  class="accordion">Holiday Homes</button>
+<div id='div4' class="panel">
+  <p>
+  <ul>
+<li>Set up with an objective to help retired staff members and their
+families to visit places of interest and resorts
+<li>The allotment of holiday home will not be made for more than 4 days
+on one occasion and in case of Holiday Home at Tirumala it will be
+only for one day.
+<li>The facility of holiday home will be restricted to the staff and their
+family members consisting of the spouse, children, brothers and
+sisters and parents only.
+</ul>  
+<table border=1>  <tr><td>Digha<td>ALANKARPUR (211285)<td>03220-266271/ /471
+<tr><td>Darjeeling -1<td>DARJEELING (585)<td>0354-2254161
+<tr><td>Guruvayoor<td>GURUVAYOOR(1143)<td>0487-2556676
+<tr><td>Kodaikanal<td>Kodaikanal<td>0454-2241042
+<tr><td>TIRUMALA -1<td>TIRUMALA (1566)<td>0877-2277545
+<tr><td>TIRUMALA -2<td>TIRUMALA (1566)<td>0877-2277545
+<tr><td>Uthagamandalam (Ooty)<td>UTHAGAMANDALAM (354)<td>0423-2440851
+<tr><td>PURI - 1<td>PURI (496)<td>06752-252510
+<tr><td>Goa<td>MAPUCA (210994)<td>0832-222-1055
+<tr><td>Hardwar<td>HARDWAR (210558)<td>01334-227651
+<tr><td>Katra<td>JAMMU (210473)<td>01991-233264,232399
+"<tr><td>Mount Abu<td>JAIPUR BR (210177)<td>02974-238133
+MOB -09414200455"
+<tr><td>Mussoorie<td>MUSSOORIE (210157)<td>0135-2632857
+<tr><td>NAINITAL<td>NAINITAL (210154)<td>05942-236029
+<tr><td>Darjeeling -2<td>DARJEELING (210559)<td>0354-2258544
+"<tr><td>SHIMLA<td>SHIMLA (211936)<td>0177-6614849
+MOB- 09418023445"
+<tr><td>AMRITSAR<td>AMRITSAR (210166)<td>0183-2532860
+<tr><td>Ooty<td>COIMBATORE (210384)<td>0423-2443580-82
+<tr><td>Varanasi<td>ZO VARANASI (212002)<td>0542-250-8465
+"<tr><td>Puri - 2<td>PURI DOLAMANDAP
+SAHI (211076)<td>9437236895"
+</table>
+
+  </p>
 </div>
 
-<button class="accordion">IBA Insurance  Policy</button>
-<div class="panel">
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+<button onclick="showthis('div5')" class="accordion">Arogya Raksha</button>
+<div id='div5' class="panel">
+<p>Arogya Raksha Insurance Policy</p>
+</div>
+
+<button onclick="showthis('div6')" class="accordion">IBA Insurance  Policy</button>
+<div id='div6' class="panel">
+  <p>IBA Insurance poilicy</p>
+</div>
+<button onclick="showthis('div7')" class="accordion">Family Pension</button>
+<div id='div7' class="panel">
+  <p>
+  1.After the demise of the pensioner, family pension is payable to the
+spouse for life time.<br>
+2.Application in the prescribed format should be sent to CO: HRM
+Department along with the death certificate.<br>
+
+3.The percentage of ordinary basic family pension will be arrived based
+on the last basic salary drawn by the deceased pensioner/ employee<br>
+  </p>
+</div>
+
+<button onclick="showthis('div8')" class="accordion">Download PDF</button>
+<div id='div8' class="panel">
+  <p>Download PDF</p>
 </div>
 
 
 <script>
-var acc = document.getElementsByClassName("accordion");
-var i;
+ function showthis(whatdiv){
+hideall()
+document.getElementById(whatdiv).style.display="block"
+//document.getElementById(whatdiv).style.fontSize="15px"
 
-for (i = 0; i < acc.length; i++) {
-  acc[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var panel = this.nextElementSibling;
-    if (panel.style.maxHeight) {
-      panel.style.maxHeight = null;
-    } else {
-      panel.style.maxHeight = panel.scrollHeight + "px";
-    } 
-  });
+// document.getElementById(whatdiv).style.maxHeight= "100px";
+// alert("hi")
+ }
+
+function hideall(){
+
+document.getElementById('div1').style.display="none"
+document.getElementById('div2').style.display="none"
+document.getElementById('div3').style.display="none"
+document.getElementById('div4').style.display="none"
+document.getElementById('div5').style.display="none"
+document.getElementById('div6').style.display="none"
+document.getElementById('div7').style.display="none"
 }
+
+
+
+
 </script>
 
 </body>

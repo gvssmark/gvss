@@ -15,7 +15,7 @@
   font-size: 15px;
   transition: 0.4s;
 }
-
+  table{border-collapse:collapse; border:1px solid black; }
 .panel {
   padding: 0 1px;
   background-color: lightblue;
@@ -85,7 +85,13 @@ URL.<br>
 </p>
 </div>
 
-
+<button onclick="showthis('div12')" class="accordion">Change of Pension Branch / Address</button>
+<div id="div12" class="panel" >
+  <p>
+1. Request for change of pension payment branch by the pensioner should be forwarded to CO:HRM Department (Pension Cell) with Branch Manager’s recommendation certifying that the pensioner is not having any direct or indirect liability with the branch. On getting permission from CO:HRM the pension payment branch will change the home branch code for the pensioner as well as transfer his/her Pension file to the new branch.<br><br>
+2. Request for change of address of the pensioner in Pension Master shall be forwarded to CO:HRM and CO:HRM will incorporate the change and send their acknowledgement to the Pensioner and Pension payment branch.
+</p>
+</div>
 
 <button onclick="showthis('div1')" class="accordion">Medical Aid on Declaration</button>
 <div id="div1" class="panel" >
@@ -201,6 +207,7 @@ document.getElementById('div8').style.display="none"
 document.getElementById('div9').style.display="none"
 document.getElementById('div10').style.display="none"
 document.getElementById('div11').style.display="none"
+document.getElementById('div12').style.display="none"
 
 
 }

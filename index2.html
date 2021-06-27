@@ -20,6 +20,13 @@
             color: white;
         }
 
+        #mobileTable {
+            margin-top: 5px;
+            font-size: x-small;
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+
         /* The Modal (background) */
         .modal {
             display: none;
@@ -57,7 +64,7 @@
 
         /* The Close Button */
         .close {
-            color: #aaaaaa;
+            color: #fd0b20;
             float: right;
             font-size: 28px;
             font-weight: bold;
@@ -526,8 +533,14 @@
             <button onclick="clickDataCorrection()" class="button button3" style="text-decoration: none;">Data
                 Correction
             </button><br><br>
+            <button onclick="welfare()" class="button button5">Welfare</button><br>
             <button onclick="aboutDiv()" class="button button5">About</button><br>
         </div>
+
+        <div id="welf" style="display:none">
+            <iframe style="height:600px; margin-top:50px; width:350px;"src="https://gvssmark.github.io/gvss/otherfeatures.html" allowTransparency="true" background="transparent"></iframe>
+        </div>
+        
         <div id="div1">
             <input type="text" id='myInput' onkeyup="dispdata()" placeholder="Search for a Name here...">
             <p id='getnames'></p>
@@ -672,7 +685,7 @@
             document.getElementById("homeDiv").style.display = "none";
             document.getElementById("footerdiv").style.display = "none";
         }
-        function eventsThisWeek() {  // onclick of Events this week button. this will show the birthday and marriage anniversaries. Will add 
+        function eventsThisWeek() {
             hide()
             document.getElementById("homeDiv").style.display = "block";
             document.getElementById("div2").style.display = "block";
@@ -733,9 +746,14 @@
             document.getElementById("div_brworked_list").style.display = "none";
             document.getElementById("div_brworked").style.display = "none";
             document.getElementById("dataCorrection").style.display = "none";
+            document.getElementById("welf").style.display = "none";
 
         }
 
+        function welfare() {
+            hide()
+            document.getElementById("welf").style.display = "block";
+        }
         function brworkedtableText(tableCell) { //  for Lives in table
             brselected = tableCell.innerHTML
             weWorkedHere()
@@ -856,7 +874,16 @@
 
         xx = ""
         function rawDataTable_create() {
-            rawTable = "<br><br>Click on Table Heading for sorting<br><table id='mobileTable' border=1 align=center style=' margin-top:5px;   font-size: x-small; border-collapse: collapse; border: 1px solid black; '><thead ><th style='height:50px; '  onclick='getThSort(1)' >SR No<th onclick='getThSort(2)' >Name<th onclick='getThSort(3)' >Place<th onclick='getThSort(4)' >Mobile</thead>"
+            rawTable = `<br><br>
+            Click on Table Heading for sorting<br>
+            <table id='mobileTable' border=1 align=center>
+            <thead >
+                <th style='height:50px; '  onclick='getThSort(srnoSort)' >SR No
+                <th onclick='getThSort(nameSort)' >Name
+                <th onclick='getThSort(placeSort)' >Place
+                <th onclick='getThSort(mobileSort)' >Mobile
+            </thead>`
+
             document.getElementById("radDataText").innerHTML = ""
             rawTable += xx + "</table><br><br>"
             document.getElementById("radDataText").innerHTML = rawTable
@@ -873,30 +900,8 @@
         function getThSort(whatSelected) {
             xx = ""
             document.getElementById("radDataText").innerHTML = ""
-            if (whatSelected === 1) {
-                document.getElementById("radDataText").innerHTML = ""
-                xx = ""
-                srnoSort.forEach(function (a) { xx += "<tr><td>" + a.srno + "<td> <span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + " </span><td>" + a.add3 + "<td>" + a.mob1 })
-                rawDataTable_create()
-            }
-            if (whatSelected === 2) {
-                document.getElementById("radDataText").innerHTML = ""
-                xx = ""
-                nameSort.forEach(function (a) { xx += "<tr><td>" + a.srno + "<td> <span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + " </span><td>" + a.add3 + "<td>" + a.mob1 })
-                rawDataTable_create()
-            }
-            if (whatSelected === 3) {
-                document.getElementById("radDataText").innerHTML = ""
-                xx = ""
-                placeSort.forEach(function (a) { xx += "<tr><td>" + a.srno + "<td> <span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + " </span><td>" + a.add3 + "<td>" + a.mob1 })
-                rawDataTable_create()
-            }
-            if (whatSelected === 4) {
-                document.getElementById("radDataText").innerHTML = ""
-                xx = ""
-                mobileSort.forEach(function (a) { xx += "<tr><td>" + a.srno + "<td> <span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + " </span><td>" + a.add3 + "<td>" + a.mob1 })
-                rawDataTable_create()
-            }
+            whatSelected.forEach(function (a) { xx += "<tr><td>" + a.srno + "<td> <span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + " </span><td>" + a.add3 + "<td>" + a.mob1 })
+            rawDataTable_create()
         }
 
 
@@ -938,7 +943,10 @@
                 .filter(a => a.md <= futureDate)
                 .sort((a, b) => a.md - b.md)
 
-            bdtable = "<table  border=1 align=center style='  border-collapse: collapse; border: 1px solid black; '><tr><td colspan=2 align=center style='background:pink;'> Birthdays"
+            bdtable = `<table  border=1 align=center 
+            style='  border-collapse: collapse; border: 1px solid black; '>
+            <tr><td colspan=2 align=center style='background:pink;'> Birthdays`
+
             bd1.forEach(function (a) { bdtable += "<tr><td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span><td>" + monthsArray[a.bm] + ", " + a.bd })
             bd2.forEach(function (a) { bdtable += "<tr><td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span><td>" + monthsArray[a.bm] + ", " + a.bd })
 
@@ -995,7 +1003,10 @@
 
         function tableText(tableCell) { //  for Lives in table
             selectedCity = tableCell.innerHTML
-            livesin = tempData.filter(a => a.add3.toLowerCase().includes(selectedCity.trim().toLowerCase())).map(a => [a.srno, a.name, a.add3, a.pin])
+            livesin = tempData.filter(a => a.add3.toLowerCase()
+                .includes(selectedCity.trim().toLowerCase()))
+                .map(a => [a.srno, a.name, a.add3, a.pin])
+
             livesin.sort(function (a, b) {
                 return a[3] - b[3]
             });

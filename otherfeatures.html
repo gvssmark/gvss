@@ -18,13 +18,15 @@ b{color:red;}
   outline: none;
   font-size: 15px;
 //  transition: 0.4s;
+margin-left:5px;
 }
-  table{border-collapse:collapse; border:1px solid black; width:350px;}
+  table{border-collapse:collapse; border:1px solid black; //width:350px;}
 .panel {
-  padding: 0 1px;
+  padding: 0 10px;
 //  background-color: lightblue;
- 
+ width:90%
   overflow: auto;
+  margin:5px;
 //  transition: max-height 0.2s ease-out;
   display:none;
 }
@@ -35,7 +37,7 @@ div{background:lightblue; font-size:small;}
 </style>
 </head>
 <body>
-<div style="width:355px;">
+<div style="width:355px; ">
 <h2>Welfare Schemes</h2>
 <button onclick="showthis('div13')" class="accordion">Preferential Rate of Interest</button>
 <div id='div13' class="panel">
@@ -306,7 +308,7 @@ function hideAll() {
   var x, i;
   x = document.querySelectorAll(".panel");
   for (i = 0; i < x.length; i++) {
-    x[i].style.backgroundColor = "pink";
+//    x[i].style.backgroundColor = "pink";
     x[i].style.display = "none";
   }
 }

@@ -12,7 +12,7 @@
     <link rel="apple-touch-icon" href="images/ibap512.png">
 
     <style>
-        iframe{Border:0px; height:100vh; visibility: hidden;}
+        iframe{Border:0px; height:100vh; }
         mark {
             background-color: black;
             /*border:1px solid red;*/
@@ -754,10 +754,8 @@
 
         function welfare() {
             hide()
-                    document.getElementById("welfareIframe").style.visibility="hidden";
             document.getElementById("welf").style.display = "none";
              document.getElementById("welfareIframe").src = "https://gvssmark.github.io/gvss/otherfeatures.html";
-             document.getElementById("welfareIframe").style.visibility="visible";
              document.getElementById("homeDiv").style.display = "block";
             document.getElementById("welf").style.display = "block";
 

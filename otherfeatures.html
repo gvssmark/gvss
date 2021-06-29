@@ -314,7 +314,9 @@ hideAll()
  accidSetColor()
 document.getElementById(whatdiv).style.display="block"
 accid[id].style.backgroundColor="cyan "
-//document.getElementById(whatdiv).style.backgroundColor="cyan"
+   
+setTimeout(function(){document.getElementById(whatdiv).style.display="none" ;
+  accid[id].style.backgroundColor="lightblue "}, 60000); }
  }
 
 accid = document.querySelectorAll(".accordion");

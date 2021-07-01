@@ -933,11 +933,13 @@
                 .sort((a, b) => a.bd - b.bd)
 
             //Birthdays this week - if spread over next month:
+            bd2=[];
+             if(currMonth!=futureMonth){
             bd2 = bdays
                 .filter(a => a.bm === futureMonth)
                 .filter(a => a.bd <= futureDate)
                 .sort((a, b) => a.bd - b.bd)
-
+             }
 
             //Anniversary this week:
             md1 = mdays
@@ -948,11 +950,13 @@
 
 
             //Anniversary this week - if spread over next month:
+            md2=[];
+             if(currMonth!=futureMonth){
             md2 = mdays
                 .filter(a => a.mm === futureMonth)
                 .filter(a => a.md <= futureDate)
                 .sort((a, b) => a.md - b.md)
-
+             }
             bdtable = `<table  border=1 align=center 
             style='  border-collapse: collapse; border: 1px solid black; '>
             <tr><td colspan=2 align=center style='background:pink;'> Birthdays`

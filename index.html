@@ -902,7 +902,8 @@
             nameSort = tempData.sort(function (a, b) { return a.name.localeCompare(b.name) }).map(a => ({ srno: a.srno, name: a.name, add3: a.add3, mob1: a.mob1 }))
             mobileSort = tempData.sort((a, b) => a.mob1 - b.mob1).map(a => ({ srno: a.srno, name: a.name, add3: a.add3, mob1: a.mob1 }))
             placeSort = tempData.sort(function (a, b) { return a.add3.localeCompare(b.add3) }).map(a => ({ srno: a.srno, name: a.name, add3: a.add3, mob1: a.mob1 }))
-
+            // if branch names joined use this to check
+checkBranchError = alphasorted.map( a => ({srno: a.srno, name: a.name, newbrlist: a.newbrlist, newbrlistend: a.newbrlist.substr(-1)!=","})).filter(a =>a.newbrlistend ===true)
         }
 
         function getThSort(whatSelected) {

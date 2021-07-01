@@ -929,6 +929,7 @@
             bd1 = bdays
                 .filter(a => a.bm === currMonth)
                 .filter(a => a.bd >= currDate)
+                .filter(a => a.bd <= futureDate)
                 .sort((a, b) => a.bd - b.bd)
 
             //Birthdays this week - if spread over next month:
@@ -942,6 +943,7 @@
             md1 = mdays
                 .filter(a => a.mm === currMonth)
                 .filter(a => a.md >= currDate)
+                .filter(a => a.md <= futureDate)
                 .sort((a, b) => a.md - b.md)
 
 

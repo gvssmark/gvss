@@ -1007,7 +1007,7 @@ checkBranchError = alphasorted.map( a => ({srno: a.srno, name: a.name, newbrlist
                 brarray = ggg[i].brlist.split(",")
                 brarray = unq(brarray)
                 for (j = 0; j < brarray.length; j++)
-                    if (brarray[j] === brselected) {
+                    if (brarray[j].trim() === brselected) {
                         //alert(ggg[i].name)
                         workedlist += "<tr><td><span onClick='nameclick(this.id)' id=" + ggg[i].srno + ">" + ggg[i].name + "</span>"
                     }

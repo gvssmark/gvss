@@ -26,8 +26,8 @@ p{padding:8px;}
 #display1{margin-top:80px; margin-left:5px;}
 #display2{margin-top:80px; margin-left:5px;}
 #homeDiv { width: 55px; height: 55px; border-radius: 50px; margin-left: 303px; padding: 0px; margin-top: -3px; z-index: 9; background: blue; position: fixed; color: white; text-align: center; display: none; top:5px;  font-weight:bold; box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.3); line-height: 50px;}
-#middleDiv{ width: 55px; height: 25px; border-radius: 20px; margin-left: 300px; padding: 0px; margin-top: 350px; z-index: 9; background: red; position: fixed; color: white; text-align: center; display: none; top:5px; font-size:large; box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.3);}
-#middleDivMenu{color:red; display:none; background:yellow; width:100px; margin-left:-50px; margin-top:5px; opacity:1.0; box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.3);}
+#middleDiv{ width: 55px; height: 25px; border-radius: 20px; margin-left: 300px; padding: 0px; margin-top: 500px; z-index: 9; background: red; position: fixed; color: white; text-align: center; display: none; top:5px; font-size:large; box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.3);}
+#middleDivMenu{color: red; display: none; background: yellow; width: 355px; margin-left: -297px; margin-top: 6px; opacity: 1.0; bottom: 0px; box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.3);}
 table { border-collapse: collapse; margin: auto; width: 95%;}
 h4{color:blue; text-align:center; text-decoration: underline; }
 .abt{color:red; text-decoration: underline; }
@@ -68,11 +68,12 @@ h4{color:blue; text-align:center; text-decoration: underline; }
         <div id="homeDiv" onclick="showHome()">Home </div>
 
         <div onclick="quickMenuClick()" id="middleDiv" >Quick
-                <div id='middleDivMenu'><br>
-                        <span onclick="javascript:alert('Search')">Search</span><br><br>
-                        <span onclick="btn2Click()">Events</span><br><br>
-                        <span onclick="btn3Click()">Cities</span><br><br>
-                        <span onclick="btn4Click()">Branches</span><br><br></div>
+                <div id='middleDivMenu'>
+                <table><tr><td><span onclick="javascript:alert('Search')">Search</span>
+                <td><span onclick="btn2Click()">Events</span>
+                <td><span onclick="btn3Click()">Cities</span>
+                <td><span onclick="btn4Click()">Branches</span></table>
+                   </div>
                 </div>
         </div>
 
@@ -194,13 +195,12 @@ url = 'https://script.google.com/macros/s/AKfycbwU43y7aw-hY8rjx77YgViB5Vs2H5yv7i
         bdtable = `<table  border=1 align=center style='  border-collapse: collapse; border: 1px solid black; '>
         <tr><td colspan=2 align=center style='background:pink;'> Birthdays`
 
-        bd1.forEach(function (a) { bdtable += "<tr><td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span><td>" + monthsArray[a.bm] + ", " + a.bd })
-        bd2.forEach(function (a) { bdtable += "<tr><td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span><td>" + monthsArray[a.bm] + ", " + a.bd })
+        bd1.forEach(function (a) { bdtable += "<tr><td>"+ monthsArray[a.bm] + ", " + a.bd+"<td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span>"  })
+        bd2.forEach(function (a) { bdtable += "<tr><td>"+ monthsArray[a.bm] + ", " + a.bd+"<td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span>"  })
 
         bdtable += "<tr><td  colspan=2 align=center style='background:pink;'>Marriage Anniversaries"
-        md1.forEach(function (a) { bdtable += "<tr><td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span><td>" + monthsArray[a.mm] + ", " + a.md })
-        md2.forEach(function (a) { bdtable += "<tr><td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span><td>" + monthsArray[a.mm] + ", " + a.md })
-
+ md1.forEach(function (a) { bdtable += "<tr><td>"+ monthsArray[a.mm] + ", " + a.md+"<td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span>"  })
+ md2.forEach(function (a) { bdtable += "<tr><td>"+ monthsArray[a.mm] + ", " + a.md+"<td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span>"  })
         bdtable += "</table><br><br>"
         }        
         

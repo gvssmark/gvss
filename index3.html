@@ -1,104 +1,79 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IBAP RETIREES GOOGLE GROUP</title>
+ <title>IBAP RETIREES GOOGLE GROUP</title>
 <style>
-body{margin:0px; background:powderblue; font-family: Arial Narrow,Arial,sans-serif; }
-.container{width:360px; height:100vh; background:powderblue}
-.header{width:360px; height:60px; background:yellow; top:0; position:fixed;}
-.heading{text-align: center; color:red; font-size:20px; margin-top:20px; text-decoration:none; }
-#loginTable {border-collapse:collapse; margin-top:120px; width:225px; margin-left:62px; font-size: 50px; text-align: center; background: #008B8B; color: white; border-radius: 25px; }
+body{margin:0px; background:rgba(231, 226, 228, 0.8); }
+.container{width:360px; height:100vh; background:rgba(231, 226, 228, 0.8)}
+.header{width:360px; height:60px;  top:0; position:fixed; background:rgba(255, 99, 71, 1)}
+.heading{text-align: center; color:black; font-size:16px; margin-top:20px; text-decoration:none; }
+#loginTable {border-collapse:collapse; margin-top:120px; width:225px; margin-left:62px; font-size: 50px; text-align: center; background: #008B8B; color: white; border-radius: 25px;   box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4); }
 #loginTable>td { width: 75px;}
 #loginTable>tr { height: 75px;}
 .tdgo{font-size:20px;}
 #buttonsDiv{margin-top:50px; display:none; padding:15px;}
-.btns{width:300px; margin:auto; height:40px; text-align:center; font-size: 18px; color:black; box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.3);}
-/*
-.btn1{background: red}
-.btn2{background: green}
-.btn3{background: pink}
-.btn4{background: cyan}
-.btn5{background: red}
-.btn6{background: grey}
-.btn7{background: green}
-.btn8{background: red}
-*/
+.btns{width:300px; margin:auto; height:40px; text-align:center; font-size: 16px; color:black; box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4);  border-radius:25px;}
+.btn1{background: rgba(255, 99, 64, 0.3)}
+.btn2{background: rgba(177, 13, 120, 0.2)}
+.btn3{background: rgba(0, 119, 181, 0.2)}
+.btn4{background: rgba(110, 187, 0, 0.2)}
+.btn5{background: rgba(255, 255, 1, 0.2)}
+.btn6{background: rgba(255, 0, 145, 0.2)}
+.btn7{background: rgba(0, 255, 5, 0.2)}
+.btn8{background: rgba(205, 255, 1, 0.2)}
 p{padding:8px;}
 #display1{margin-top:80px; margin-left:5px;}
 #display2{margin-top:80px; margin-left:5px;}
-
-#homeDiv { width: 50px; height: 50px; border-radius: 50px; margin-left: 305px; padding: 0px; margin-top: 0px; z-index: 9; background: blue; position: fixed; color: yellow; text-align: center; display: none; top:5px;  font-weight:bold;}
-
-
-
-#middleDiv{ width: 25px; height: 25px; border-radius: 50px; margin-left: 300px; padding: 0px; margin-top: 350px; z-index: 9; background: red; position: fixed; color: white; text-align: center; display: block; top:5px; font-size:large}
-
-#middleDivMenu{color:red; display:none; background:yellow; width:100px; margin-left:-50px; margin-top:5px; opacity:1.0; }
-
+#homeDiv { width: 50px; height: 50px; border-radius: 50px; margin-left: 305px; padding: 0px; margin-top: 0px; z-index: 9; background: blue; position: fixed; color: yellow; text-align: center; display: none; top:5px;  font-weight:bold; box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.3);}
+#middleDiv{ width: 45px; height: 25px; border-radius: 20px; margin-left: 300px; padding: 0px; margin-top: 350px; z-index: 9; background: red; position: fixed; color: white; text-align: center; display: none; top:5px; font-size:large; box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.3);}
+#middleDivMenu{color:red; display:none; background:yellow; width:100px; margin-left:-50px; margin-top:5px; opacity:1.0; box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.3);}
 table { border-collapse: collapse; margin: auto; width: 95%;}
 h4{color:blue; text-align:center; text-decoration: underline; }
 .abt{color:red; text-decoration: underline; }
-        
 </style>
 </head>
 <body>
 <div class='container'>
 
-<div class='header'>
-<h4 class='heading'>IBAP Retirees' Google Group</h4>
-</div>
+        <div class='header'>
+        <h4 class='heading'>IBAP Retirees' Google Group</h4>
+        </div>
 
 
-<div class='login' id="login">
- <table border=0 id='loginTable'>
-            <tr>
-                <td onclick="getCelValue(1)">1
-                <td onclick="getCelValue(2)">2
-                <td onclick="getCelValue(3)">3
-            <tr>
-                <td onclick="getCelValue(4)">4
-                <td onclick="getCelValue(5)">5
-                <td onclick="getCelValue(6)">6
-            <tr>
-                <td onclick="getCelValue(7)">7
-                <td onclick="getCelValue(8)">8
-                <td onclick="getCelValue(9)">9
-            <tr>
-                <td onclick="deleteChar()" class='small'>x
-                <td onclick="getCelValue(0)">0
-                <td class='tdgo' name='submit' onclick="goClick()" >Go
+        <div class='login' id="login">
+        <table border=0 id='loginTable'>
+        <tr> <td onclick="getCelValue(1)">1 <td onclick="getCelValue(2)">2 <td onclick="getCelValue(3)">3            
+        <tr> <td onclick="getCelValue(4)">4 <td onclick="getCelValue(5)">5 <td onclick="getCelValue(6)">6            
+        <tr> <td onclick="getCelValue(7)">7 <td onclick="getCelValue(8)">8 <td onclick="getCelValue(9)">9
+        <tr> <td onclick="deleteChar()" class='small'>x <td onclick="getCelValue(0)">0 <td class='tdgo' name='submit' onclick="goClick()" >Go
         </table>
         </div>
         
         <div id='buttonsDiv'>
-        <div id="btn1"  class="btns btn1"><p>Search By Name</p></div>
-        <div onclick="btn2Click()" id="btn2"  class="btns btn2"><p>Events This Week</p></div>
-        <div onclick="btn3Click()"   id="btn3"  class="btns btn3"><p>Members Living in</p></div>
-        <div onclick="btn4Click()"   id="btn4"  class="btns btn4"><p>Who Worked in This Branch</p></div>
-        <div id="btn5"  class="btns btn5"><p>SR No / Name / Place / Mobile No</p></div>
-        <div onclick="btn6Click()"  id="btn6"  class="btns btn6"><p>Data Correction</p></div>
-        <div id="btn7"  class="btns btn7"><p>Welfare</p></div>
-        <div onclick="btn8Click()" id="btn8"  class="btns btn8"><p>About</p></div>
+                <div id="btn1"  class="btns btn1"><p>Search By Name</p></div>
+                <div onclick="btn2Click()" id="btn2"  class="btns btn2"><p>Events This Week</p></div>
+                <div onclick="btn3Click()" id="btn3"  class="btns btn3"><p>Members Living in</p></div>
+                <div onclick="btn4Click()" id="btn4"  class="btns btn4"><p>Who Worked in This Branch</p></div>
+                <div id="btn5"  class="btns btn5"><p>SR No / Name / Place / Mobile No</p></div>
+                <div onclick="btn6Click()" id="btn6"  class="btns btn6"><p>Data Correction</p></div>
+                <div id="btn7"  class="btns btn7"><p>Welfare</p></div>
+                <div onclick="btn8Click()" id="btn8"  class="btns btn8"><p>About</p></div>
 		</div>
+        
         <div id='display1'></div>
         <div id='display2'></div>
-</div>
+        </div>
 
-<div id="homeDiv" onclick="showHome()"><br>Home </div>
+        <div id="homeDiv" onclick="showHome()"><br>Home </div>
 
-<div onclick="quickMenuClick()" id="middleDiv" >Q
-<div id='middleDivMenu'>
-<br>
-<span onclick="javascript:alert('Search')">Search</span><br><br>
-<span onclick="btn2Click()">Events</span><br><br>
-<span onclick="btn3Click()">Cities</span><br><br>
-<span onclick="btn4Click()">Branches</span><br><br></div>
-</div>
-</div>
-
-
-
+        <div onclick="quickMenuClick()" id="middleDiv" >Quick
+                <div id='middleDivMenu'><br>
+                        <span onclick="javascript:alert('Search')">Search</span><br><br>
+                        <span onclick="btn2Click()">Events</span><br><br>
+                        <span onclick="btn3Click()">Cities</span><br><br>
+                        <span onclick="btn4Click()">Branches</span><br><br></div>
+                </div>
+        </div>
 
 
 </div>
@@ -107,17 +82,15 @@ var about="";
 alphasorted=[];
 var dataCorrection =
 
- cd = new Date()
-        fd = new Date();
-        monthsArray = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-        fd.setDate(fd.getDate() + 7);
-        //cd.setDate(cd.getDate() + 21);
-        currMonth = cd.getMonth() + 1
-        currDate = cd.getDate()
-        futureMonth = fd.getMonth() + 1
-        futureDate = fd.getDate()
-
-  url = 'https://script.google.com/macros/s/AKfycbwU43y7aw-hY8rjx77YgViB5Vs2H5yv7i5GMuUUfB6YMLbEQn3D/exec'
+cd = new Date()
+fd = new Date();
+monthsArray = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+fd.setDate(fd.getDate() + 7);
+currMonth = cd.getMonth() + 1
+currDate = cd.getDate()
+futureMonth = fd.getMonth() + 1
+futureDate = fd.getDate()
+url = 'https://script.google.com/macros/s/AKfycbwU43y7aw-hY8rjx77YgViB5Vs2H5yv7i5GMuUUfB6YMLbEQn3D/exec'
 
         async function getMyData() {
             response = await fetch(url)
@@ -141,7 +114,6 @@ var dataCorrection =
 
         getMyData()
             brworked_table_create()
-            
             function createCityTable() { 
             cityTable = "<h4 align=center> Members Living in </h4><table id='citiesTable' width=340px border=1 align=center>"
             for (i = 0; i < mycities.length; i++) { cityTable += "<tr><td><span onclick='onCityClick(this.id)'id='" + i + "'>" + mycities[i] + "</span></td></tr>" }
@@ -175,8 +147,6 @@ var dataCorrection =
             checkBranchError = alphasorted.map(a => ({ srno: a.srno, name: a.name, newbrlist: a.newbrlist, newbrlistend: a.newbrlist.substr(-1) != "," })).filter(a => a.newbrlistend === true)
         }
 
-
-
         function brworked_table_create() {
             allbr = tempData.map(a => a.newbrlist)
             uniqueArray = unq(allbr.flat(1).join().split(",").map((item) => item.trim()).sort())
@@ -197,54 +167,53 @@ var dataCorrection =
                     if (brarray[j].trim() === brselected) {
                         workedlist += "<tr><td><span onClick='nameclick(this.id)' id=" + tempBrlist[i].srno + ">" + tempBrlist[i].name + "</span>"
                     }
-
             }
             workedlist += "</table>"
             document.getElementById("display2").style.display="block"
             document.getElementById("display1").style.display="none"
             document.getElementById("display2").innerHTML=workedlist += "</table><br><br><br>"
         }
-  function eventsThisWeek_create() {
-              bdays = alphasorted.map(a => ({ srno: a.srno, name: a.name, bm: a.bm, bd: a.bd }))
-            mdays = alphasorted.map(a => ({ srno: a.srno, name: a.name, mm: a.mm, md: a.md }))
+        function eventsThisWeek_create() {
+        bdays = alphasorted.map(a => ({ srno: a.srno, name: a.name, bm: a.bm, bd: a.bd }))
+        mdays = alphasorted.map(a => ({ srno: a.srno, name: a.name, mm: a.mm, md: a.md }))
 
-            //Birthdays this week:
-            bd1 = bdays.filter(a => a.bm === currMonth).filter(a => a.bd >= currDate).filter(a => a.bd <= futureDate).sort((a, b) => a.bd - b.bd)
-            //Birthdays this week - if spread over next month:
-            bd2=[];
-             if(currMonth!=futureMonth){
-            bd2 = bdays.filter(a => a.bm === futureMonth).filter(a => a.bd <= futureDate).sort((a, b) => a.bd - b.bd)}
+        //Birthdays this week:
+        bd1 = bdays.filter(a => a.bm === currMonth).filter(a => a.bd >= currDate).filter(a => a.bd <= futureDate).sort((a, b) => a.bd - b.bd)
+        //Birthdays this week - if spread over next month:
+        bd2=[];
+         if(currMonth!=futureMonth){
+        bd2 = bdays.filter(a => a.bm === futureMonth).filter(a => a.bd <= futureDate).sort((a, b) => a.bd - b.bd)}
 
-            //Anniversary this week:
-            md1 = mdays.filter(a => a.mm === currMonth).filter(a => a.md >= currDate).filter(a => a.md <= futureDate).sort((a, b) => a.md - b.md)
-            //Anniversary this week - if spread over next month:
-            md2=[];
-             if(currMonth!=futureMonth){
-            md2 = mdays.filter(a => a.mm === futureMonth).filter(a => a.md <= futureDate).sort((a, b) => a.md - b.md)}
-            bdtable = `<table  border=1 align=center style='  border-collapse: collapse; border: 1px solid black; '>
-            <tr><td colspan=2 align=center style='background:pink;'> Birthdays`
+        //Anniversary this week:
+        md1 = mdays.filter(a => a.mm === currMonth).filter(a => a.md >= currDate).filter(a => a.md <= futureDate).sort((a, b) => a.md - b.md)
+        //Anniversary this week - if spread over next month:
+        md2=[];
+        if(currMonth!=futureMonth){
+        md2 = mdays.filter(a => a.mm === futureMonth).filter(a => a.md <= futureDate).sort((a, b) => a.md - b.md)}
+        bdtable = `<table  border=1 align=center style='  border-collapse: collapse; border: 1px solid black; '>
+        <tr><td colspan=2 align=center style='background:pink;'> Birthdays`
 
-            bd1.forEach(function (a) { bdtable += "<tr><td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span><td>" + monthsArray[a.bm] + ", " + a.bd })
-            bd2.forEach(function (a) { bdtable += "<tr><td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span><td>" + monthsArray[a.bm] + ", " + a.bd })
+        bd1.forEach(function (a) { bdtable += "<tr><td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span><td>" + monthsArray[a.bm] + ", " + a.bd })
+        bd2.forEach(function (a) { bdtable += "<tr><td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span><td>" + monthsArray[a.bm] + ", " + a.bd })
 
-            bdtable += "<tr><td  colspan=2 align=center style='background:pink;'>Marriage Anniversaries"
-            md1.forEach(function (a) { bdtable += "<tr><td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span><td>" + monthsArray[a.mm] + ", " + a.md })
-            md2.forEach(function (a) { bdtable += "<tr><td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span><td>" + monthsArray[a.mm] + ", " + a.md })
+        bdtable += "<tr><td  colspan=2 align=center style='background:pink;'>Marriage Anniversaries"
+        md1.forEach(function (a) { bdtable += "<tr><td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span><td>" + monthsArray[a.mm] + ", " + a.md })
+        md2.forEach(function (a) { bdtable += "<tr><td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span><td>" + monthsArray[a.mm] + ", " + a.md })
 
-
-            bdtable += "</table><br><br>"
+        bdtable += "</table><br><br>"
         }        
         
-            function unq(a) {return Array.from(new Set(a));}
+        function unq(a) {return Array.from(new Set(a));}
 
-function quickMenuClick(){
-getDisplayStatus = document.getElementById("middleDivMenu")
- if (getDisplayStatus.style.display === "none") {
-    getDisplayStatus.style.display = "block";
-  } else {
-    getDisplayStatus.style.display = "none";
-  }
-}
+        function quickMenuClick(){
+        getDisplayStatus = document.getElementById("middleDivMenu")
+         if (getDisplayStatus.style.display === "none") {
+            getDisplayStatus.style.display = "block";
+          } else {
+            getDisplayStatus.style.display = "none";
+          }
+        //   setTimeout(function(){ document.getElementById("middleDivMenu").style.display='none'; }, 5000);
+        }
 
 
         function goClick(){
@@ -256,6 +225,7 @@ getDisplayStatus = document.getElementById("middleDivMenu")
         document.getElementById("display1").innerHTML=bdtable
         document.getElementById("display1").style.display="block"
         document.getElementById("buttonsDiv").style.display="none"
+        document.getElementById("middleDiv").style.display="block"
         document.getElementById("homeDiv").style.display="block"
         }
         
@@ -264,6 +234,7 @@ getDisplayStatus = document.getElementById("middleDivMenu")
         document.getElementById("display1").style.display="block"
         document.getElementById("buttonsDiv").style.display="none"
         document.getElementById("homeDiv").style.display="block"
+        document.getElementById("middleDiv").style.display="block"
         }
 
         function btn4Click(){
@@ -272,9 +243,8 @@ getDisplayStatus = document.getElementById("middleDivMenu")
         document.getElementById("display1").style.display="block"
         document.getElementById("buttonsDiv").style.display="none"
         document.getElementById("homeDiv").style.display="block"
+        document.getElementById("middleDiv").style.display="block"
         }
-
-         
          
         function btn8Click(){
         aboutData()
@@ -282,34 +252,34 @@ getDisplayStatus = document.getElementById("middleDivMenu")
         document.getElementById("display1").style.display="block"
         document.getElementById("buttonsDiv").style.display="none"
         document.getElementById("homeDiv").style.display="block"
-        }
+        document.getElementById("middleDiv").style.display="block"
+		}
         function btn6Click(){
         dataCorrectionData()
         document.getElementById("homeDiv").style.display="block"
         document.getElementById("display1").innerHTML=dataCorrection
         document.getElementById("display1").style.display="block"
         document.getElementById("buttonsDiv").style.display="none"
+        document.getElementById("middleDiv").style.display="block"
         }
 
         function showHome(){
         document.getElementById("homeDiv").style.display="none"
         document.getElementById("display1").style.display="none"
         document.getElementById("display2").style.display="none"
-
         document.getElementById("buttonsDiv").style.display="block"
+        document.getElementById("middleDiv").style.display="none"
         }
 
         function dataCorrectionData(){
+        document.getElementById("middleDiv").style.display="block"
         dataCorrection = `For Data updation please send a WhatsApp Message/ Email to the following persons<br><br><b>VM Seshasayan:</b> <br>Mobile: 9849750184 <br>Email: seshasayan.vm@gmail.com<br><br><b>GVSS Markandeyulu: </b><br>Mobile: 9989036183<br> Email: gvssmark@gmail.com<br><br> <b> Please Allow 1 or 2 days for updating the data..</b> <br>`
-
         }
+
         function aboutData(){
+        document.getElementById("middleDiv").style.display="block"
         about = `<b>IBAP-Retirees Google Group</b> was started with an intention, to have a common platform, to  discuss about Retirees Issues and for exchanges of thoughts of common interest, among the retirees of Indian Bank  of AP &  Telangana States. This group is not affiliated to any Association. No membership fees to join this group. Presently, we have <b><span class='abt'>  ${alphasorted.length} </span> </b>members in this group.<br><br> <b>Address Book</b> Later we thought, it will be convenient to have an address book of Indian Bank Retirees of Telangana and Andhra Pradesh, with Photos. So we have designed a format to have the details of the retirees and upto now <span class='abt'><b> ${alphasorted.length} </b></span> retired staff members irrespective of their designation in the Bank and irrespective of their affiliation to the associations gave their details.<br><br>  <b>IB Friends WhatsApp group</b> Subsequently, we have started IB Friends WhatsApp group for the convenience of Smart Phone mobile users. Presently there are 201 participants in this group.<br><br> All the three groups are separate. Retired staff members can choose any one , or two or all the three groups This is purely optional. <br><br> Once again, we wish to inform you that <mark>these three groups are not a part of any association nor against any association</mark>. These are purely for inter communication among the Retired Staff members of Indian Bank.<br> `
         }
-
-
-
 </script>
-
 </body>
 </html>

@@ -69,10 +69,13 @@ h4{color:blue; text-align:center; text-decoration: underline; }
 
         <div onclick="quickMenuClick()" id="middleDiv" >Quick
                 <div id='middleDivMenu'>
-                <table><tr><td><span onclick="javascript:alert('Search')">Search</span>
+                <table><tr>
+		<td><span onclick="javascript:alert('Search')">Search</span>
                 <td><span onclick="btn2Click()">Events</span>
                 <td><span onclick="btn3Click()">Cities</span>
-                <td><span onclick="btn4Click()">Branches</span></table>
+                <td><span onclick="btn4Click()">Branches</span>
+		<td><span onclick="btn4Click()">Data</span>
+		</table>
                    </div>
                 </div>
         </div>
@@ -199,8 +202,8 @@ url = 'https://script.google.com/macros/s/AKfycbwU43y7aw-hY8rjx77YgViB5Vs2H5yv7i
         bd2.forEach(function (a) { bdtable += "<tr><td>"+ monthsArray[a.bm] + ", " + a.bd+"<td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span>"  })
 
         bdtable += "<tr><td  colspan=2 align=center style='background:pink;'>Marriage Anniversaries"
- md1.forEach(function (a) { bdtable += "<tr><td>"+ monthsArray[a.mm] + ", " + a.md+"<td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span>"  })
- md2.forEach(function (a) { bdtable += "<tr><td>"+ monthsArray[a.mm] + ", " + a.md+"<td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span>"  })
+        md1.forEach(function (a) { bdtable += "<tr><td>"+ monthsArray[a.mm] + ", " + a.md+"<td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span>"  })
+        md2.forEach(function (a) { bdtable += "<tr><td>"+ monthsArray[a.mm] + ", " + a.md+"<td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span>"  })
         bdtable += "</table><br><br>"
         }        
         

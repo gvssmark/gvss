@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>IBAP RETIREES GOOGLE GROUP</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBAP RETIREES GOOGLE GROUP</title>
 <style>
 body{margin:0px; background:rgba(231, 226, 228, 0.8); width:360px; height:100%; }
 .container{width:360px; height:100%; background:rgba(231, 226, 228, 0.8)}
 .header{width:360px; height:60px;  top:0; position:fixed; background:rgba(255, 99, 71, 1)}
 .heading{text-align: center; color:black; font-size:16px; margin-top:20px; text-decoration:none; }
-#loginTable {border-collapse:collapse; margin-top:120px; width:225px; margin-left:62px; font-size: 50px; text-align: center; background: #008B8B; color: white; border-radius: 25px;   box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4); }
-#loginTable>td { width: 75px;}
-#loginTable>tr { height: 75px;}
-.tdgo{font-size:20px;}
+#loginTable {border-collapse:collapse; margin-top:1px; width:250px; margin-left:55px; font-size: 50px; text-align: center; background: #008B8B; color: white; border-radius: 25px;   box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4); }
+.tdgo{background:#008B8B; text-aling:center; font-size:40px; color:cyan; border:none;  }
 #buttonsDiv{margin-top:50px; display:none; padding:15px;}
-.btns{width:300px; margin:auto; height:40px; text-align:center; font-size: 16px; color:black; box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4);  border-radius:25px;}
+.btns{width:300px; margin:auto; height:40px; text-align:center; font-size: 16px; line-height: 25px; color:black; box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4);  border-radius:25px;}
 .btn1{background: rgba(255, 99, 64, 0.3)}
 .btn2{background: rgba(177, 13, 120, 0.2)}
 .btn3{background: rgba(0, 119, 181, 0.2)}
@@ -29,25 +27,53 @@ p{padding:8px;}
 #middleDiv{ width: 55px; height: 25px; border-radius: 20px; margin-left: 300px; padding: 0px; margin-top: 500px; z-index: 9; background: red; position: fixed; color: white; text-align: center; display: none; top:5px; font-size:large; box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.3);}
 #middleDivMenu{color: red; display: none; background: yellow; width: 355px; margin-left: -297px; margin-top: 6px; opacity: 1.0; bottom: 0px; box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.3);}
 table { border-collapse: collapse; margin: auto; width: 95%;}
-h4{color:blue; text-align:center; text-decoration: underline; }
+h4{color:blue; text-align:center; text-decoration: none; }
 .abt{color:red; text-decoration: underline; }
+#mobileTable { margin-top: 5px; font-size: x-small; border-collapse: collapse; border: 1px solid black; }
+table thead tr th {background-color: red; position: sticky; z-index: 100; margin-top:35px; top: 0; color: white;}
+.logintr{height:75px; }
+.logintd{width:75px;}
+#collectedSR {font-size: 20px;color: black;background: yellow;width: 200px;margin-left: 70px;margin-bottom: 5px;border-radius: 15px; text-align: center; margin-top:80px;}
+.caution {text-align: center;margin: 5px;margin-top: 10px;}
+#notAmember {display: none;font-size: x-large;margin: auto;}
 </style>
 </head>
 <body>
 <div class='container'>
-
-        <div class='header'>
-        <h4 class='heading'>IBAP Retirees' Google Group</h4>
-        </div>
-
+ <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+        <div class='header'><h4 class='heading'>IBAP Retirees' Google Group</h4></div>
 
         <div class='login' id="login">
+        <p id='collectedSR' >Enter SR No</p>
         <table border=0 id='loginTable'>
-        <tr> <td onclick="getCelValue(1)">1 <td onclick="getCelValue(2)">2 <td onclick="getCelValue(3)">3            
-        <tr> <td onclick="getCelValue(4)">4 <td onclick="getCelValue(5)">5 <td onclick="getCelValue(6)">6            
-        <tr> <td onclick="getCelValue(7)">7 <td onclick="getCelValue(8)">8 <td onclick="getCelValue(9)">9
-        <tr> <td onclick="deleteChar()" class='small'>x <td onclick="getCelValue(0)">0 <td class='tdgo' name='submit' onclick="goClick()" >Go
+        <tr class='logintr' > <td class='logintd' onclick="getCelValue(1)">1 <td class='logintd'  onclick="getCelValue(2)">2 <td class='logintd'  onclick="getCelValue(3)">3            
+        <tr class='logintr' > <td onclick="getCelValue(4)">4 <td onclick="getCelValue(5)">5 <td onclick="getCelValue(6)">6            
+        <tr class='logintr' > <td onclick="getCelValue(7)">7 <td onclick="getCelValue(8)">8 <td onclick="getCelValue(9)">9
+        <tr class='logintr' > <td onclick="deleteChar()" class='small'>x <td onclick="getCelValue(0)">0 
+        
+         <form 
+        action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSe_z9Bt_fTKZUFUD3VSf8HI0aS0P8qIvIQcFzY73kf2GoCBvQ/formResponse"
+        method="post" target="hidden_iframe" onsubmit="goClick(); ">
+        <input style="display:none" id='formsrno' name="entry.295281826">
+        <td  onclick=" goClick()"  ><input type=submit class='tdgo' style=''   value=Go>
+        </form>
+        
         </table>
+              <input id='loginSrNo' style='display:none' placeholder="Enter SR No to view address book" type="number"
+            oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
+            onfocus="javascript:document.getElementById('notAmember').style.display = 'none' "><br><br><br>
+        <input style='display:none' class="button button2" type="button" value='Submit' onclick="verifyLogin()">
+
+        <p class='caution'>This application behaves like a native app.
+            <br /><br /><b>Back Button</b> will always <b>EXIT</b> from the app.<br /><br /> Use Menus provided in
+            the
+            app to
+            navigate.
+        </p>
+        <p align=center id='notAmember'><b>You are not a
+                Member<br><a
+                    href='https://docs.google.com/forms/d/e/1FAIpQLSeBrp4C8dL5uSj3HmE8r9bBpgwTGcuzzPAyce7Y1BDotK2jVw/viewform?usp=sf_link'>Submit
+                    Your Data</a></b></p>
         </div>
         
         <div id='buttonsDiv'>
@@ -55,7 +81,7 @@ h4{color:blue; text-align:center; text-decoration: underline; }
                 <div onclick="btn2Click()" id="btn2"  class="btns btn2"><p>Events This Week</p></div>
                 <div onclick="btn3Click()" id="btn3"  class="btns btn3"><p>Members Living in</p></div>
                 <div onclick="btn4Click()" id="btn4"  class="btns btn4"><p>Who Worked in This Branch</p></div>
-                <div id="btn5"  class="btns btn5"><p>SR No / Name / Place / Mobile No</p></div>
+                <div onclick="btn5Click()"id="btn5"  class="btns btn5"><p>SR No / Name / Place / Mobile No</p></div>
                 <div onclick="btn6Click()" id="btn6"  class="btns btn6"><p>Data Correction</p></div>
                 <div id="btn7"  class="btns btn7"><p>Welfare</p></div>
                 <div onclick="btn8Click()" id="btn8"  class="btns btn8"><p>About</p></div>
@@ -63,25 +89,24 @@ h4{color:blue; text-align:center; text-decoration: underline; }
         
         <div id='display1'></div>
         <div id='display2'></div>
-        </div>
+       
 
         <div id="homeDiv" onclick="showHome()">Home </div>
 
         <div onclick="quickMenuClick()" id="middleDiv" >Quick
                 <div id='middleDivMenu'>
                 <table><tr>
-		<td><span onclick="javascript:alert('Search')">Search</span>
+                <td><span onclick="javascript:alert('Search')">Search</span>
                 <td><span onclick="btn2Click()">Events</span>
                 <td><span onclick="btn3Click()">Cities</span>
                 <td><span onclick="btn4Click()">Branches</span>
-		<td><span onclick="btn4Click()">Data</span>
-		</table>
-                   </div>
+                <td><span onclick="btn5Click()">Data</span>
+                </table>
+                
                 </div>
         </div>
 
-
-</div>
+</div>  
 <script>
 var about="";
 alphasorted=[];
@@ -101,24 +126,30 @@ url = 'https://script.google.com/macros/s/AKfycbwU43y7aw-hY8rjx77YgViB5Vs2H5yv7i
             response = await fetch(url)
             data = await response.json()
             tempData = data["user"].sort((a, b) => a.srno - b.srno);
-            alphasorted = tempData.sort((a, b) => {
-                let fa = a.name.toLowerCase(), fb = b.name.toLowerCase();
-                if (fa < fb) { return -1; }
-                if (fa > fb) { return 1; }
-                return 0;
-            })
-            allmarriagedays = alphasorted.filter(a => a.mm != 0)
-            allbirthdays = alphasorted.filter(a => a.bm != 0)
-            mycities = Array.from(new Set(tempData.map(s => s.add3))).sort()
-            createCityTable()
+            alphasorted = tempData.sort(function (a, b) { return a.name.localeCompare(b.name) })
+            mycities = Array.from(new Set(alphasorted.map(s => s.add3))).sort()
             getVariousArrays()
-            eventsThisWeek_create()
-            brworked_table_create()
-            rawDataTable_create()
         }
 
         getMyData()
-            brworked_table_create()
+        
+        function verifyLogin() {
+   //         logsrno = document.getElementById("loginSrNo").value
+            logsrno = +sr;
+            logindata = tempData.filter(a => a.srno === logsrno * 1)
+            if (logindata.length >0) {
+                document.getElementById("buttonsDiv").style.display = "block";
+                document.getElementById("login").style.display = "none";
+                document.getElementById('formsrno').value = logsrno // loggining the data
+            }
+            else {
+                document.getElementById("notAmember").style.display = "block";
+                 document.getElementById("buttonsDiv").style.display = "none";
+                document.getElementById("loginSrNo").value = ""
+            }
+        }
+  
+                      
             function createCityTable() { 
             cityTable = "<h4 align=center> Members Living in </h4><table id='citiesTable' width=340px border=1 align=center>"
             for (i = 0; i < mycities.length; i++) { cityTable += "<tr><td><span onclick='onCityClick(this.id)'id='" + i + "'>" + mycities[i] + "</span></td></tr>" }
@@ -148,12 +179,10 @@ url = 'https://script.google.com/macros/s/AKfycbwU43y7aw-hY8rjx77YgViB5Vs2H5yv7i
             nameSort = alphasorted.map(a => ({ srno: a.srno, name: a.name, add3: a.add3, mob1: a.mob1 })).sort(function (a, b) { return a.name.localeCompare(b.name) })
             mobileSort = alphasorted.map(a => ({ srno: a.srno, name: a.name, add3: a.add3, mob1: a.mob1 })).sort((a, b) => a.mob1 - b.mob1)
             placeSort = alphasorted.map(a => ({ srno: a.srno, name: a.name, add3: a.add3, mob1: a.mob1 })).sort(function (a, b) { return a.add3.localeCompare(b.add3) })       
-            // if branch names joined use this to check
-            checkBranchError = alphasorted.map(a => ({ srno: a.srno, name: a.name, newbrlist: a.newbrlist, newbrlistend: a.newbrlist.substr(-1) != "," })).filter(a => a.newbrlistend === true)
         }
 
         function brworked_table_create() {
-            allbr = tempData.map(a => a.newbrlist)
+            allbr = alphasorted.map(a => a.newbrlist)
             uniqueArray = unq(allbr.flat(1).join().split(",").map((item) => item.trim()).sort())
             brworked_table_text = "<table border=1 id='id_brWorked'>"
             for (i = 1; i < uniqueArray.length; i++) { brworked_table_text += "<tr><td><span onclick=' getIdFromAllBranchTable(this.id)' id='" + i + "'>" + uniqueArray[i] + "</span></td></tr>" }
@@ -234,6 +263,7 @@ url = 'https://script.google.com/macros/s/AKfycbwU43y7aw-hY8rjx77YgViB5Vs2H5yv7i
         }
         
         function btn3Click(){
+        createCityTable()
         document.getElementById("display1").innerHTML=cityTable
         document.getElementById("display1").style.display="block"
         document.getElementById("buttonsDiv").style.display="none"
@@ -249,7 +279,31 @@ url = 'https://script.google.com/macros/s/AKfycbwU43y7aw-hY8rjx77YgViB5Vs2H5yv7i
         document.getElementById("homeDiv").style.display="block"
         document.getElementById("middleDiv").style.display="block"
         }
-         
+        
+        function btn5Click(){
+           xx=""
+           rawTable = `<h4>Click on Table Heading for sorting</h4><table id='mobileTable' border=1 align=center><thead ><th style='height:25px; '  onclick='getThSort(srnoSort)' >SR<th onclick='getThSort(nameSort)' >Name<th onclick='getThSort(placeSort)' >Place<th onclick='getThSort(mobileSort)' >Mobile</thead>`
+           nameSort.forEach(function (a) { xx += "<tr><td>" + a.srno + "<td> <span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + " </span><td>" + a.add3 + "<td>" + a.mob1 })
+           rawTable += xx + "</table><br><br>"
+           document.getElementById("display1").innerHTML = rawTable
+           document.getElementById("buttonsDiv").style.display="none"
+           document.getElementById("homeDiv").style.display="block"
+           document.getElementById("middleDiv").style.display="block"           
+           document.getElementById("display1").style.display="block"           
+        } 
+ 
+         function getThSort(whatSort){
+            xx=""
+            rawTable = `<h4>Click on Table Heading for sorting</h4><table id='mobileTable' border=1 align=center><thead ><th style='height:25px; '  onclick='getThSort(srnoSort)' >SR<th onclick='getThSort(nameSort)' >Name<th onclick='getThSort(placeSort)' >Place<th onclick='getThSort(mobileSort)' >Mobile</thead>`
+            whatSort.forEach(function (a) { xx += "<tr><td>" + a.srno + "<td> <span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + " </span><td>" + a.add3 + "<td>" + a.mob1 })
+            rawTable += xx + "</table><br><br>"
+            document.getElementById("display1").innerHTML = rawTable
+            document.getElementById("buttonsDiv").style.display="none"
+            document.getElementById("homeDiv").style.display="block"
+            document.getElementById("middleDiv").style.display="block" 
+            document.getElementById("display1").style.display="block"    
+        } 
+        
         function btn8Click(){
         aboutData()
         document.getElementById("display1").innerHTML=about
@@ -266,7 +320,9 @@ url = 'https://script.google.com/macros/s/AKfycbwU43y7aw-hY8rjx77YgViB5Vs2H5yv7i
         document.getElementById("buttonsDiv").style.display="none"
         document.getElementById("middleDiv").style.display="block"
         }
-
+        
+        function nameclick (srno){alert(srno)} 
+        
         function showHome(){
         document.getElementById("homeDiv").style.display="none"
         document.getElementById("display1").style.display="none"
@@ -284,6 +340,31 @@ url = 'https://script.google.com/macros/s/AKfycbwU43y7aw-hY8rjx77YgViB5Vs2H5yv7i
         document.getElementById("middleDiv").style.display="block"
         about = `<b>IBAP-Retirees Google Group</b> was started with an intention, to have a common platform, to  discuss about Retirees Issues and for exchanges of thoughts of common interest, among the retirees of Indian Bank  of AP &  Telangana States. This group is not affiliated to any Association. No membership fees to join this group. Presently, we have <b><span class='abt'>  ${alphasorted.length} </span> </b>members in this group.<br><br> <b>Address Book</b> Later we thought, it will be convenient to have an address book of Indian Bank Retirees of Telangana and Andhra Pradesh, with Photos. So we have designed a format to have the details of the retirees and upto now <span class='abt'><b> ${alphasorted.length} </b></span> retired staff members irrespective of their designation in the Bank and irrespective of their affiliation to the associations gave their details.<br><br>  <b>IB Friends WhatsApp group</b> Subsequently, we have started IB Friends WhatsApp group for the convenience of Smart Phone mobile users. Presently there are 201 participants in this group.<br><br> All the three groups are separate. Retired staff members can choose any one , or two or all the three groups This is purely optional. <br><br> Once again, we wish to inform you that <mark>these three groups are not a part of any association nor against any association</mark>. These are purely for inter communication among the Retired Staff members of Indian Bank.<br> `
         }
+            sr = ""
+        function getCelValue(a) {
+    //        document.getElementById('notAmember').style.display = 'none'
+            sr += a
+            allNumbers()
+        }
+
+        function allNumbers() {
+        document.getElementById('collectedSR').innerHTML = sr}
+
+        function deleteChar() {
+            l = sr.length
+            sr = sr.substring(0, l - 1)
+            document.getElementById('collectedSR').innerHTML = sr
+                 srnolength = document.getElementById('collectedSR').innerHTML.length
+                if (srnolength == 0) { document.getElementById('collectedSR').innerHTML = "Enter SR No" }
+        }
+
+            function goClick() {
+            logsrno = +sr
+    //        document.getElementById('formsrno').value= logsrno
+              verifyLogin()
+        }     
+        
+        
 </script>
 </body>
 </html>

@@ -352,6 +352,7 @@ url = 'https://script.google.com/macros/s/AKfycbwU43y7aw-hY8rjx77YgViB5Vs2H5yv7i
         document.getElementById('collectedSR').innerHTML = sr}
 
         function deleteChar() {
+		        document.getElementById("notAmember").style.display = "none";
             l = sr.length
             sr = sr.substring(0, l - 1)
             document.getElementById('collectedSR').innerHTML = sr

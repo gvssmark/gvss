@@ -23,7 +23,7 @@ body {margin: 0px;background: rgba(231, 226, 228, 0.8);width: 360px;height: 100%
 .btn7 {background: rgba(0, 255, 5, 0.2)}
 .btn8 {background: rgba(205, 255, 1, 0.2)}
 p {padding: 8px;}
-#display1 {margin-top: 80px;margin-left: 5px;}
+#display1 {margin-top: 10px;margin-left: 5px; }
 #display2 {margin-top: 80px;margin-left: 5px;}
 #homeDiv {width: 55px;height: 55px;border-radius: 50px;margin-left: 303px;padding: 0px;margin-top: -3px;z-index: 2;background: blue;position: fixed;color: white;text-align: center;display: none;top: 5px;font-weight: bold;box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.3);line-height: 50px;}
 #middleDiv {z-index: 2;width: 55px;height: 25px;border-radius: 20px;margin-left: 300px;padding: 0px;margin-top: 500px;z-index: 9;background: red;position: fixed;color: white;text-align: center;display: none;top: 5px;font-size: large;box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.3);}
@@ -32,7 +32,7 @@ table {border-collapse: collapse;margin: auto;width: 95%;}
 h4 {color: blue;text-align: center;text-decoration: none;}
 .abt {color: red;text-decoration: underline;}
 #mobileTable {margin-top: 5px;font-size: x-small;border-collapse: collapse;border: 1px solid black;}
-table thead tr th {background-color: red;position: sticky;z-index: 100;margin-top: 35px;top: 0;color: white;}
+table thead tr th {background-color: red;position: sticky;z-index: 10;margin-top: 35px;top: 0;color: white;}
 .logintr {height: 75px;}
 .logintd {width: 75px;}
 #collectedSR {color: black;background: yellow;width: 200px;margin-left: 70px;margin-bottom: 5px;border-radius: 15px;text-align: center;margin-top: 80px;}
@@ -41,16 +41,31 @@ table thead tr th {background-color: red;position: sticky;z-index: 100;margin-to
 .modal {display: none;position: fixed;z-index: 10;padding-top: 1px;left: 0;top: 0;width: 360px;height: 100%;overflow: auto;background-color: rgb(0, 0, 0);background-color: rgba(0, 0, 0, 0.4);}
 .modal-content {background-color: #ffe7c0;margin: auto;padding: 2px;padding-bottom: 2px;border: 1px solid #888;width: 95%;border-radius: 15px;}
 .close {color: #fd0b20;float: right;font-size: 28px;font-weight: bold;}
-#nameHeader{text-align: center;}
+#nameHeader{text-align: center; font-size:large; margin-top:10px;}
+table.bio{font-size:small;  border-left:0px; border-right:0px; padding:0px;}
+b{color:red; }
+#modalData{padding:0px;}
+
+
+ #myInput {
+            margin-top: 60px;
+            width: 180px;
+            margin-left: 25%;
+            height: 30px;
+            border-radius: 15px;
+            background-color: cyan;
+            border: 0px;
+            outline: 0;
+            display:none;
+        }
     </style>
 </head>
 
 <body>
+<input type="text" id='myInput' onkeyup="dispdata()" placeholder="Search for a Name here...">
     <div class='container'>
         <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
-        <div class='header'>
-            <h4 class='heading'>IBAP Retirees' Google Group</h4>
-        </div>
+        <div class='header'> <h4 class='heading'>IBAP Retirees' Google Group</h4></div>
 
         <div class='login' id="login">
             <p id='collectedSR'>Enter SR No</p>
@@ -71,14 +86,12 @@ table thead tr th {background-color: red;position: sticky;z-index: 100;margin-to
                     <td onclick="deleteChar()" class='small'>x
                     <td onclick="getCelValue(0)">0
 
-                        <form
-                            action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSe_z9Bt_fTKZUFUD3VSf8HI0aS0P8qIvIQcFzY73kf2GoCBvQ/formResponse"
-                            method="post" target="hidden_iframe" onsubmit="goClick(); ">
-                            <input style="display:none" id='formsrno' name="entry.295281826-1">
+                    <form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSe_z9Bt_fTKZUFUD3VSf8HI0aS0P8qIvIQcFzY73kf2GoCBvQ/formResponse"  method="post" target="hidden_iframe" onsubmit="goClick(); ">
+                    <input style="display:none" id='formsrno' name="entry.295281826-1">
                     <td onclick=" goClick()"><input type=submit class='tdgo' style='' value=Go>
-                        </form>
-
+                    </form>
             </table>
+            
             <input id='loginSrNo' style='display:none' placeholder="Enter SR No to view address book" type="number"
                 oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
                 onfocus="javascript:document.getElementById('notAmember').style.display = 'none' "><br><br><br>
@@ -95,7 +108,7 @@ table thead tr th {background-color: red;position: sticky;z-index: 100;margin-to
         </div>
 
         <div id='buttonsDiv'>
-            <div id="btn1" class="btns btn1">
+            <div onclick="btn1Click()"  id="btn1" class="btns btn1">
                 <p>Search By Name</p>
             </div>
             <div onclick="btn2Click()" id="btn2" class="btns btn2">
@@ -121,7 +134,10 @@ table thead tr th {background-color: red;position: sticky;z-index: 100;margin-to
             </div>
         </div>
 
-        <div id='display1'></div>
+        <div id='display1'>
+                    
+        
+        </div>
         <div id='display2'></div>
 
 
@@ -147,7 +163,9 @@ table thead tr th {background-color: red;position: sticky;z-index: 100;margin-to
         <div class="modal-content">
             <span class="close">&times;</span>
             <h4  id="nameHeader">Sudhakar Babu</h4>
+          
             <p id="modalData"></p>
+            
         </div>
     </div>
 
@@ -215,6 +233,7 @@ table thead tr th {background-color: red;position: sticky;z-index: 100;margin-to
             }
             document.getElementById("display2").style.display = "block"
             document.getElementById("display1").style.display = "none"
+            document.getElementById("myInput").style.display = "none"
             document.getElementById("display2").innerHTML = citytable
         }
 
@@ -249,6 +268,7 @@ table thead tr th {background-color: red;position: sticky;z-index: 100;margin-to
             workedlist += "</table>"
             document.getElementById("display2").style.display = "block"
             document.getElementById("display1").style.display = "none"
+            document.getElementById("myInput").style.display = "none"
             document.getElementById("display2").innerHTML = workedlist += "</table><br><br><br>"
         }
 
@@ -271,7 +291,7 @@ table thead tr th {background-color: red;position: sticky;z-index: 100;margin-to
             if (currMonth != futureMonth) {
                 md2 = mdays.filter(a => a.mm === futureMonth).filter(a => a.md <= futureDate).sort((a, b) => a.md - b.md)
             }
-            bdtable = `<table  border=1 align=center style='  border-collapse: collapse; border: 1px solid black; '>
+            bdtable = `<br><br><br><br><table  border=1 align=center style='  border-collapse: collapse; border: 1px solid black; '>
                 <tr><td colspan=2 align=center style='background:pink;'> Birthdays`
 
             bd1.forEach(function (a) { bdtable += "<tr><td>" + monthsArray[a.bm] + ", " + a.bd + "<td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span>" })
@@ -299,6 +319,16 @@ table thead tr th {background-color: red;position: sticky;z-index: 100;margin-to
             document.getElementById("login").style.display = "none"
             document.getElementById("buttonsDiv").style.display = "block"
         }
+        
+                
+        function btn1Click() {
+             document.getElementById("myInput").style.display = "block"
+             document.getElementById("display1").style.display = "block"      
+             document.getElementById("buttonsDiv").style.display = "none"
+             document.getElementById("middleDiv").style.display = "block"
+             document.getElementById("homeDiv").style.display = "block"
+        }
+        
         function btn2Click() {
             eventsThisWeek_create()
             document.getElementById("display1").innerHTML = bdtable
@@ -306,6 +336,8 @@ table thead tr th {background-color: red;position: sticky;z-index: 100;margin-to
             document.getElementById("buttonsDiv").style.display = "none"
             document.getElementById("middleDiv").style.display = "block"
             document.getElementById("homeDiv").style.display = "block"
+
+            
         }
 
         function btn3Click() {
@@ -315,6 +347,7 @@ table thead tr th {background-color: red;position: sticky;z-index: 100;margin-to
             document.getElementById("buttonsDiv").style.display = "none"
             document.getElementById("homeDiv").style.display = "block"
             document.getElementById("middleDiv").style.display = "block"
+                        document.getElementById("myInput").style.display = "block"
         }
 
         function btn4Click() {
@@ -324,30 +357,36 @@ table thead tr th {background-color: red;position: sticky;z-index: 100;margin-to
             document.getElementById("buttonsDiv").style.display = "none"
             document.getElementById("homeDiv").style.display = "block"
             document.getElementById("middleDiv").style.display = "block"
+                        document.getElementById("myInput").style.display = "block"
         }
-
+        rawTable1 = `<h4>Click on Table Heading for sorting</h4><table id='mobileTable' border=1 align=center><thead ><th style='height:25px; '  onclick='getThSort(srnoSort)' >SR<th onclick='getThSort(nameSort)' >Name<th onclick='getThSort(placeSort)' >Place<th onclick='getThSort(mobileSort)' >Mobile</thead>`
+        xx = ""
         function btn5Click() {
-            xx = ""
-            rawTable = `<h4>Click on Table Heading for sorting</h4><table id='mobileTable' border=1 align=center><thead ><th style='height:25px; '  onclick='getThSort(srnoSort)' >SR<th onclick='getThSort(nameSort)' >Name<th onclick='getThSort(placeSort)' >Place<th onclick='getThSort(mobileSort)' >Mobile</thead>`
+            document.getElementById("display1").innerHTML = ""
             nameSort.forEach(function (a) { xx += "<tr><td>" + a.srno + "<td> <span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + " </span><td>" + a.add3 + "<td>" + a.mob1 })
-            rawTable += xx + "</table><br><br>"
+            rawTable = rawTable1+xx + "</table><br><br>"
             document.getElementById("display1").innerHTML = rawTable
             document.getElementById("buttonsDiv").style.display = "none"
             document.getElementById("homeDiv").style.display = "block"
             document.getElementById("middleDiv").style.display = "block"
             document.getElementById("display1").style.display = "block"
+             xx=""
+                         document.getElementById("myInput").style.display = "block"
         }
 
+
+ 
         function getThSort(whatSort) {
-            xx = ""
-            rawTable = `<h4>Click on Table Heading for sorting</h4><table id='mobileTable' border=1 align=center><thead ><th style='height:25px; '  onclick='getThSort(srnoSort)' >SR<th onclick='getThSort(nameSort)' >Name<th onclick='getThSort(placeSort)' >Place<th onclick='getThSort(mobileSort)' >Mobile</thead>`
+        document.getElementById("display1").innerHTML = ""
             whatSort.forEach(function (a) { xx += "<tr><td>" + a.srno + "<td> <span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + " </span><td>" + a.add3 + "<td>" + a.mob1 })
-            rawTable += xx + "</table><br><br>"
+            rawTable =rawTable1+ xx + "</table><br><br>"
             document.getElementById("display1").innerHTML = rawTable
             document.getElementById("buttonsDiv").style.display = "none"
             document.getElementById("homeDiv").style.display = "block"
             document.getElementById("middleDiv").style.display = "block"
             document.getElementById("display1").style.display = "block"
+             xx=""
+                         document.getElementById("myInput").style.display = "block"
         }
 
         function btn8Click() {
@@ -373,7 +412,22 @@ table thead tr th {background-color: red;position: sticky;z-index: 100;margin-to
             mydata = x[0]
             document.getElementById("myModal").style.display = "block"
             document.getElementById("nameHeader").innerHTML = mydata.name
-            document.getElementById("modalData").innerHTML = mydata.name
+
+            tab=`
+            <table class='bio' width=100% border=1>
+            <tr><td><b>Address: </b><br>${mydata.add1}<br>${mydata.add2}<br>${mydata.add3}-${mydata.pin} <br>${mydata.add4}<td width=75><img  src='https://drive.google.com/uc?export=view&id=${mydata.photoid}' border=0 align='center' alt='Smiley face' width='75' height='100'  style='border-radius:10px;'> 
+            <tr><td colspan=2><b>Phones: </b>${mydata.mob1} / ${mydata.mob2} / ${mydata.fixed}
+            <tr><td  colspan=2><b>Email: </b>${mydata.email}
+            <tr><td  colspan=2 ><b>Birthday: </b>${monthsArray[mydata.bm]},${mydata.bd}   <b> Wedding Anniversary. </b>${monthsArray[mydata.mm]},${mydata.md}  
+            <tr><td  colspan=2><b>Pension Branch:</b >${mydata.penbr}   
+            <tr><td  colspan=2 ><b>Retired on :</b >${new Date(mydata.retdate).toDateString()} <b>Retired at </b> ${mydata.lastbr}  
+            <tr><td  colspan=2><b>Branches Worked:</b >${mydata.brlist}   
+
+
+            </table>
+
+            `
+            document.getElementById("modalData").innerHTML = tab
         }
 
         function showHome() {
@@ -382,16 +436,17 @@ table thead tr th {background-color: red;position: sticky;z-index: 100;margin-to
             document.getElementById("display2").style.display = "none"
             document.getElementById("buttonsDiv").style.display = "block"
             document.getElementById("middleDiv").style.display = "none"
+                        document.getElementById("myInput").style.display = "none"
         }
 
         function dataCorrectionData() {
             document.getElementById("middleDiv").style.display = "block"
-            dataCorrection = `For Data updation please send a WhatsApp Message/ Email to the following persons<br><br><b>VM Seshasayan:</b> <br>Mobile: 9849750184 <br>Email: seshasayan.vm@gmail.com<br><br><b>GVSS Markandeyulu: </b><br>Mobile: 9989036183<br> Email: gvssmark@gmail.com<br><br> <b> Please Allow 1 or 2 days for updating the data..</b> <br>`
+            dataCorrection = `<br><br><br><br>For Data updation please send a WhatsApp Message/ Email to the following persons<br><br><b>VM Seshasayan:</b> <br>Mobile: 9849750184 <br>Email: seshasayan.vm@gmail.com<br><br><b>GVSS Markandeyulu: </b><br>Mobile: 9989036183<br> Email: gvssmark@gmail.com<br><br> <b> Please Allow 1 or 2 days for updating the data..</b> <br>`
         }
 
         function aboutData() {
             document.getElementById("middleDiv").style.display = "block"
-            about = `<b>IBAP-Retirees Google Group</b> was started with an intention, to have a common platform, to  discuss about Retirees Issues and for exchanges of thoughts of common interest, among the retirees of Indian Bank  of AP &  Telangana States. This group is not affiliated to any Association. No membership fees to join this group. Presently, we have <b><span class='abt'>  ${alphasorted.length} </span> </b>members in this group.<br><br> <b>Address Book</b> Later we thought, it will be convenient to have an address book of Indian Bank Retirees of Telangana and Andhra Pradesh, with Photos. So we have designed a format to have the details of the retirees and upto now <span class='abt'><b> ${alphasorted.length} </b></span> retired staff members irrespective of their designation in the Bank and irrespective of their affiliation to the associations gave their details.<br><br>  <b>IB Friends WhatsApp group</b> Subsequently, we have started IB Friends WhatsApp group for the convenience of Smart Phone mobile users. Presently there are 201 participants in this group.<br><br> All the three groups are separate. Retired staff members can choose any one , or two or all the three groups This is purely optional. <br><br> Once again, we wish to inform you that <mark>these three groups are not a part of any association nor against any association</mark>. These are purely for inter communication among the Retired Staff members of Indian Bank.<br> `
+            about = `<br><br><br><br><b>IBAP-Retirees Google Group</b> was started with an intention, to have a common platform, to  discuss about Retirees Issues and for exchanges of thoughts of common interest, among the retirees of Indian Bank  of AP &  Telangana States. This group is not affiliated to any Association. No membership fees to join this group. Presently, we have <b><span class='abt'>  ${alphasorted.length} </span> </b>members in this group.<br><br> <b>Address Book</b> Later we thought, it will be convenient to have an address book of Indian Bank Retirees of Telangana and Andhra Pradesh, with Photos. So we have designed a format to have the details of the retirees and upto now <span class='abt'><b> ${alphasorted.length} </b></span> retired staff members irrespective of their designation in the Bank and irrespective of their affiliation to the associations gave their details.<br><br>  <b>IB Friends WhatsApp group</b> Subsequently, we have started IB Friends WhatsApp group for the convenience of Smart Phone mobile users. Presently there are 201 participants in this group.<br><br> All the three groups are separate. Retired staff members can choose any one , or two or all the three groups This is purely optional. <br><br> Once again, we wish to inform you that <mark>these three groups are not a part of any association nor against any association</mark>. These are purely for inter communication among the Retired Staff members of Indian Bank.<br> `
         }
         sr = ""
         function getCelValue(a) {
@@ -418,6 +473,7 @@ table thead tr th {background-color: red;position: sticky;z-index: 100;margin-to
         }
         var modal = document.getElementById("myModal");
         var span = document.getElementsByClassName("close")[0];
+        
         span.onclick = function () {
             modal.style.display = "none";
         }

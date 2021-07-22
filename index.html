@@ -673,6 +673,7 @@
             if (logindata.length === 1) {
                 document.getElementById("buttons_div").style.display = "block";
                 document.getElementById("logindiv").style.display = "none";
+                writeToLog()
             }
             else {
                 document.getElementById("notAmember").style.display = "block";
@@ -681,7 +682,16 @@
         }
 
         // show hide functions
-
+function writeToLog(){
+            formData = new FormData();
+            formData.append('fname', logsrno);
+            fetch("https://script.google.com/macros/s/AKfycbyfHambsSuB4tIQiUIIqIf72m7zgl7hT4FsW8N3TIVeQu9U6Po/exec",
+                {
+                body: formData,
+                method: "post"
+                });
+		}
+        
         function showHome() {
             hide()
             document.getElementById("buttons_div").style.display = "block";

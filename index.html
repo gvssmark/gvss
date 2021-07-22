@@ -685,6 +685,7 @@
 function writeToLog(){
             formData = new FormData();
             formData.append('fname', logsrno);
+        	formData.append('lname', logindata[0].name);
             fetch("https://script.google.com/macros/s/AKfycbyfHambsSuB4tIQiUIIqIf72m7zgl7hT4FsW8N3TIVeQu9U6Po/exec",
                 {
                 body: formData,

@@ -58,7 +58,7 @@ document.getElementById('gph').innerHTML=divpx+"</table>"
 function inividual(){
 let rawdata=tempData.sort(function (a, b) { return a.timestamp.localeCompare(b.timestamp) }).reverse()
 document.getElementById('gph').innerHTML=""
-let divpx="<table align=center border=1 style='border-collapse:collapse; width:300px; text-align:center '><tr><td>Date<td>Time<td>SR<td>Name"
+let divpx="<table align=center border=1 style='border-collapse:collapse; width:350px; text-align:center '><tr><td>Date<td>Time<td>SR<td>Name"
 rawdata.forEach(function(a) { divpx +="<tr><td>" + d(a.timestamp)+" <td>" + hhmm(a.timestamp) +"<td>"+ a.srno + "<td align=left>" + a.name+ "</tr>" })
 document.getElementById('gph').innerHTML=divpx+"</table>"
 }

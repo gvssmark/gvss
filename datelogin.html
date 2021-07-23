@@ -50,7 +50,7 @@ divpx="<table align=center border=1 style='border-collapse:collapse; width:300px
 
 for (i=0; i<unqtts.length; i++){
 
-divpx += "<tr><td width=10>" + unqtts[i] + "<td width=20>" + tts.filter(a => a.tstamp === unqtts[i]).length + "<td><div style='height:10px; width:" + tts.filter(a => a.tstamp === unqtts[i]).length*2 + "px; background:red;'></div>"
+divpx += "<tr><td width=10>" + unqtts[i] + "<td width=20>" + tts.filter(a => a.tstamp === unqtts[i]).length + "<td><div style='height:12px; width:" + tts.filter(a => a.tstamp === unqtts[i]).length*2 + "px; background:red;'></div>"
 
 }
 document.getElementById('gph').innerHTML=divpx+"</table>"

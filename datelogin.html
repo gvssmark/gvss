@@ -3,15 +3,20 @@
 <head>
 <title>Login Data</title>
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <style>
+   body{background:powderblue;}
+   </style>
+   
+   
 </head>
 <body>
 
-<h4 style='text-align:center'>Datewise Data Creation</h4>
+<h4 style='text-align:center'>Datewise Login</h4>
 <p id='gph'></p>
 
 
 <script>
-url = 'https://script.google.com/macros/s/AKfycbwU43y7aw-hY8rjx77YgViB5Vs2H5yv7i5GMuUUfB6YMLbEQn3D/exec'
+url = 'https://script.google.com/macros/s/AKfycbwlIjj1qigz7KoFo80t2DiKOnMuKdX1lKw-7NbpnA/exec'
 
         async function getMyData() {
             response = await fetch(url)
@@ -41,11 +46,11 @@ function drawGraph(){
 unqtts= unq(alphasorted.map(m => d(m.timestamp)).sort().reverse())
 tts= unq(alphasorted.map(m => ({ srno: m.srno, tstamp: d(m.timestamp)})).sort())
 
-divpx="<table align=center border=1 style='border-collapse:collapse; width:350px; text-align:center '>"
+divpx="<table align=center border=1 style='border-collapse:collapse; width:300px; text-align:center '>"
 
 for (i=0; i<unqtts.length; i++){
 
-divpx += "<tr><td>" + unqtts[i] + "<td>" + tts.filter(a => a.tstamp === unqtts[i]).length + "<td><div style='height:10px; width:" + tts.filter(a => a.tstamp === unqtts[i]).length*10 + "px; background:red;'></div>"
+divpx += "<tr><td width=10>" + unqtts[i] + "<td width=20>" + tts.filter(a => a.tstamp === unqtts[i]).length + "<td><div style='height:10px; width:" + tts.filter(a => a.tstamp === unqtts[i]).length*2 + "px; background:red;'></div>"
 
 }
 document.getElementById('gph').innerHTML=divpx+"</table>"

@@ -38,7 +38,7 @@ function unq(a) { return Array.from(new Set(a)); }
 
 function drawGraph(){
 
-unqtts= unq(alphasorted.map(m => d(m.timestamp)).sort())
+unqtts= unq(alphasorted.map(m => d(m.timestamp)).sort().reverse())
 tts= unq(alphasorted.map(m => ({ srno: m.srno, tstamp: d(m.timestamp)})).sort())
 
 divpx="<table border=1 style='border-collapse:collapse; width:100%; text-align:center '>"

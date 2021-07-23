@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,18 +13,22 @@
 <body>
 
 <h4 style='text-align:center'>Datewise Login</h4>
+<table align=center><tr><td onclick="drawGraph()" bgcolor=pink>Datewise Summary<td onclick="inividual()" bgcolor=yellow>Individual Entries</table>
 <p id='gph'></p>
 
 
 <script>
 url = 'https://script.google.com/macros/s/AKfycbwlIjj1qigz7KoFo80t2DiKOnMuKdX1lKw-7NbpnA/exec'
-
+alphasorted=[];
         async function getMyData() {
             response = await fetch(url)
             data = await response.json()
             tempData = data["user"].sort((a, b) => a.srno - b.srno);
             alphasorted = tempData.sort(function (a, b) { return a.name.localeCompare(b.name) })
-            drawGraph()
+            unqtts= unq(alphasorted.map(m => d(m.timestamp)).sort().reverse())
+tts= unq(alphasorted.map(m => ({ srno: m.srno, name: m.name,  tstamp: d(m.timestamp)})).sort(function (a, b) { return b.tstamp.localeCompare(a.tstamp) }))
+
+           // drawGraph()
         }
 
         getMyData()
@@ -42,9 +47,7 @@ return yyyy+mm+dd
 function unq(a) { return Array.from(new Set(a)); }
 
 function drawGraph(){
-
-unqtts= unq(alphasorted.map(m => d(m.timestamp)).sort().reverse())
-tts= unq(alphasorted.map(m => ({ srno: m.srno, tstamp: d(m.timestamp)})).sort())
+document.getElementById('gph').innerHTML=""
 
 divpx="<table align=center border=1 style='border-collapse:collapse; width:300px; text-align:center '>"
 
@@ -56,8 +59,19 @@ divpx += "<tr><td width=10>" + unqtts[i] + "<td width=20>" + tts.filter(a => a.t
 document.getElementById('gph').innerHTML=divpx+"</table>"
 }
 
+function inividual(){
 
-drawGraph()
+document.getElementById('gph').innerHTML=""
+divpx="<table align=center border=1 style='border-collapse:collapse; width:300px; text-align:center '>"
+
+tts.forEach(function(a) { divpx +="<tr><td>" + a.tstamp +"<td>"+ a.srno + "<td align=left>" + a.name+ "</tr>" })
+document.getElementById('gph').innerHTML=divpx+"</table>"
+
+
+}
+
+
+//drawGraph()
 
 </script>
 

@@ -41,11 +41,11 @@ function drawGraph(){
 unqtts= unq(alphasorted.map(m => d(m.timestamp)).sort().reverse())
 tts= unq(alphasorted.map(m => ({ srno: m.srno, tstamp: d(m.timestamp)})).sort())
 
-divpx="<table border=1 style='border-collapse:collapse; width:100%; text-align:center '>"
+divpx="<table align=center border=1 style='border-collapse:collapse; width:350px; text-align:center '>"
 
 for (i=0; i<unqtts.length; i++){
 
-divpx += "<tr><td>" + unqtts[i] + "<td>" + tts.filter(a => a.tstamp === unqtts[i]).length + "<td><div style='height:5px; width:" + tts.filter(a => a.tstamp === unqtts[i]).length*10 + "px; background:red;'></div>"
+divpx += "<tr><td>" + unqtts[i] + "<td>" + tts.filter(a => a.tstamp === unqtts[i]).length + "<td><div style='height:10px; width:" + tts.filter(a => a.tstamp === unqtts[i]).length*10 + "px; background:red;'></div>"
 
 }
 document.getElementById('gph').innerHTML=divpx+"</table>"

@@ -45,7 +45,7 @@ divpx="<table border=1 style='border-collapse:collapse; width:100%; text-align:c
 
 for (i=0; i<unqtts.length; i++){
 
-divpx += "<tr><td>" + unqtts[i] + "<td>" + tts.filter(a => a.tstamp === unqtts[i]).length + "<td><div style='width:" + tts.filter(a => a.tstamp === unqtts[i]).length*10 + "px; background:red;'>&nbsp</div>"
+divpx += "<tr><td>" + unqtts[i] + "<td>" + tts.filter(a => a.tstamp === unqtts[i]).length + "<td><div style='height:5px; width:" + tts.filter(a => a.tstamp === unqtts[i]).length*10 + "px; background:red;'></div>"
 
 }
 document.getElementById('gph').innerHTML=divpx+"</table>"

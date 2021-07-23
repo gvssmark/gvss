@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login Data</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<h4 style='text-align:center'>Datewise Logins</h4>
+<p id='gph'></p>
+
+
+<script>
+url = 'https://script.google.com/macros/s/AKfycbwU43y7aw-hY8rjx77YgViB5Vs2H5yv7i5GMuUUfB6YMLbEQn3D/exec'
+
+        async function getMyData() {
+            response = await fetch(url)
+            data = await response.json()
+            tempData = data["user"].sort((a, b) => a.srno - b.srno);
+            alphasorted = tempData.sort(function (a, b) { return a.name.localeCompare(b.name) })
+            drawGraph()
+        }
+
+        getMyData()
+function d(a){
+ts= new Date(a)
+
+dd =ts.getDate().toString().padStart(2,"0")
+mm=(ts.getMonth()+1).toString().padStart(2,"0")
+
+yyyy=ts.getFullYear()
+
+return yyyy+mm+dd
+
+}
+
+function unq(a) { return Array.from(new Set(a)); }
+
+function drawGraph(){
+
+unqtts= unq(alphasorted.map(m => d(m.timestamp)).sort())
+tts= unq(alphasorted.map(m => ({ srno: m.srno, tstamp: d(m.timestamp)})).sort())
+
+divpx="<table border=1 style='border-collapse:collapse; width:100%; text-align:center '>"
+
+for (i=0; i<unqtts.length; i++){
+
+divpx += "<tr><td>" + unqtts[i] + "<td>" + tts.filter(a => a.tstamp === unqtts[i]).length + "<td><div style='width:" + tts.filter(a => a.tstamp === unqtts[i]).length*10 + "px; background:red;'>&nbsp</div>"
+
+}
+document.getElementById('gph').innerHTML=divpx+"</table>"
+}
+
+
+drawGraph()
+
+</script>
+
+</body>
+</html>

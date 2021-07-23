@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,14 +38,16 @@ unqtts=[];
         getMyData()
 function d(a){
 ts= new Date(a)
-
 dd =ts.getDate().toString().padStart(2,"0")
 mm=(ts.getMonth()+1).toString().padStart(2,"0")
-
 yyyy=ts.getFullYear()
-
 return yyyy+mm+dd
-
+}
+function hhmm(a){
+let tt = new Date(a)
+let hh= tt.getHours()
+let mm=tt.getMinutes()
+return hh+":"+mm
 }
 
 function unq(a) { return Array.from(new Set(a)); }
@@ -68,9 +71,9 @@ document.getElementById('gph').innerHTML=divpx+"</table>"
 function inividual(){
 let rawdata=tempData.sort(function (a, b) { return a.timestamp.localeCompare(b.timestamp) }).reverse()
 document.getElementById('gph').innerHTML=""
-divpx="<table align=center border=1 style='border-collapse:collapse; width:300px; text-align:center '>"
+divpx="<table align=center border=1 style='border-collapse:collapse; width:300px; text-align:center '><tr><td>Date<td>Time<td>SR<td>Name"
 
-rawdata.forEach(function(a) { divpx +="<tr><td>" + d(a.timestamp) +"<td>"+ a.srno + "<td align=left>" + a.name+ "</tr>" })
+rawdata.forEach(function(a) { divpx +="<tr><td>" + d(a.timestamp)+" <td>" + hhmm(a.timestamp) +"<td>"+ a.srno + "<td align=left>" + a.name+ "</tr>" })
 document.getElementById('gph').innerHTML=divpx+"</table>"
 
 

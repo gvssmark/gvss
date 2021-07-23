@@ -1,11 +1,12 @@
 
+
 <!DOCTYPE html>
 <html>
 <head>
 <title>Login Data</title>
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <style>
-   body{background:powderblue;}
+   body{background:powderblue; font-size:small; }
    </style>
    
    
@@ -20,13 +21,15 @@
 <script>
 url = 'https://script.google.com/macros/s/AKfycbwlIjj1qigz7KoFo80t2DiKOnMuKdX1lKw-7NbpnA/exec'
 alphasorted=[];
+rawdata=[];
+unqtts=[];
         async function getMyData() {
             response = await fetch(url)
             data = await response.json()
-            tempData = data["user"].sort((a, b) => a.srno - b.srno);
-            alphasorted = tempData.sort(function (a, b) { return a.name.localeCompare(b.name) })
-            unqtts= unq(alphasorted.map(m => d(m.timestamp)).sort().reverse())
-tts= unq(alphasorted.map(m => ({ srno: m.srno, name: m.name,  tstamp: d(m.timestamp)})).sort(function (a, b) { return b.tstamp.localeCompare(a.tstamp) }))
+            tempData = data["user"]
+           
+            
+           
 
            // drawGraph()
         }
@@ -48,6 +51,9 @@ function unq(a) { return Array.from(new Set(a)); }
 
 function drawGraph(){
 document.getElementById('gph').innerHTML=""
+let alphasorted = tempData.sort(function (a, b) { return a.name.localeCompare(b.name) })
+    let        unqtts= unq(alphasorted.map(m => d(m.timestamp)).sort().reverse())
+tts= unq(alphasorted.map(m => ({ srno: m.srno, name: m.name,  tstamp: d(m.timestamp)})).sort(function (a, b) { return b.tstamp.localeCompare(a.tstamp) }))
 
 divpx="<table align=center border=1 style='border-collapse:collapse; width:300px; text-align:center '>"
 
@@ -60,11 +66,11 @@ document.getElementById('gph').innerHTML=divpx+"</table>"
 }
 
 function inividual(){
-
+let rawdata=tempData.sort(function (a, b) { return a.timestamp.localeCompare(b.timestamp) }).reverse()
 document.getElementById('gph').innerHTML=""
 divpx="<table align=center border=1 style='border-collapse:collapse; width:300px; text-align:center '>"
 
-tts.forEach(function(a) { divpx +="<tr><td>" + a.tstamp +"<td>"+ a.srno + "<td align=left>" + a.name+ "</tr>" })
+rawdata.forEach(function(a) { divpx +="<tr><td>" + d(a.timestamp) +"<td>"+ a.srno + "<td align=left>" + a.name+ "</tr>" })
 document.getElementById('gph').innerHTML=divpx+"</table>"
 
 

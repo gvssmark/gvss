@@ -58,7 +58,7 @@ let alphasorted = tempData.sort(function (a, b) { return a.name.localeCompare(b.
     let        unqtts= unq(alphasorted.map(m => d(m.timestamp)).sort().reverse())
 tts= unq(alphasorted.map(m => ({ srno: m.srno, name: m.name,  tstamp: d(m.timestamp)})).sort(function (a, b) { return b.tstamp.localeCompare(a.tstamp) }))
 
-divpx="<table align=center border=1 style='border-collapse:collapse; width:300px; text-align:center '>"
+divpx="<table align=center border=1 style='border-collapse:collapse; width:300px; text-align:center '><tr><td>Date<td>No.<td>Scale"
 
 for (i=0; i<unqtts.length; i++){
 

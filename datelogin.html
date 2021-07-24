@@ -35,11 +35,10 @@ function d(a){
 }
 function hhmm(a){
     let tt = new Date(a)
-    let hh= tt.getHours()
-    let mm=tt.getMinutes()
+    let hh= tt.getHours().toString().padStart(2,"0")
+    let mm=tt.getMinutes().toString().padStart(2,"0")
     return hh+":"+mm
 }
-
 function unq(a) { return Array.from(new Set(a)); }
 
 function drawGraph(){

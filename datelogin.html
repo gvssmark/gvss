@@ -87,7 +87,7 @@ getMyData()
 		let alphasorted = tempData.sort(function (a, b) { return a.name.localeCompare(b.name) })
 		let unqtts= unq(alphasorted.map(m => d(m.timestamp)).sort().reverse())
 		let tts= unq(alphasorted.map(m => ({ srno: m.srno, name: m.name,  tstamp: d(m.timestamp)})).sort(function (a, b) { return b.tstamp.localeCompare(a.tstamp) }))
-		let divpx="<table width=300 border=1 ><tr><td>Date<td>No.<td>Scale"
+		let divpx="<table width=330 border=1 ><tr><td>Date<td>No.<td>Scale"
 
 			for (i=0; i<unqtts.length; i++){
 			divpx += "<tr><td width=10>" + unqtts[i] + "<td width=20>" + tts.filter(a => a.tstamp === unqtts[i]).length + "<td><div style='height:12px; width:" + tts.filter(a => a.tstamp === unqtts[i]).length*2 + "px; background:red;'></div>"
@@ -98,7 +98,7 @@ getMyData()
 	function inividual(){
 		let rawdata=tempData.sort(function (a, b) { return a.timestamp.localeCompare(b.timestamp) }).reverse()
 		document.getElementById('gph').innerHTML=""
-		let divpx="<table width=300  border=1 ><tr><td>Date<td>Time<td>SR<td>Name"
+		let divpx="<table width=330  border=1 ><tr><td>Date<td>Time<td>SR<td>Name"
 		rawdata.forEach(function(a) { divpx +="<tr><td>" + d(a.timestamp)+" <td>" + hhmm(a.timestamp) +"<td>"+ a.srno + "<td align=left>" + a.name+ "</tr>" })
 		document.getElementById('gph').innerHTML=divpx+"</table>"
 	}

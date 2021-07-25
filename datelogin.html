@@ -1,66 +1,107 @@
 
 
+
 <!DOCTYPE html>
 <html>
 <head>
 <title>Login Data</title>
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <style>
-   body{background:powderblue; font-size:small; }
+   body{background:powderblue; font-size:small;  align-items: center; display: flex; flex-direction: column;}
+   table {border-collapse:collapse;  border: 1px solid black; text-align:center;  }
+   #sp1{font-size:3em}
+   #ind{display:none;}
+ 
    </style>
 </head>
 <body>
-<h4 style='text-align:center'>Datewise Login</h4>
-<table align=center><tr><td onclick="drawGraph()" bgcolor=pink>Datewise Summary<td onclick="inividual()" bgcolor=yellow>Individual Entries</table>
+<h4 >Datewise Login</h4>
+<table id='ind'   align=center><tr><td onclick="drawGraph()" bgcolor=pink>Datewise Summary<td   onclick="inividual()" bgcolor=yellow>Individual Entries</table>
 <p id='gph'></p>
+<span  id='sp1' class="counter" data-target="120" ;  ></span>
+<span>Hits Sofar</span>
 
 <script>
 url = 'https://script.google.com/macros/s/AKfycbwlIjj1qigz7KoFo80t2DiKOnMuKdX1lKw-7NbpnA/exec'
 alphasorted=[];
 rawdata=[];
 unqtts=[];
-        async function getMyData() {
-            response = await fetch(url)
-            data = await response.json()
-            tempData = data["user"]
-        }
+
+	async function getMyData() {
+		response = await fetch(url)
+		data = await response.json()
+		tempData = data["user"]
+		document.getElementById('ind').style.display="block"       
+		const counters = document.querySelectorAll('.counter');
+
+		// this could work for multiple counters
+		counters.forEach(counter => {
+		// start with 0 by default
+		counter.innerText = '0';
+
+		const updateCounter = () => {
+		const target = +tempData.length;
+		const c = +counter.innerText;
+		//	target = tempData.length
+		// get the 0.1% to speed up things
+		const increment = target / 1000;
+
+		if(c < target) {
+		counter.innerText = `${Math.ceil(c + increment)}`;
+		setTimeout(updateCounter, 1)
+		} else {
+		counter.innerText = target;
+		}
+		};
+
+		updateCounter();
+
+		});            
+
+	}
 
 getMyData()
-function d(a){
-  ts= new Date(a)
-  dd =ts.getDate().toString().padStart(2,"0")
-  mm=(ts.getMonth()+1).toString().padStart(2,"0")
-  yyyy=ts.getFullYear()
-  return yyyy+mm+dd
-}
-function hhmm(a){
-    let tt = new Date(a)
-    let hh= tt.getHours().toString().padStart(2,"0")
-    let mm=tt.getMinutes().toString().padStart(2,"0")
-    return hh+":"+mm
-}
-function unq(a) { return Array.from(new Set(a)); }
 
-function drawGraph(){
-document.getElementById('gph').innerHTML=""
-let alphasorted = tempData.sort(function (a, b) { return a.name.localeCompare(b.name) })
-let unqtts= unq(alphasorted.map(m => d(m.timestamp)).sort().reverse())
-let tts= unq(alphasorted.map(m => ({ srno: m.srno, name: m.name,  tstamp: d(m.timestamp)})).sort(function (a, b) { return b.tstamp.localeCompare(a.tstamp) }))
-let divpx="<table align=center border=1 style='border-collapse:collapse; width:300px; text-align:center '><tr><td>Date<td>No.<td>Scale"
 
-for (i=0; i<unqtts.length; i++){
-divpx += "<tr><td width=10>" + unqtts[i] + "<td width=20>" + tts.filter(a => a.tstamp === unqtts[i]).length + "<td><div style='height:12px; width:" + tts.filter(a => a.tstamp === unqtts[i]).length*2 + "px; background:red;'></div>"
-}
-document.getElementById('gph').innerHTML=divpx+"</table>"
-}
 
-function inividual(){
-let rawdata=tempData.sort(function (a, b) { return a.timestamp.localeCompare(b.timestamp) }).reverse()
-document.getElementById('gph').innerHTML=""
-let divpx="<table align=center border=1 style='border-collapse:collapse; width:350px; text-align:center '><tr><td>Date<td>Time<td>SR<td>Name"
-rawdata.forEach(function(a) { divpx +="<tr><td>" + d(a.timestamp)+" <td>" + hhmm(a.timestamp) +"<td>"+ a.srno + "<td align=left>" + a.name+ "</tr>" })
-document.getElementById('gph').innerHTML=divpx+"</table>"
-}
+
+
+
+	function d(a){
+		ts= new Date(a)
+		dd =ts.getDate().toString().padStart(2,"0")
+		mm=(ts.getMonth()+1).toString().padStart(2,"0")
+		yyyy=ts.getFullYear()
+		return yyyy+mm+dd
+	}
+	function hhmm(a){
+		let tt = new Date(a)
+		let hh= tt.getHours().toString().padStart(2,"0")
+		let mm=tt.getMinutes().toString().padStart(2,"0")
+		return hh+":"+mm
+	}
+	function unq(a) { return Array.from(new Set(a)); }
+
+	function drawGraph(){
+		document.getElementById('gph').innerHTML=""
+		let alphasorted = tempData.sort(function (a, b) { return a.name.localeCompare(b.name) })
+		let unqtts= unq(alphasorted.map(m => d(m.timestamp)).sort().reverse())
+		let tts= unq(alphasorted.map(m => ({ srno: m.srno, name: m.name,  tstamp: d(m.timestamp)})).sort(function (a, b) { return b.tstamp.localeCompare(a.tstamp) }))
+		let divpx="<table width=300 border=1 ><tr><td>Date<td>No.<td>Scale"
+
+			for (i=0; i<unqtts.length; i++){
+			divpx += "<tr><td width=10>" + unqtts[i] + "<td width=20>" + tts.filter(a => a.tstamp === unqtts[i]).length + "<td><div style='height:12px; width:" + tts.filter(a => a.tstamp === unqtts[i]).length*2 + "px; background:red;'></div>"
+			}
+		document.getElementById('gph').innerHTML=divpx+"</table>"
+	}
+
+	function inividual(){
+		let rawdata=tempData.sort(function (a, b) { return a.timestamp.localeCompare(b.timestamp) }).reverse()
+		document.getElementById('gph').innerHTML=""
+		let divpx="<table width=300  border=1 ><tr><td>Date<td>Time<td>SR<td>Name"
+		rawdata.forEach(function(a) { divpx +="<tr><td>" + d(a.timestamp)+" <td>" + hhmm(a.timestamp) +"<td>"+ a.srno + "<td align=left>" + a.name+ "</tr>" })
+		document.getElementById('gph').innerHTML=divpx+"</table>"
+	}
 </script>
 </body>
 </html>

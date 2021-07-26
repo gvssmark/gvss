@@ -938,11 +938,11 @@ checkBranchError = alphasorted.map( a => ({srno: a.srno, name: a.name, newbrlist
             mdays = alphasorted.map(a => ({ srno: a.srno, name: a.name, mm: a.mm, md: a.md }))
 
             //Birthdays this week:
-            bd1 = bdays
-                .filter(a => a.bm === currMonth)
-                .filter(a => a.bd >= currDate)
-                .filter(a => a.bd <= futureDate)
-                .sort((a, b) => a.bd - b.bd)
+           // bd1 = bdays                .filter(a => a.bm === currMonth)                .filter(a => a.bd >= currDate)                .filter(a => a.bd <= futureDate)                .sort((a, b) => a.bd - b.bd)
+currMonth === futureMonth?
+bd1 = bdays.filter(a => a.bm === currMonth).filter(a => a.bd >= currDate).filter(a => a.bd <= futureDate).sort((a, b) => a.bd - b.bd):
+bd1 = bdays.filter(a => a.bm === currMonth).filter(a => a.bd >= currDate).sort((a, b) => a.bd - b.bd)
+
 
             //Birthdays this week - if spread over next month:
             bd2=[];
@@ -954,11 +954,10 @@ checkBranchError = alphasorted.map( a => ({srno: a.srno, name: a.name, newbrlist
              }
 
             //Anniversary this week:
-            md1 = mdays
-                .filter(a => a.mm === currMonth)
-                .filter(a => a.md >= currDate)
-                .filter(a => a.md <= futureDate)
-                .sort((a, b) => a.md - b.md)
+     //       md1 = mdays                .filter(a => a.mm === currMonth)                .filter(a => a.md >= currDate)                .filter(a => a.md <= futureDate)                .sort((a, b) => a.md - b.md)
+currMonth === futureMonth?
+md1 = mdays.filter(a => a.mm === currMonth).filter(a => a.md >= currDate).filter(a => a.md <= futureDate).sort((a, b) => a.md - b.md):
+md1 = mdays.filter(a => a.mm === currMonth).filter(a => a.md >= currDate).sort((a, b) => a.md - b.md)
 
 
             //Anniversary this week - if spread over next month:

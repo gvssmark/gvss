@@ -1,6 +1,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +19,7 @@
 <h4 >Datewise Login</h4>
 <table id='ind'   align=center><tr><td onclick="drawGraph()" bgcolor=pink>Datewise Summary<td   onclick="inividual()" bgcolor=yellow>Individual Entries</table>
 <p id='gph'></p>
-<span  id='sp1' class="counter" data-target="120" ;  ></span>
+<span  id='sp1' ></span>
 <span>Hits Sofar</span>
 
 <script>
@@ -31,38 +32,18 @@ unqtts=[];
 		response = await fetch(url)
 		data = await response.json()
 		tempData = data["user"]
-		document.getElementById('ind').style.display="block"       
-		const counters = document.querySelectorAll('.counter');
-
-		// this could work for multiple counters
-		counters.forEach(counter => {
-		// start with 0 by default
-		counter.innerText = '0';
-
-		const updateCounter = () => {
-		const target = +tempData.length;
-		const c = +counter.innerText;
-		//	target = tempData.length
-		// get the 0.1% to speed up things
-		const increment = target / 1000;
-
-		if(c < target) {
-		counter.innerText = `${Math.ceil(c + increment)}`;
-		setTimeout(updateCounter, 1)
-		} else {
-		counter.innerText = target;
-		}
-		};
-
-		updateCounter();
-
-		});            
-
-	}
+        
+		document.getElementById('ind').style.display="block"   
+        count("sp1",tempData.length)
+	    }
 
 getMyData()
 
-
+function count(id, num){
+var counter= document.getElementById(id)
+let count= 1
+setInterval( ()=>{if(count<num){count++;counter.innerText=count;}},1);
+}
 
 
 

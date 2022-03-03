@@ -1,3 +1,7 @@
+data source: IBAP Google Group Google Script file in JSON files folder.
+
+
+
 Events this week: bdtable
 Lives in: cityTable
 Raw Date: rawTable

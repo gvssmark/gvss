@@ -48,8 +48,8 @@ monthsArray = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"
         function generateEvents(month){
         eventsB=bdays.filter(a =>a.bm===month).sort((a, b) => a.bd - b.bd)
         eventsM=mdays.filter(a =>a.mm===month).sort((a, b) => a.md - b.md)
-        document.getElementById("bdc").innerHTML =eventsB.length
-            document.getElementById("mdc").innerHTML=eventsM.length
+        document.getElementById("bdc").innerHTML = "Birthdays (" + eventsB.length +")"
+            document.getElementById("mdc").innerHTML= "Marriage (" + eventsM.length +")"
             
         bdtable=""
         mdtable=""

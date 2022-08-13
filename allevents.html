@@ -26,7 +26,7 @@ h3 {margin-top:0px; margin-bottom:0px; text-align:center  }
 </div>
 
 <div>
-<table  width=100%><tr><td style='background: rgba(255, 0, 145, 0.2)'  onclick = selectEvent(1)>Birthdays<td style='background:rgba(0, 255, 5, 0.2)' onclick=selectEvent(2)>Marriage </table>
+<table  width=100%><tr><td id='bdc' style='background: rgba(255, 0, 145, 0.2)'  onclick = selectEvent(1)>Birthdays<td d='mdc' style='background:rgba(0, 255, 5, 0.2)' onclick=selectEvent(2)>Marriage </table>
 </div>
 <p id='eventlist'>
 </p>
@@ -48,6 +48,9 @@ monthsArray = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"
         function generateEvents(month){
         eventsB=bdays.filter(a =>a.bm===month).sort((a, b) => a.bd - b.bd)
         eventsM=mdays.filter(a =>a.mm===month).sort((a, b) => a.md - b.md)
+        document.getElementById("bdc").innerHTML =eventsB.length
+            document.getElementById("mdc").innerHTML=eventsM.length
+            
         bdtable=""
         mdtable=""
         eventsB.forEach(function (a) { bdtable += "<tr><td>" + monthsArray[a.bm] + ", " + a.bd + "<td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span>" })

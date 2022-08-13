@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>All Events</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {margin:0 auto; width:300px;}
+
+table tr td{border-collapse:collapse; border:1px solid black;   }
+tr {height:30px; text-align:center}
+th{position: sticky;  top:160px; background:red; color:white}
+h3 {text-align:center}
+</style>
+
+</head>
+<body>
+<div style="background: rgba(255, 0, 145, 0.2)">
+<h3>IBAP Retirees' Google Group</h1>
+<div style='position:fixed; top:0; width:300px; background:yellow'>
+<table width=100%>
+<tr><td onclick='monthClick(1)'>Jan<td onclick='monthClick(2)'>Feb<td onclick='monthClick(3)'>Mar
+<tr><td onclick='monthClick(4)'>Apr<td onclick='monthClick(5)'>May<td onclick='monthClick(6)'>Jun
+<tr><td onclick='monthClick(7)'>Jul<td onclick='monthClick(8)'>Aug<td onclick='monthClick(9)'>Sep
+<tr><td onclick='monthClick(10)'>Oct<td onclick='monthClick(11)'>Nov<td onclick='monthClick(12)'>Dec
+</table>
+<table bgcolor=pink width=100%><tr><td onclick = selectEvent(1)>Birthdays<td style='background:rgba(0, 255, 5, 0.2)' onclick=selectEvent(2)>Marriage </table>
+
+</div>
+<p id='eventlist' style='margin:83px 5px; font-size:small'>
+
+</dvi>
+
+<script>
+    url = 'https://script.google.com/macros/s/AKfycbwU43y7aw-hY8rjx77YgViB5Vs2H5yv7i5GMuUUfB6YMLbEQn3D/exec'
+monthsArray = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+ cd = new Date()
+ month = cd.getMonth() + 1
+        async function getMyData() {
+            response = await fetch(url)
+            data = await response.json()
+            tempData = data["user"].sort((a, b) => a.srno - b.srno);
+            alphasorted = tempData.sort(function (a, b) { return a.name.localeCompare(b.name) })
+        bdays = alphasorted.map(a => ({ srno: a.srno, name: a.name, bm: a.bm, bd: a.bd }))
+        mdays = alphasorted.map(a => ({ srno: a.srno, name: a.name, mm: a.mm, md: a.md }))                 }
+
+        getMyData()
+        
+        function generateEvents(month){
+        
+        eventsB=bdays.filter(a =>a.bm===month).sort((a, b) => a.bd - b.bd)
+        eventsM=mdays.filter(a =>a.mm===month).sort((a, b) => a.md - b.md)
+        bdtable=""
+        mdtable=""
+        eventsB.forEach(function (a) { bdtable += "<tr><td>" + monthsArray[a.bm] + ", " + a.bd + "<td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span>" })
+        eventsM.forEach(function (a) { mdtable += "<tr><td>" + monthsArray[a.mm] + ", " + a.md + "<td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span>" })
+        
+        }
+        
+        function monthClick(m){
+        tablehead = '<table border=1 style="width:100%; border-collapse:collapse"><tr><th>Date<th>Name'
+        generateEvents(m)
+        
+        document.getElementById("eventlist").innerHTML = tablehead + bdtable + "</table>"
+        document.getElementById("eventlist").style.backgroundColor='rgba(255, 0, 145, 0.2)'
+        }
+function selectEvent(e){
+bcolor='rgba(255, 0, 145, 0.2)'
+mcolor = 'rgba(0, 255, 5, 0.2)'
+
+
+e === 1 ? (document.getElementById("eventlist").innerHTML = tablehead + bdtable + "</table>", document.getElementById("eventlist").style.backgroundColor=bcolor) : (document.getElementById("eventlist").innerHTML = tablehead + mdtable + "</table>", document.getElementById("eventlist").style.backgroundColor=mcolor)
+
+
+}        
+        
+        
+        
+        </script>
+
+</body>
+</html>
+
+

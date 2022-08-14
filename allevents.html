@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,11 +6,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body {width:360px; height:90vh; background:yellowa;  margin:0 auto; }
-div {border:1px solid black; margin:5px auto; width:350px; text-align:center; }
+div { margin:5px auto; width:350px; text-align:center; }
 .div1 {margin-top:1px;  background:yellow; }
 p {overflow-y:scroll;height:65vh ; margin: auto 5px ;  font-size:small}
 h3 {margin-top:0px; margin-bottom:0px; text-align:center  }
 .table1 {border-collapse:collapse; height:150px;  }
+.table1 td{border-radius:25px;}
+th{background:red; color:white }
 </style>
 
 
@@ -18,7 +21,7 @@ h3 {margin-top:0px; margin-bottom:0px; text-align:center  }
 
 <h3 >All Events</h3>
 <div class='div1'>
-<table class='table1' border=1 width=100% id='table1'>
+<table id='table1' class='table1' border=1 width=100% id='table1'>
 <tr><td >Jan<td >Feb<td >Mar<td>Apr
 <tr><td >May<td >Jun<td >Jul<td >Aug
 <tr><td >Sep<td >Oct<td >Nov<td >Dec
@@ -50,15 +53,19 @@ monthsArray = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"
         eventsM=mdays.filter(a =>a.mm===month).sort((a, b) => a.md - b.md)
         document.getElementById("bdc").innerHTML = "Birthdays (" + eventsB.length +")"
             document.getElementById("mdc").innerHTML= "Marriage (" + eventsM.length +")"
-            
-        bdtable=""
+    cells.forEach(function (a){a.style.backgroundColor="yellow"; a.style.color='black'; })   
+  cells.forEach(function (a){a.style.backgroundColor="yellow"; a.style.color='black'; })
+  cells[month-1].style.backgroundColor="red"
+    cells[month-1].style.color='white'
+
+bdtable=""
         mdtable=""
         eventsB.forEach(function (a) { bdtable += "<tr><td>" + monthsArray[a.bm] + ", " + a.bd + "<td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span>" })
         eventsM.forEach(function (a) { mdtable += "<tr><td>" + monthsArray[a.mm] + ", " + a.md + "<td><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span>" })
         }
         
         function monthClick(m){
-        tablehead = '<table border=1 style="width:100%; border-collapse:collapse"><tr><th>Date<th>Name'
+        tablehead = '<table id="etable" border=1 style="width:100%; border-collapse:collapse"><tr><th>Date<th>Name'
         generateEvents(m)
         document.getElementById("eventlist").innerHTML = tablehead + bdtable + "</table>"
         document.getElementById("eventlist").style.backgroundColor='rgba(255, 0, 145, 0.2)'
@@ -72,10 +79,10 @@ e === 1 ? (document.getElementById("eventlist").innerHTML = tablehead + bdtable 
     var cells = document.querySelectorAll("#table1 td");
 for (var i = 0; i < cells.length; i++) {
   cells[i].addEventListener("click", function() {
-  cells.forEach(function (a){a.style.backgroundColor="yellow"; a.style.color='black'; })
+  
  clickedcell = monthsArray.indexOf(this.innerHTML.replaceAll("\n",""))
- this.style.backgroundColor='red'
-this.style.color='white'
+ //this.style.backgroundColor='red'
+//this.style.color='white'
   monthClick(clickedcell)
    });
 }

@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +14,11 @@ h3 {margin-top:0px; margin-bottom:0px; text-align:center  }
 .table1 {border-collapse:collapse; height:150px;  }
 .table1 td{border-radius:25px;}
 th{background:red; color:white }
+.modal {  display: none;   position: fixed;  z-index: 1;  padding-top: 100px;  left: 0;  top: 0;  width: 360px;   height: 100%;   overflow: auto;  background-color: rgb(0,0,0);  background-color: rgba(0,0,0,0.4);}
+.modal-content {  background-color: #fefefe;  top:0 margin: 0 auto;  padding: 20px;  border: 1px solid #888;  width: 80%;}
+.close {  color: #aaaaaa;  float: right;  font-size: 28px;  font-weight: bold;}
+.close:hover, .close:focus {  color: #000;  text-decoration: none;  cursor: pointer;}
+.disptable {border-collapse: collapse;width: 95%;}
 </style>
 
 
@@ -33,6 +39,14 @@ th{background:red; color:white }
 </div>
 <p id='eventlist'>
 </p>
+
+  <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h4 align=center id="nameHeader"></h4>
+                <p id="modalData"> </p>
+            </div>
+        </div>
 
 <script>
     url = 'https://script.google.com/macros/s/AKfycbwU43y7aw-hY8rjx77YgViB5Vs2H5yv7i5GMuUUfB6YMLbEQn3D/exec'
@@ -86,7 +100,79 @@ for (var i = 0; i < cells.length; i++) {
   monthClick(clickedcell)
    });
 }
-        </script>
+
+       function nameclick(membershipNo) {  // on click of a name will show biodata . this data is to formatted
+            //  document.documentElement.scrollTop = 0;
+            //hide()
+            //document.getElementById("div2").style.display = "block";
+            //document.getElementById("myInput").value = ""
+            //membno= membershipNo*1-1 ; 
+            membData = tempData.filter(a => a.srno === membershipNo * 1)
+            picture = "<img  src='https://drive.google.com/uc?export=view&id=" + membData[0].photoid + "' border=0 align='center' alt='Smiley face' width='100' height='100' style='border-radius:10px;'> "
+            monthsArray = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+            //toDisplay = "Name:  " + membData[0].name + "<br>"
+            //toDisplay += "SR No:" + membData[0].srno + "<br>"
+            toDisplay = "<table border=1 class='disptable' width=340px;><tr><td  ><b>Address :</b><br>" + membData[0].add1 + "<br>"
+            toDisplay += membData[0].add2 + "<br>"
+            toDisplay += membData[0].add3 + "-" + membData[0].pin + "<br>"
+            toDisplay += membData[0].add4 + "<br><td style='width:100px;'>" + picture + " <tr><td colspan=2> "
+            email = membData[0].email ? membData[0].email : 0
+            if (email.length > 0) { toDisplay += "<b>Email:</b><br><a href = 'mailto:" + membData[0].email + "'><mark>Send Email to " + membData[0].email + "</mark><br>" }
+
+            toDisplay += "<b>Phones </b><br><a style='text-decoration: none;' href='tel:" + membData[0].mob1 + "'><mark style='text-decoration: none;line-height: 1.6 ' >Call  " + membData[0].mob1 + "&nbsp;</mark></a>"
+            mob2 = membData[0].mob2 ? membData[0].mob2 : 0
+            if (mob2 > 0) {
+                toDisplay += "/<a style='text-decoration: none;' href='tel:" + mob2 + "'><mark style='text-decoration: none;line-height: 1.6 ' >" + mob2 + "&nbsp;</mark></a>"
+            }
+            fix = membData[0].fix ? membData[0].fix : 0
+            if (fix.length > 0) {
+                toDisplay += "/<a style='text-decoration: none;' href='tel:" + fix + "'><mark style='text-decoration: none;line-height: 1.6 ' >" + fix + "&nbsp;</mark></a>"
+            }
+            toDisplay += "<tr><td colspan=2><b>Retired on:</b> " + new Date(membData[0].retdate).toDateString() + "<br>"
+            toDisplay += "<b>Last Br:</b> " + membData[0].lastbr + "<br>"
+            toDisplay += "<b>Pension Br: </b>" + membData[0].penbr + "<br>"
+            if (membData[0].bm !== "") {
+                toDisplay += "<b>Birthday:</b> " + monthsArray[membData[0].bm] + "," + membData[0].bd + "<br>"
+            }
+            if (membData[0].mm !== "") {
+                toDisplay += "<b>Marriage Anniversary :</b> " + monthsArray[membData[0].mm] + ", " + membData[0].md + "<tr><td colspan=2>"
+            } else {
+                toDisplay += "<tr><td colspan=2>"
+            }
+            toDisplay += "<b>Branches Worked:</b> " + membData[0].brlist + "</table>"
+            document.getElementById("nameHeader").innerHTML = membData[0].name
+            document.getElementById("modalData").innerHTML = toDisplay
+            modal.style.display = "block";
+        }
+
+
+
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+
+
+</script>
 
 
 </body>

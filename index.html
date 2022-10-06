@@ -204,13 +204,13 @@ document.getElementById('hamdiv').style.display='none'
 }
 
         function verifyLogin() {
-            sr =30349 //comment this when live
+           // sr =30349 //comment this when live
             logsrno = +sr;
             logindata = tempData.filter(a => a.srno === logsrno * 1)
             if (logindata.length > 0) {
                 document.getElementById("buttonsDiv").style.display = "block";
                 document.getElementById("login").style.display = "none";
-            //    writeToLog() //remove comments when live
+                writeToLog() //remove comments when live
             }
             else {
                 document.getElementById("notAmember").style.display = "block";

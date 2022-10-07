@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 
@@ -15,6 +16,8 @@
     * {box-sizing:border-box; }
     .fixed td{height:100px; width:130px; text-align:center }
 .bdiv{width:360px; overflow-x:scroll;}
+.bdiv::-webkit-scrollbar {
+  display: none;}
 table.fixed {table-layout: fixed; width:360px;}
 
 .pname {font-family: "Poppins", sans-serif; text-shadow: 3px 3px 3px #ababab;   font-size:25px; }
@@ -325,14 +328,14 @@ function welf(){
 
 
 function bdtablenew(){
-bdttabletext = `Eventes This Week: Birthdays: <br><div class='bdiv'><table border=1 class='fixed'><tr>`
+bdttabletext = `<br><h4>Eventes This Week: Birthdays:</h4> <div class='bdiv'><table border=0 class='fixed'><tr>`
 bdt1=''
-allbd.forEach(function (a) {bdt1 += `<td><span onClick='nameclick(this.id)' id= ${a.srno} > <img  src='https://drive.google.com/uc?export=view&id=${a.photo}' border=0 align='center' alt='Smiley face' width='100' height='150'  style='border-radius:10px;'></span>`})
+allbd.forEach(function (a) {bdt1 += `<td><span onClick='nameclick(this.id)' id= ${a.srno} > <img  src='https://drive.google.com/uc?export=view&id=${a.photo}' border=0 align='center' alt='Smiley face' width='100' height='150'  style='border-radius:10px;'><br>${monthsArray[a.bm]}-${a.bd}</span>`})
 bdttabletext +=bdt1 + `</table></div>`
 
-mdttabletext = `Eventes This Week: Marriagedays: <br><div class='bdiv'><table border=1 class='fixed'><tr>`
+mdttabletext = `<br><h4>Eventes This Week: Marriagedays: </h4><div class='bdiv'><table border=0 class='fixed'><tr>`
 mdt1=''
-allmd.forEach(function (a) {mdt1 += `<td><span onClick='nameclick(this.id)' id= ${a.srno} > <img  src='https://drive.google.com/uc?export=view&id=${a.photo}' border=0 align='center' alt='Smiley face' width='100' height='150'  style='border-radius:10px;'></span> `})
+allmd.forEach(function (a) {mdt1 += `<td><span onClick='nameclick(this.id)' id= ${a.srno} > <img  src='https://drive.google.com/uc?export=view&id=${a.photo}' border=0 align='center' alt='Smiley face' width='100' height='150'  style='border-radius:10px;'><br>${monthsArray[a.mm]}-${a.md}</span> `})
 mdttabletext +=mdt1 + `</table></div>`
 
 }

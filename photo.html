@@ -265,6 +265,30 @@ function welf(){
             nameSort = alphasorted.map(a => ({ srno: a.srno, name: a.name, add3: a.add3, mob1: a.mob1 })).sort(function (a, b) { return a.name.localeCompare(b.name) })
             mobileSort = alphasorted.map(a => ({ srno: a.srno, name: a.name, add3: a.add3, mob1: a.mob1 })).sort((a, b) => a.mob1 - b.mob1)
             placeSort = alphasorted.map(a => ({ srno: a.srno, name: a.name, add3: a.add3, mob1: a.mob1 })).sort(function (a, b) { return a.add3.localeCompare(b.add3) })
+            bdays = alphasorted.map(a => ({ srno: a.srno, name: a.name, bm: a.bm, bd: a.bd, photo: a.photoid }))
+            mdays = alphasorted.map(a => ({ srno: a.srno, name: a.name, mm: a.mm, md: a.md, photo: a.photoid }))
+
+            //Birthdays this week:
+            //bd1 = bdays.filter(a => a.bm === currMonth).filter(a => a.bd >= currDate).filter(a => a.bd <= futureDate).sort((a, b) => a.bd - b.bd)
+            currMonth === futureMonth?
+            bd1 = bdays.filter(a => a.bm === currMonth).filter(a => a.bd >= currDate).filter(a => a.bd <= futureDate).sort((a, b) => a.bd - b.bd):
+            bd1 = bdays.filter(a => a.bm === currMonth).filter(a => a.bd >= currDate).sort((a, b) => a.bd - b.bd)
+            bd2 = [];
+            if (currMonth != futureMonth) {
+                bd2 = bdays.filter(a => a.bm === futureMonth).filter(a => a.bd <= futureDate).sort((a, b) => a.bd - b.bd)
+            }
+
+            currMonth === futureMonth?
+            md1 = mdays.filter(a => a.mm === currMonth).filter(a => a.md >= currDate).filter(a => a.md <= futureDate).sort((a, b) => a.md - b.md):
+            md1 = mdays.filter(a => a.mm === currMonth).filter(a => a.md >= currDate).sort((a, b) => a.md - b.md)
+            md2 = [];
+            if (currMonth != futureMonth) {
+                md2 = mdays.filter(a => a.mm === futureMonth).filter(a => a.md <= futureDate).sort((a, b) => a.md - b.md)
+            }
+           allbd = [...bd1, ...bd2]
+ allmd = [...md1, ...md2]
+
+            
         }
 
         function brworked_table_create() {
@@ -291,36 +315,9 @@ function welf(){
 
         function eventsThisWeek_create() {
         
-            bdays = alphasorted.map(a => ({ srno: a.srno, name: a.name, bm: a.bm, bd: a.bd, photo: a.photoid }))
-            mdays = alphasorted.map(a => ({ srno: a.srno, name: a.name, mm: a.mm, md: a.md, photo: a.photoid }))
 
-            //Birthdays this week:
-            //bd1 = bdays.filter(a => a.bm === currMonth).filter(a => a.bd >= currDate).filter(a => a.bd <= futureDate).sort((a, b) => a.bd - b.bd)
-            currMonth === futureMonth?
-            bd1 = bdays.filter(a => a.bm === currMonth).filter(a => a.bd >= currDate).filter(a => a.bd <= futureDate).sort((a, b) => a.bd - b.bd):
-            bd1 = bdays.filter(a => a.bm === currMonth).filter(a => a.bd >= currDate).sort((a, b) => a.bd - b.bd)
-            bd2 = [];
-            if (currMonth != futureMonth) {
-                bd2 = bdays.filter(a => a.bm === futureMonth).filter(a => a.bd <= futureDate).sort((a, b) => a.bd - b.bd)
-            }
-
-            currMonth === futureMonth?
-            md1 = mdays.filter(a => a.mm === currMonth).filter(a => a.md >= currDate).filter(a => a.md <= futureDate).sort((a, b) => a.md - b.md):
-            md1 = mdays.filter(a => a.mm === currMonth).filter(a => a.md >= currDate).sort((a, b) => a.md - b.md)
-            md2 = [];
-            if (currMonth != futureMonth) {
-                md2 = mdays.filter(a => a.mm === futureMonth).filter(a => a.md <= futureDate).sort((a, b) => a.md - b.md)
-            }
-            bdtable = `<br><br><br><h4>Events This Week</h4><table  border=1 align=center style='  border-collapse: collapse; border: 1px solid black; '><tr><td colspan=2 align=center style='background:pink;'> Birthdays`
-
-            bd1.forEach(function (a) { bdtable += "<tr><td>" + monthsArray[a.bm] + ", " + a.bd + "<td  class='pname' ><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span>" })
-            bd2.forEach(function (a) { bdtable += "<tr><td>" + monthsArray[a.bm] + ", " + a.bd + "<td class='pname' ><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span>" })
-
-            bdtable += "<tr><td  colspan=2 align=center style='background:pink;'>Marriage Anniversaries"
-            md1.forEach(function (a) { bdtable += "<tr><td>" + monthsArray[a.mm] + ", " + a.md + "<td class='pname' ><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span>" })
-            md2.forEach(function (a) { bdtable += "<tr><td>" + monthsArray[a.mm] + ", " + a.md + "<td class='pname' ><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span>" })
-            bdtablenew()
-            bdtable += "</table><br><br>" + bdttabletext
+         bdtablenew()
+           bdtable = "<br><br><br>" +  bdttabletext + mdttabletext
             
             
             
@@ -328,12 +325,15 @@ function welf(){
 
 
 function bdtablenew(){
-bdttabletext = `<div class='bdiv'><table border=1 class='fixed'><tr>`
+bdttabletext = `Eventes This Week: Birthdays: <br><div class='bdiv'><table border=1 class='fixed'><tr>`
 bdt1=''
-bd1.forEach(function (a) {bdt1 += `<td><img  src='https://drive.google.com/uc?export=view&id=${a.photo}' border=0 align='center' alt='Smiley face' width='100' height='150'  style='border-radius:10px;'>`})
+allbd.forEach(function (a) {bdt1 += `<td><span onClick='nameclick(this.id)' id= ${a.srno} > <img  src='https://drive.google.com/uc?export=view&id=${a.photo}' border=0 align='center' alt='Smiley face' width='100' height='150'  style='border-radius:10px;'></span>`})
+bdttabletext +=bdt1 + `</table></div>`
 
-
-bdttabletext +=bdt1 + `</table></div><br><br><br>`
+mdttabletext = `Eventes This Week: Marriagedays: <br><div class='bdiv'><table border=1 class='fixed'><tr>`
+mdt1=''
+allmd.forEach(function (a) {mdt1 += `<td><span onClick='nameclick(this.id)' id= ${a.srno} > <img  src='https://drive.google.com/uc?export=view&id=${a.photo}' border=0 align='center' alt='Smiley face' width='100' height='150'  style='border-radius:10px;'></span> `})
+mdttabletext +=mdt1 + `</table></div>`
 
 }
 

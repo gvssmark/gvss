@@ -62,7 +62,7 @@ thead{border:0px solid red; background-color: red;position: fixed;z-index: 10;ma
 #nameHeader{text-align: center; font-size:large; margin-top:10px; color:white}
 table.bio{font-size:small;  border-left:0px; border-right:0px; padding:0px;}
 b{color:white; }
-b1{color:red; }
+.b1{color:red; }
 #modalData{padding:0px;}
 #myInputSearch {margin-top: 50px;width: 180px;margin-left: 90px;;height: 30px;border-radius: 15px;background-color: cyan;border: 0px;outline: 0;display:none;position:fixed;}
 #myInputCity {margin-top: 50px;width: 180px;margin-left: 90px;;height: 30px;border-radius: 15px;background-color: cyan;border: 0px;outline: 0;display:none;position:fixed;}
@@ -126,8 +126,8 @@ a {text-decoration:none; color:black; visited:white;}
             </table>
             
         
-        <p class='caution'>This application behaves like a native app.<br /><b>Back Button</b> will always <b>EXIT</b> from the app.<br /> Use Menus provided in the app to navigate.</p>
-        <p  id='notAmember'><b>You are not a Member<br>
+        <p class='caution'>This application behaves like a native app.<br /><b  class='b1'>Back Button</b> will always <b>EXIT</b> from the app.<br /> Use Menus provided in the app to navigate.</p>
+        <p  id='notAmember'><b class='b1'>You are not a Member<br>
         <a href='https://docs.google.com/forms/d/e/1FAIpQLSeBrp4C8dL5uSj3HmE8r9bBpgwTGcuzzPAyce7Y1BDotK2jVw/viewform?usp=sf_link'>Submit Your Data</a></b></p>
         </div>
 
@@ -517,7 +517,7 @@ document.getElementById('ifr').style.display='none'
 
         function dataCorrectionData() {
           //  document.getElementById("middleDiv").style.display = "block"
-            dataCorrection = `<br><br><br><br>For Data updation please send a WhatsApp Message/ Email to the following persons<br><br><b>VM Seshasayan:</b> <br>Mobile: 9849750184 <br>Email: seshasayan.vm@gmail.com<br><br><b>GVSS Markandeyulu: </b><br>Mobile: 9989036183<br> Email: gvssmark@gmail.com<br><br> <b> Please Allow 1 or 2 days for updating the data..</b> <br>`
+            dataCorrection = `<br><br><br><br>For Data updation please send a WhatsApp Message/ Email to the following persons<br><br><b class='b1'>VM Seshasayan:</b> <br>Mobile: 9849750184 <br>Email: seshasayan.vm@gmail.com<br><br><b class='b1'>GVSS Markandeyulu: </b><br>Mobile: 9989036183<br> Email: gvssmark@gmail.com<br><br> <b class='b1'> Please Allow 1 or 2 days for updating the data..</b> <br>`
         }
 
         function aboutData() {

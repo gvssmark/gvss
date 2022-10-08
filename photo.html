@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html>
 
@@ -56,11 +57,12 @@ thead{border:0px solid red; background-color: red;position: fixed;z-index: 10;ma
 .caution {text-align: center;margin: 5px;margin-top: 1px; font-size:small;}
 #notAmember {display: none;font-size: large;margin: auto;text-align: center;}
 .modal {display: none;position: fixed;z-index: 10;padding-top: 1px;left: inherit;top: 0;width: 360px;height: 100%;overflow: auto;background-color: rgb(0, 0, 0);background-color: rgba(0, 0, 0, 0.4);}
-.modal-content {background-color: #ffe7c0;margin: auto;padding: 2px;padding-bottom: 2px;border: 1px solid #888;width: 95%;border-radius: 15px;background-image: url('https://ibap.w3spaces.com/modaldatabg.jpg')}
+.modal-content {background-color: #ffe7c0;margin: auto;padding: 2px;padding-bottom: 2px;border: 1px solid #888;width: 95%;border-radius: 15px;}
 .close {color: #fd0b20;float: right;font-size: 28px;font-weight: bold;}
-#nameHeader{text-align: center; font-size:large; margin-top:10px;}
+#nameHeader{text-align: center; font-size:large; margin-top:10px; color:white}
 table.bio{font-size:small;  border-left:0px; border-right:0px; padding:0px;}
-b{color:blue; }
+b{color:white; }
+b1{color:red; }
 #modalData{padding:0px;}
 #myInputSearch {margin-top: 50px;width: 180px;margin-left: 90px;;height: 30px;border-radius: 15px;background-color: cyan;border: 0px;outline: 0;display:none;position:fixed;}
 #myInputCity {margin-top: 50px;width: 180px;margin-left: 90px;;height: 30px;border-radius: 15px;background-color: cyan;border: 0px;outline: 0;display:none;position:fixed;}
@@ -471,7 +473,7 @@ whatSort.forEach(function (a) { xx += `<tr align=center onClick='nameclick(this.
             fix = mydata.fix.length>0? `${mydata.fix}`:""
             em=mydata.email.length>0?`${trtd}<b>Email: </b><a href = 'mailto:${mydata.email}'><mark>${mydata.email}</mark>`:""
             tab=`
-            <table class='bio' width=100% border=1>
+            <table class='bio' width=100% border=0>
             <tr><td><b>Address: </b><br>${mydata.add1}<br>${mydata.add2}<br>${mydata.add3}-${mydata.pin} <br>${mydata.add4}<td width=75><img  src='https://drive.google.com/uc?export=view&id=${mydata.photoid}' border=0 align='center' alt='Smiley face' width='75' height='100'  style='border-radius:10px;'> 
             ${trtd}<b>Phones: </b>
                 <a href='tel:${mob1}'><mark style='text-decoration: none;line-height: 1.6 ' > ${ mob1 }</mark></a>&nbsp;
@@ -488,6 +490,12 @@ whatSort.forEach(function (a) { xx += `<tr align=center onClick='nameclick(this.
             
             //modal data background : https://ibap.w3spaces.com/modaldatabg.jpg?bypass-cache=1626531331 or https://ibap.w3spaces.com/modaldatabg.jpg
             document.getElementById("modalData").innerHTML = tab
+            clr=`hsla(${Math.floor(Math.random() * 360)}, 90%,40%,1)`
+            document.getElementById("modalData").style.backgroundColor=clr
+            document.getElementById("modalData").style.color='white'
+            document.getElementsByClassName("modal-content")[0].style.backgroundColor=clr
+            
+            
         }
 
         function showHome() {
@@ -514,7 +522,7 @@ document.getElementById('ifr').style.display='none'
 
         function aboutData() {
           //  document.getElementById("middleDiv").style.display = "block"
-            about = `<span id='about'><br><br><br><br><b>IBAP-Retirees Google Group</b> was started with an intention, to have a common platform, to  discuss about Retirees Issues and for exchanges of thoughts of common interest, among the retirees of Indian Bank  of AP &  Telangana States. This group is not affiliated to any Association. No membership fees to join this group. Presently, we have <b><span class='abt'>  ${alphasorted.length} </span> </b>members in this group.<br><br> <b>Address Book</b> Later we thought, it will be convenient to have an address book of Indian Bank Retirees of Telangana and Andhra Pradesh, with Photos. So we have designed a format to have the details of the retirees and upto now <b><span class='abt'>  ${alphasorted.length} </span> </b> retired staff members irrespective of their designation in the Bank and irrespective of their affiliation to the associations gave their details.<br><br>  <b>IB Friends WhatsApp group</b> Subsequently, we have started IB Friends WhatsApp group for the convenience of Smart Phone mobile users. Presently there are 201 participants in this group.<br><br> All the three groups are separate. Retired staff members can choose any one , or two or all the three groups This is purely optional. <br><br> Once again, we wish to inform you that <mark>these three groups are not a part of any association nor against any association</mark>. These are purely for inter communication among the Retired Staff members of Indian Bank.<br></span> `
+            about = `<span id='about'><br><br><br><br><b1>IBAP-Retirees Google Group</b1> was started with an intention, to have a common platform, to  discuss about Retirees Issues and for exchanges of thoughts of common interest, among the retirees of Indian Bank  of AP &  Telangana States. This group is not affiliated to any Association. No membership fees to join this group. Presently, we have <b><span class='abt'>  ${alphasorted.length} </span> </b>members in this group.<br><br> <b1>Address Book</b1> Later we thought, it will be convenient to have an address book of Indian Bank Retirees of Telangana and Andhra Pradesh, with Photos. So we have designed a format to have the details of the retirees and upto now <b><span class='abt'>  ${alphasorted.length} </span> </b> retired staff members irrespective of their designation in the Bank and irrespective of their affiliation to the associations gave their details.<br><br>  <b1>IB Friends WhatsApp group</b1> Subsequently, we have started IB Friends WhatsApp group for the convenience of Smart Phone mobile users. Presently there are 201 participants in this group.<br><br> All the three groups are separate. Retired staff members can choose any one , or two or all the three groups This is purely optional. <br><br> Once again, we wish to inform you that <mark>these three groups are not a part of any association nor against any association</mark>. These are purely for inter communication among the Retired Staff members of Indian Bank.<br></span> `
         }
         sr = ""
         function getCelValue(a) {

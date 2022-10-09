@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html>
 
@@ -178,6 +179,13 @@ a {text-decoration:none; color:black; visited:white;}
 <iframe id='ifr' src="https://gvssmark.github.io/gvss/otherfeatures.html"  title="Iframe Example"></iframe>
 
     <script>
+ 
+
+localStorage.getItem("mylocal") !== null? ( document.getElementById("buttonsDiv").style.display = "block",                document.getElementById("login").style.display = "none",
+    l=localStorage.getItem("mylocal").split("#"),
+    writeToLog(l[0] ,l[1])) : document.getElementById("login").style.display = "block"
+
+    
         var about = "";
         alphasorted = [];
         var dataCorrection =
@@ -199,9 +207,14 @@ a {text-decoration:none; color:black; visited:white;}
             mycities = Array.from(new Set(alphasorted.map(s => s.add3))).sort()
             if (tempData.length>0){document.getElementById('tdgo').style.color="yellow"}
             getVariousArrays()
-        }
+
+
+}
 
         getMyData()
+
+
+    
 
 function hamdivhide(){
 document.getElementById('hamdiv').style.display='none'
@@ -210,13 +223,14 @@ document.getElementById('hamdiv').style.display='none'
 }
 
         function verifyLogin() {
-            sr =30349 //comment this when live
+            //sr =30349 //comment this when live
             logsrno = +sr;
             logindata = tempData.filter(a => a.srno === logsrno * 1)
             if (logindata.length > 0) {
                 document.getElementById("buttonsDiv").style.display = "block";
                 document.getElementById("login").style.display = "none";
-            //    writeToLog() //remove comments when live
+                localStorage.setItem("mylocal", logindata[0].srno + "#" + logindata[0].name )
+                writeToLog(logindata[0].srno, logindata[0].name) //remove comments when live
             }
             else {
                 document.getElementById("notAmember").style.display = "block";
@@ -224,10 +238,10 @@ document.getElementById('hamdiv').style.display='none'
             }
         }
 
-		function writeToLog(){
+		function writeToLog(a,b){
             formData = new FormData();
-            formData.append('fname', logsrno);
-            formData.append('lname', logindata[0].name);
+            formData.append('fname', a);
+            formData.append('lname', b );
             fetch("https://script.google.com/macros/s/AKfycbyfHambsSuB4tIQiUIIqIf72m7zgl7hT4FsW8N3TIVeQu9U6Po/exec",
                 {
                 body: formData,

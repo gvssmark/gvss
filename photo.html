@@ -3,6 +3,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html>
 
@@ -78,7 +79,7 @@ a{text-decoration:none;}
 a {text-decoration:none; color:black; visited:white;}
 #ifr {width:350px; height:600px; border:none; display:none}
 #loc{height:250px; margin: 100px auto; text-align:center; display:none; background:yellow }
-
+#gotoabk {display:none}
 
     </style>
 </head>
@@ -88,7 +89,7 @@ a {text-decoration:none; color:black; visited:white;}
 <div id='loc'>
 <p class='pname'>Welcome</p>
 <p id='locname' class='pname'></p>
-<div class="btns btn1" onclick='gotoaddbook()'>Continue to address book</div>
+<div id='gotoabk' class="btns btn1" onclick='gotoaddbook()'>Continue to address book</div>
 
 
 </div>
@@ -221,7 +222,8 @@ document.getElementById('buttonsDiv').style.display='block'
             tempData = data["user"].sort((a, b) => a.srno - b.srno);
             alphasorted = tempData.sort(function (a, b) { return a.name.localeCompare(b.name) })
             mycities = Array.from(new Set(alphasorted.map(s => s.add3))).sort()
-            if (tempData.length>0){document.getElementById('tdgo').style.color="yellow"}
+            if (tempData.length>0){document.getElementById('tdgo').style.color="yellow";
+            document.getElementById('gotoabk').style.display='block'}
             getVariousArrays()
 
 

@@ -193,8 +193,8 @@ a {text-decoration:none; color:black; visited:white;}
 
 localStorage.getItem("mylocal") !== null? ( document.getElementById("loc").style.display = "block",                document.getElementById("login").style.display = "none",
     l=localStorage.getItem("mylocal").split("#"),
-    writeToLog(l[0] ,l[1]), document.getElementById('locname').innerHTML=l[1]) : document.getElementById("login").style.display = "block"
-
+    document.getElementById('locname').innerHTML=l[1]) : document.getElementById("login").style.display = "block"
+//writeToLog(l[0] ,l[1]),  add in live
 function gotoaddbook(){
 document.getElementById('loc').style.display='none'
 document.getElementById('buttonsDiv').style.display='block'

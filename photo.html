@@ -1,6 +1,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html>
 
@@ -75,12 +76,21 @@ a{text-decoration:none;}
 .hdivs {padding-top:10px; margin-left: 5px;}
 a {text-decoration:none; color:black; visited:white;}
 #ifr {width:350px; height:600px; border:none; display:none}
+#loc{height:200px; margin: 100px auto; text-align:center; display:none; background:yellow }
 
 
     </style>
 </head>
 
 <body>
+
+<div id='loc'>
+<p class='pname'>Welcome</p>
+<p id='locname' class='pname'></p>
+<button onclick='gotoaddbook()'>Continue to address book</button>
+
+
+</div>
 
     <input type="text"  onkeyup="dispdata();"  id='myInputSearch'  placeholder="Search for a Name here...">
     <input type="text"  onkeyup="seachPlaceOfStay();"  id='myInputCity'  placeholder="Search for a City here...">
@@ -181,11 +191,16 @@ a {text-decoration:none; color:black; visited:white;}
     <script>
  
 
-localStorage.getItem("mylocal") !== null? ( document.getElementById("buttonsDiv").style.display = "block",                document.getElementById("login").style.display = "none",
+localStorage.getItem("mylocal") !== null? ( document.getElementById("loc").style.display = "block",                document.getElementById("login").style.display = "none",
     l=localStorage.getItem("mylocal").split("#"),
-    writeToLog(l[0] ,l[1])) : document.getElementById("login").style.display = "block"
+    writeToLog(l[0] ,l[1]), document.getElementById('locname').innerHTML=l[1]) : document.getElementById("login").style.display = "block"
 
-    
+function gotoaddbook(){
+document.getElementById('loc').style.display='none'
+document.getElementById('buttonsDiv').style.display='block'
+}
+
+
         var about = "";
         alphasorted = [];
         var dataCorrection =

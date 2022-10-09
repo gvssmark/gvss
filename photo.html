@@ -2,6 +2,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html>
 
@@ -76,7 +77,7 @@ a{text-decoration:none;}
 .hdivs {padding-top:10px; margin-left: 5px;}
 a {text-decoration:none; color:black; visited:white;}
 #ifr {width:350px; height:600px; border:none; display:none}
-#loc{height:200px; margin: 100px auto; text-align:center; display:none; background:yellow }
+#loc{height:250px; margin: 100px auto; text-align:center; display:none; background:yellow }
 
 
     </style>
@@ -87,7 +88,7 @@ a {text-decoration:none; color:black; visited:white;}
 <div id='loc'>
 <p class='pname'>Welcome</p>
 <p id='locname' class='pname'></p>
-<button onclick='gotoaddbook()'>Continue to address book</button>
+<div class="btns btn1" onclick='gotoaddbook()'>Continue to address book</div>
 
 
 </div>
@@ -245,7 +246,7 @@ document.getElementById('hamdiv').style.display='none'
                 document.getElementById("buttonsDiv").style.display = "block";
                 document.getElementById("login").style.display = "none";
                 localStorage.setItem("mylocal", logindata[0].srno + "#" + logindata[0].name )
-                writeToLog(logindata[0].srno, logindata[0].name) //remove comments when live
+                //writeToLog(logindata[0].srno, logindata[0].name) //remove comments when live
             }
             else {
                 document.getElementById("notAmember").style.display = "block";
@@ -546,10 +547,21 @@ document.getElementById('ifr').style.display='none'
 
         function dataCorrectionData() {
           //  document.getElementById("middleDiv").style.display = "block"
-            dataCorrection = `<br><br><br><br>For Data updation please send a WhatsApp Message/ Email to the following persons<br><br><b class='b1'>VM Seshasayan:</b> <br>Mobile: 9849750184 <br>Email: seshasayan.vm@gmail.com<br><br><b class='b1'>GVSS Markandeyulu: </b><br>Mobile: 9989036183<br> Email: gvssmark@gmail.com<br><br> <b class='b1'> Please Allow 1 or 2 days for updating the data..</b> <br>`
+            dataCorrection = `<br><br><br><br>For Data updation please send a WhatsApp Message/ Email to the following persons<br><br><b class='b1'>VM Seshasayan:</b> <br>Mobile: 9849750184 <br>Email: seshasayan.vm@gmail.com<br><br><b class='b1'>GVSS Markandeyulu: </b><br>Mobile: 9989036183<br> Email: gvssmark@gmail.com<br><br> <b class='b1'> Please Allow 1 or 2 days for updating the data..</b> <br><br><br><br>
+         <span onclick='clearlocal()'>   Clear Local Storage</span>
+            
+        `
         }
 
-        function aboutData() {
+
+function clearlocal(){
+localStorage.removeItem("mylocal");
+
+
+}
+
+
+function aboutData() {
           //  document.getElementById("middleDiv").style.display = "block"
             about = `<span id='about'><br><br><br><br><b1>IBAP-Retirees Google Group</b1> was started with an intention, to have a common platform, to  discuss about Retirees Issues and for exchanges of thoughts of common interest, among the retirees of Indian Bank  of AP &  Telangana States. This group is not affiliated to any Association. No membership fees to join this group. Presently, we have <b><span class='abt'>  ${alphasorted.length} </span> </b>members in this group.<br><br> <b1>Address Book</b1> Later we thought, it will be convenient to have an address book of Indian Bank Retirees of Telangana and Andhra Pradesh, with Photos. So we have designed a format to have the details of the retirees and upto now <b><span class='abt'>  ${alphasorted.length} </span> </b> retired staff members irrespective of their designation in the Bank and irrespective of their affiliation to the associations gave their details.<br><br>  <b1>IB Friends WhatsApp group</b1> Subsequently, we have started IB Friends WhatsApp group for the convenience of Smart Phone mobile users. Presently there are 201 participants in this group.<br><br> All the three groups are separate. Retired staff members can choose any one , or two or all the three groups This is purely optional. <br><br> Once again, we wish to inform you that <mark>these three groups are not a part of any association nor against any association</mark>. These are purely for inter communication among the Retired Staff members of Indian Bank.<br></span> `
         }

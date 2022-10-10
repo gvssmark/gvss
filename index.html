@@ -1,6 +1,5 @@
 
 
-
 <!DOCTYPE html>
 <html>
 
@@ -16,6 +15,12 @@
     <title>IBAP RETIREES GOOGLE GROUP</title>
     <style>
     * {box-sizing:border-box; }
+    .fixed td{height:100px; width:130px; text-align:center }
+.bdiv{width:360px; overflow-x:scroll;}
+.bdiv::-webkit-scrollbar {
+  display: none;}
+table.fixed {table-layout: fixed; width:360px;}
+
 .pname {font-family: "Poppins", sans-serif; text-shadow: 3px 3px 3px #ababab;   font-size:25px; }
 body {overscroll-behavior: contain; margin: auto;background: rgba(231, 226, 228, 0.8);width: 360px;height: 100%; background-image: url('https://github.com/gvssmark/gvss/blob/main/images/smaillibap.png?raw=true');}
 .ham {  width: 35px;  height: 5px;  background-color: black;  margin: 6px 0;}
@@ -52,11 +57,12 @@ thead{border:0px solid red; background-color: red;position: fixed;z-index: 10;ma
 .caution {text-align: center;margin: 5px;margin-top: 1px; font-size:small;}
 #notAmember {display: none;font-size: large;margin: auto;text-align: center;}
 .modal {display: none;position: fixed;z-index: 10;padding-top: 1px;left: inherit;top: 0;width: 360px;height: 100%;overflow: auto;background-color: rgb(0, 0, 0);background-color: rgba(0, 0, 0, 0.4);}
-.modal-content {background-color: #ffe7c0;margin: auto;padding: 2px;padding-bottom: 2px;border: 1px solid #888;width: 95%;border-radius: 15px;background-image: url('https://ibap.w3spaces.com/modaldatabg.jpg')}
+.modal-content {background-color: #ffe7c0;margin: auto;padding: 2px;padding-bottom: 2px;border: 1px solid #888;width: 95%;border-radius: 15px;}
 .close {color: #fd0b20;float: right;font-size: 28px;font-weight: bold;}
-#nameHeader{text-align: center; font-size:large; margin-top:10px;}
+#nameHeader{text-align: center; font-size:large; margin-top:10px; color:white}
 table.bio{font-size:small;  border-left:0px; border-right:0px; padding:0px;}
-b{color:blue; }
+b{color:white; }
+.b1{color:red; }
 #modalData{padding:0px;}
 #myInputSearch {margin-top: 50px;width: 180px;margin-left: 90px;;height: 30px;border-radius: 15px;background-color: cyan;border: 0px;outline: 0;display:none;position:fixed;}
 #myInputCity {margin-top: 50px;width: 180px;margin-left: 90px;;height: 30px;border-radius: 15px;background-color: cyan;border: 0px;outline: 0;display:none;position:fixed;}
@@ -68,12 +74,23 @@ a{text-decoration:none;}
 .hdivs {padding-top:10px; margin-left: 5px;}
 a {text-decoration:none; color:black; visited:white;}
 #ifr {width:350px; height:600px; border:none; display:none}
-
+#loc{height:260px; margin: 100px auto; width:350px; border-radius:25px; text-align:center; display:none; background:LightGray;  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4)  }
+#gotoabk {display:none}
 
     </style>
 </head>
 
 <body>
+
+<div id='loc'>
+<p class='pname'>Welcome</p>
+<p id='locname' class='pname'></p>
+<p id='loctime' ></p>
+
+<div id='gotoabk' class="btns btn1" onclick='gotoaddbook()'>Continue to address book</div>
+
+
+</div>
 
     <input type="text"  onkeyup="dispdata();"  id='myInputSearch'  placeholder="Search for a Name here...">
     <input type="text"  onkeyup="seachPlaceOfStay();"  id='myInputCity'  placeholder="Search for a City here...">
@@ -120,8 +137,8 @@ a {text-decoration:none; color:black; visited:white;}
             </table>
             
         
-        <p class='caution'>This application behaves like a native app.<br /><b>Back Button</b> will always <b>EXIT</b> from the app.<br /> Use Menus provided in the app to navigate.</p>
-        <p  id='notAmember'><b>You are not a Member<br>
+        <p class='caution'>This application behaves like a native app.<br /><b  class='b1'>Back Button</b> will always <b  class='b1'>EXIT</b> from the app.<br /> Use Menus provided in the app to navigate.</p>
+        <p  id='notAmember'><b class='b1'>You are not a Member<br>
         <a href='https://docs.google.com/forms/d/e/1FAIpQLSeBrp4C8dL5uSj3HmE8r9bBpgwTGcuzzPAyce7Y1BDotK2jVw/viewform?usp=sf_link'>Submit Your Data</a></b></p>
         </div>
 
@@ -172,6 +189,26 @@ a {text-decoration:none; color:black; visited:white;}
 <iframe id='ifr' src="https://gvssmark.github.io/gvss/otherfeatures.html"  title="Iframe Example"></iframe>
 
     <script>
+ 
+
+localStorage.getItem("mylocal") !== null? ( document.getElementById("loc").style.display = "block",               document.getElementById("login").style.display = "none",
+l=localStorage.getItem("mylocal").split("#"),
+document.getElementById('locname').innerHTML=l[1],
+document.getElementById('loctime').innerHTML="Last log in on this device: " + l[2],
+localStorage.setItem("mylocal",l[0]+"#"+l[1]+"#"+Date().toString().substring(4,21),
+writeToLog(l[0] ,l[1]))) :
+    document.getElementById("login").style.display = "block"
+    //localStorage.setItem("mylocal",l[0]+"#"+l[1]+"#"+Date().toString().substring(4,21),writeToLog(l[0] ,l[1]))
+
+
+
+
+function gotoaddbook(){
+document.getElementById('loc').style.display='none'
+document.getElementById('buttonsDiv').style.display='block'
+}
+
+
         var about = "";
         alphasorted = [];
         var dataCorrection =
@@ -191,11 +228,17 @@ a {text-decoration:none; color:black; visited:white;}
             tempData = data["user"].sort((a, b) => a.srno - b.srno);
             alphasorted = tempData.sort(function (a, b) { return a.name.localeCompare(b.name) })
             mycities = Array.from(new Set(alphasorted.map(s => s.add3))).sort()
-            if (tempData.length>0){document.getElementById('tdgo').style.color="yellow"}
+            if (tempData.length>0){document.getElementById('tdgo').style.color="yellow";
+            document.getElementById('gotoabk').style.display='block'}
             getVariousArrays()
-        }
+
+
+}
 
         getMyData()
+
+
+    
 
 function hamdivhide(){
 document.getElementById('hamdiv').style.display='none'
@@ -204,13 +247,14 @@ document.getElementById('hamdiv').style.display='none'
 }
 
         function verifyLogin() {
-           // sr =30349 //comment this when live
+            //sr =30349 //comment this when live
             logsrno = +sr;
             logindata = tempData.filter(a => a.srno === logsrno * 1)
             if (logindata.length > 0) {
                 document.getElementById("buttonsDiv").style.display = "block";
                 document.getElementById("login").style.display = "none";
-                writeToLog() //remove comments when live
+     localStorage.setItem("mylocal", logindata[0].srno + "#" + logindata[0].name + "#" + Date().toString().substring(4,21) )
+                writeToLog(logindata[0].srno, logindata[0].name) //remove comments when live
             }
             else {
                 document.getElementById("notAmember").style.display = "block";
@@ -218,10 +262,10 @@ document.getElementById('hamdiv').style.display='none'
             }
         }
 
-		function writeToLog(){
+		function writeToLog(a,b){
             formData = new FormData();
-            formData.append('fname', logsrno);
-            formData.append('lname', logindata[0].name);
+            formData.append('fname', a);
+            formData.append('lname', b );
             fetch("https://script.google.com/macros/s/AKfycbyfHambsSuB4tIQiUIIqIf72m7zgl7hT4FsW8N3TIVeQu9U6Po/exec",
                 {
                 body: formData,
@@ -264,6 +308,30 @@ function welf(){
             nameSort = alphasorted.map(a => ({ srno: a.srno, name: a.name, add3: a.add3, mob1: a.mob1 })).sort(function (a, b) { return a.name.localeCompare(b.name) })
             mobileSort = alphasorted.map(a => ({ srno: a.srno, name: a.name, add3: a.add3, mob1: a.mob1 })).sort((a, b) => a.mob1 - b.mob1)
             placeSort = alphasorted.map(a => ({ srno: a.srno, name: a.name, add3: a.add3, mob1: a.mob1 })).sort(function (a, b) { return a.add3.localeCompare(b.add3) })
+            bdays = alphasorted.map(a => ({ srno: a.srno, name: a.name, bm: a.bm, bd: a.bd, photo: a.photoid }))
+            mdays = alphasorted.map(a => ({ srno: a.srno, name: a.name, mm: a.mm, md: a.md, photo: a.photoid }))
+
+            //Birthdays this week:
+            //bd1 = bdays.filter(a => a.bm === currMonth).filter(a => a.bd >= currDate).filter(a => a.bd <= futureDate).sort((a, b) => a.bd - b.bd)
+            currMonth === futureMonth?
+            bd1 = bdays.filter(a => a.bm === currMonth).filter(a => a.bd >= currDate).filter(a => a.bd <= futureDate).sort((a, b) => a.bd - b.bd):
+            bd1 = bdays.filter(a => a.bm === currMonth).filter(a => a.bd >= currDate).sort((a, b) => a.bd - b.bd)
+            bd2 = [];
+            if (currMonth != futureMonth) {
+                bd2 = bdays.filter(a => a.bm === futureMonth).filter(a => a.bd <= futureDate).sort((a, b) => a.bd - b.bd)
+            }
+
+            currMonth === futureMonth?
+            md1 = mdays.filter(a => a.mm === currMonth).filter(a => a.md >= currDate).filter(a => a.md <= futureDate).sort((a, b) => a.md - b.md):
+            md1 = mdays.filter(a => a.mm === currMonth).filter(a => a.md >= currDate).sort((a, b) => a.md - b.md)
+            md2 = [];
+            if (currMonth != futureMonth) {
+                md2 = mdays.filter(a => a.mm === futureMonth).filter(a => a.md <= futureDate).sort((a, b) => a.md - b.md)
+            }
+           allbd = [...bd1, ...bd2]
+ allmd = [...md1, ...md2]
+
+            
         }
 
         function brworked_table_create() {
@@ -289,42 +357,30 @@ function welf(){
         }
 
         function eventsThisWeek_create() {
-            bdays = alphasorted.map(a => ({ srno: a.srno, name: a.name, bm: a.bm, bd: a.bd }))
-            mdays = alphasorted.map(a => ({ srno: a.srno, name: a.name, mm: a.mm, md: a.md }))
+        
 
-            //Birthdays this week:
-            //bd1 = bdays.filter(a => a.bm === currMonth).filter(a => a.bd >= currDate).filter(a => a.bd <= futureDate).sort((a, b) => a.bd - b.bd)
-            currMonth === futureMonth?
-            bd1 = bdays.filter(a => a.bm === currMonth).filter(a => a.bd >= currDate).filter(a => a.bd <= futureDate).sort((a, b) => a.bd - b.bd):
-            bd1 = bdays.filter(a => a.bm === currMonth).filter(a => a.bd >= currDate).sort((a, b) => a.bd - b.bd)
-            //Birthdays this week - if spread over next month:
-            bd2 = [];
-            if (currMonth != futureMonth) {
-                bd2 = bdays.filter(a => a.bm === futureMonth).filter(a => a.bd <= futureDate).sort((a, b) => a.bd - b.bd)
-            }
-
-            //Anniversary this week:
-            //md1 = mdays.filter(a => a.mm === currMonth).filter(a => a.md >= currDate).filter(a => a.md <= futureDate).sort((a, b) => a.md - b.md)
-            currMonth === futureMonth?
-            md1 = mdays.filter(a => a.mm === currMonth).filter(a => a.md >= currDate).filter(a => a.md <= futureDate).sort((a, b) => a.md - b.md):
-            md1 = mdays.filter(a => a.mm === currMonth).filter(a => a.md >= currDate).sort((a, b) => a.md - b.md)
-
-            //Anniversary this week - if spread over next month:
-            md2 = [];
-            if (currMonth != futureMonth) {
-                md2 = mdays.filter(a => a.mm === futureMonth).filter(a => a.md <= futureDate).sort((a, b) => a.md - b.md)
-            }
-            bdtable = `<br><br><br><h4>Events This Week</h4><table  border=1 align=center style='  border-collapse: collapse; border: 1px solid black; '>
-                <tr><td colspan=2 align=center style='background:pink;'> Birthdays`
-
-            bd1.forEach(function (a) { bdtable += "<tr><td>" + monthsArray[a.bm] + ", " + a.bd + "<td  class='pname' ><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span>" })
-            bd2.forEach(function (a) { bdtable += "<tr><td>" + monthsArray[a.bm] + ", " + a.bd + "<td class='pname' ><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span>" })
-
-            bdtable += "<tr><td  colspan=2 align=center style='background:pink;'>Marriage Anniversaries"
-            md1.forEach(function (a) { bdtable += "<tr><td>" + monthsArray[a.mm] + ", " + a.md + "<td class='pname' ><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span>" })
-            md2.forEach(function (a) { bdtable += "<tr><td>" + monthsArray[a.mm] + ", " + a.md + "<td class='pname' ><span onClick='nameclick(this.id)' id=" + a.srno + ">" + a.name + "</span>" })
-            bdtable += "</table><br><br>"
+         bdtablenew()
+           bdtable = "<br><br><br>" +  bdttabletext + mdttabletext
+            
+            
+            
         }
+
+
+function bdtablenew(){
+bdttabletext = `<br><h4>Eventes This Week: Birthdays:</h4> <div class='bdiv'><table border=0 class='fixed'><tr>`
+bdt1=''
+allbd.forEach(function (a) {bdt1 += `<td><span onClick='nameclick(this.id)' id= ${a.srno} > <img  src='https://drive.google.com/uc?export=view&id=${a.photo}' border=0 align='center' alt='Smiley face' width='100' height='150'  style='border-radius:10px;'><br>${monthsArray[a.bm]}-${a.bd}</span>`})
+bdttabletext +=bdt1 + `</table></div>`
+
+mdttabletext = `<br><h4>Eventes This Week: Marriagedays: </h4><div class='bdiv'><table border=0 class='fixed'><tr>`
+mdt1=''
+allmd.forEach(function (a) {mdt1 += `<td><span onClick='nameclick(this.id)' id= ${a.srno} > <img  src='https://drive.google.com/uc?export=view&id=${a.photo}' border=0 align='center' alt='Smiley face' width='100' height='150'  style='border-radius:10px;'><br>${monthsArray[a.mm]}-${a.md}</span> `})
+mdttabletext +=mdt1 + `</table></div>`
+
+}
+
+
 
         function unq(a) { return Array.from(new Set(a)); }
 
@@ -455,7 +511,7 @@ whatSort.forEach(function (a) { xx += `<tr align=center onClick='nameclick(this.
             fix = mydata.fix.length>0? `${mydata.fix}`:""
             em=mydata.email.length>0?`${trtd}<b>Email: </b><a href = 'mailto:${mydata.email}'><mark>${mydata.email}</mark>`:""
             tab=`
-            <table class='bio' width=100% border=1>
+            <table class='bio' width=100% border=0>
             <tr><td><b>Address: </b><br>${mydata.add1}<br>${mydata.add2}<br>${mydata.add3}-${mydata.pin} <br>${mydata.add4}<td width=75><img  src='https://drive.google.com/uc?export=view&id=${mydata.photoid}' border=0 align='center' alt='Smiley face' width='75' height='100'  style='border-radius:10px;'> 
             ${trtd}<b>Phones: </b>
                 <a href='tel:${mob1}'><mark style='text-decoration: none;line-height: 1.6 ' > ${ mob1 }</mark></a>&nbsp;
@@ -472,6 +528,12 @@ whatSort.forEach(function (a) { xx += `<tr align=center onClick='nameclick(this.
             
             //modal data background : https://ibap.w3spaces.com/modaldatabg.jpg?bypass-cache=1626531331 or https://ibap.w3spaces.com/modaldatabg.jpg
             document.getElementById("modalData").innerHTML = tab
+            clr=`hsla(${Math.floor(Math.random() * 360)}, 90%,40%,1)`
+            document.getElementById("modalData").style.backgroundColor=clr
+            document.getElementById("modalData").style.color='white'
+            document.getElementsByClassName("modal-content")[0].style.backgroundColor=clr
+            
+            
         }
 
         function showHome() {
@@ -493,12 +555,23 @@ document.getElementById('ifr').style.display='none'
 
         function dataCorrectionData() {
           //  document.getElementById("middleDiv").style.display = "block"
-            dataCorrection = `<br><br><br><br>For Data updation please send a WhatsApp Message/ Email to the following persons<br><br><b>VM Seshasayan:</b> <br>Mobile: 9849750184 <br>Email: seshasayan.vm@gmail.com<br><br><b>GVSS Markandeyulu: </b><br>Mobile: 9989036183<br> Email: gvssmark@gmail.com<br><br> <b> Please Allow 1 or 2 days for updating the data..</b> <br>`
+            dataCorrection = `<br><br><br><br>For Data updation please send a WhatsApp Message/ Email to the following persons<br><br><b class='b1'>VM Seshasayan:</b> <br>Mobile: 9849750184 <br>Email: seshasayan.vm@gmail.com<br><br><b class='b1'>GVSS Markandeyulu: </b><br>Mobile: 9989036183<br> Email: gvssmark@gmail.com<br><br> <b class='b1'> Please Allow 1 or 2 days for updating the data..</b> <br><br><br><br>
+         <span onclick='clearlocal()'>   Clear Local Storage</span>
+            
+        `
         }
 
-        function aboutData() {
+
+function clearlocal(){
+localStorage.removeItem("mylocal");
+
+
+}
+
+
+function aboutData() {
           //  document.getElementById("middleDiv").style.display = "block"
-            about = `<span id='about'><br><br><br><br><b>IBAP-Retirees Google Group</b> was started with an intention, to have a common platform, to  discuss about Retirees Issues and for exchanges of thoughts of common interest, among the retirees of Indian Bank  of AP &  Telangana States. This group is not affiliated to any Association. No membership fees to join this group. Presently, we have <b><span class='abt'>  ${alphasorted.length} </span> </b>members in this group.<br><br> <b>Address Book</b> Later we thought, it will be convenient to have an address book of Indian Bank Retirees of Telangana and Andhra Pradesh, with Photos. So we have designed a format to have the details of the retirees and upto now <b><span class='abt'>  ${alphasorted.length} </span> </b> retired staff members irrespective of their designation in the Bank and irrespective of their affiliation to the associations gave their details.<br><br>  <b>IB Friends WhatsApp group</b> Subsequently, we have started IB Friends WhatsApp group for the convenience of Smart Phone mobile users. Presently there are 201 participants in this group.<br><br> All the three groups are separate. Retired staff members can choose any one , or two or all the three groups This is purely optional. <br><br> Once again, we wish to inform you that <mark>these three groups are not a part of any association nor against any association</mark>. These are purely for inter communication among the Retired Staff members of Indian Bank.<br></span> `
+            about = `<span id='about'><br><br><br><br><b1>IBAP-Retirees Google Group</b1> was started with an intention, to have a common platform, to  discuss about Retirees Issues and for exchanges of thoughts of common interest, among the retirees of Indian Bank  of AP &  Telangana States. This group is not affiliated to any Association. No membership fees to join this group. Presently, we have <b><span class='abt'>  ${alphasorted.length} </span> </b>members in this group.<br><br> <b1>Address Book</b1> Later we thought, it will be convenient to have an address book of Indian Bank Retirees of Telangana and Andhra Pradesh, with Photos. So we have designed a format to have the details of the retirees and upto now <b><span class='abt'>  ${alphasorted.length} </span> </b> retired staff members irrespective of their designation in the Bank and irrespective of their affiliation to the associations gave their details.<br><br>  <b1>IB Friends WhatsApp group</b1> Subsequently, we have started IB Friends WhatsApp group for the convenience of Smart Phone mobile users. Presently there are 201 participants in this group.<br><br> All the three groups are separate. Retired staff members can choose any one , or two or all the three groups This is purely optional. <br><br> Once again, we wish to inform you that <mark>these three groups are not a part of any association nor against any association</mark>. These are purely for inter communication among the Retired Staff members of Indian Bank.<br></span> `
         }
         sr = ""
         function getCelValue(a) {

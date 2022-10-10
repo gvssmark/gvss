@@ -1,4 +1,6 @@
 
+
+
 <!DOCTYPE html>
 <html>
 
@@ -86,7 +88,7 @@ a {text-decoration:none; color:black; visited:white;}
 <p id='locname' class='pname'></p>
 <p id='loctime' ></p>
 
-<div id='gotoabk' class="btns btn1" onclick='gotoaddbook()'>Continue to address book</div>
+<div >Wait... Loading....</div>
 
 
 </div>
@@ -190,17 +192,26 @@ a {text-decoration:none; color:black; visited:white;}
     <script>
  
 
-localStorage.getItem("mylocal") !== null? ( document.getElementById("loc").style.display = "block",                document.getElementById("login").style.display = "none",
-    l=localStorage.getItem("mylocal").split("#"),
-    document.getElementById('locname').innerHTML=l[1],
-    document.getElementById('loctime').innerHTML="Last log in: " + l[2]) :
+localStorage.getItem("mylocal") !== null? ( document.getElementById("loc").style.display = "block",               document.getElementById("login").style.display = "none",
+l=localStorage.getItem("mylocal").split("#"),
+document.getElementById('locname').innerHTML=l[1],
+document.getElementById('loctime').innerHTML="Last log in on this device: " + l[2],
+localStorage.setItem("mylocal",l[0]+"#"+l[1]+"#"+Date().toString().substring(4,21)
+)) :
     document.getElementById("login").style.display = "block"
-//writeToLog(l[0] ,l[1]),  add in live
-
+    
+ // comment the above and uncomment below   for live
+//localStorage.getItem("mylocal") !== null? ( document.getElementById("loc").style.display = "block",               document.getElementById("login").style.display = "none",
+//l=localStorage.getItem("mylocal").split("#"),
+//document.getElementById('locname').innerHTML=l[1],
+//document.getElementById('loctime').innerHTML="Last log in on this device: " + l[2],
+//localStorage.setItem("mylocal",l[0]+"#"+l[1]+"#"+Date().toString().substring(4,21),
+//writeToLog(l[0] ,l[1]))) :
+  //  document.getElementById("login").style.display = "block"
+    
 
 
 function gotoaddbook(){
-localStorage.setItem("mylocal",l[0]+"#"+l[1]+"#"+Date().toString().substring(4,21))
 document.getElementById('loc').style.display='none'
 document.getElementById('buttonsDiv').style.display='block'
 }
@@ -226,7 +237,8 @@ document.getElementById('buttonsDiv').style.display='block'
             alphasorted = tempData.sort(function (a, b) { return a.name.localeCompare(b.name) })
             mycities = Array.from(new Set(alphasorted.map(s => s.add3))).sort()
             if (tempData.length>0){document.getElementById('tdgo').style.color="yellow";
-            document.getElementById('gotoabk').style.display='block'}
+            //document.getElementById('gotoabk').style.display='block';
+				  gotoaddbook()}
             getVariousArrays()
 
 
@@ -251,7 +263,7 @@ document.getElementById('hamdiv').style.display='none'
                 document.getElementById("buttonsDiv").style.display = "block";
                 document.getElementById("login").style.display = "none";
      localStorage.setItem("mylocal", logindata[0].srno + "#" + logindata[0].name + "#" + Date().toString().substring(4,21) )
-                //writeToLog(logindata[0].srno, logindata[0].name) //remove comments when live
+               // writeToLog(logindata[0].srno, logindata[0].name) //remove comments when live
             }
             else {
                 document.getElementById("notAmember").style.display = "block";
@@ -298,6 +310,8 @@ function welf(){
             document.getElementById("display1").style.display = "none"
             document.getElementById("myInputCity").style.display = "none"
             document.getElementById("display2").innerHTML = citytable
+            window.scrollTo(0,0)
+
         }
 
         function getVariousArrays() {

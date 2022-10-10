@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 
@@ -72,7 +73,7 @@ a{text-decoration:none;}
 .hdivs {padding-top:10px; margin-left: 5px;}
 a {text-decoration:none; color:black; visited:white;}
 #ifr {width:350px; height:600px; border:none; display:none}
-#loc{height:250px; margin: 100px auto; width:350px; border-radius:25px; text-align:center; display:none; background:LightGray;  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4)  }
+#loc{height:260px; margin: 100px auto; width:350px; border-radius:25px; text-align:center; display:none; background:LightGray;  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4)  }
 #gotoabk {display:none}
 
     </style>
@@ -83,6 +84,8 @@ a {text-decoration:none; color:black; visited:white;}
 <div id='loc'>
 <p class='pname'>Welcome</p>
 <p id='locname' class='pname'></p>
+<p id='loctime' ></p>
+
 <div id='gotoabk' class="btns btn1" onclick='gotoaddbook()'>Continue to address book</div>
 
 
@@ -189,9 +192,15 @@ a {text-decoration:none; color:black; visited:white;}
 
 localStorage.getItem("mylocal") !== null? ( document.getElementById("loc").style.display = "block",                document.getElementById("login").style.display = "none",
     l=localStorage.getItem("mylocal").split("#"),
-    document.getElementById('locname').innerHTML=l[1]) : document.getElementById("login").style.display = "block"
+    document.getElementById('locname').innerHTML=l[1],
+    document.getElementById('loctime').innerHTML="Last log in: " + l[2]) :
+    document.getElementById("login").style.display = "block"
 //writeToLog(l[0] ,l[1]),  add in live
+
+
+
 function gotoaddbook(){
+localStorage.setItem("mylocal",l[0]+"#"+l[1]+"#"+Date().toString().substring(4,21))
 document.getElementById('loc').style.display='none'
 document.getElementById('buttonsDiv').style.display='block'
 }
@@ -241,7 +250,7 @@ document.getElementById('hamdiv').style.display='none'
             if (logindata.length > 0) {
                 document.getElementById("buttonsDiv").style.display = "block";
                 document.getElementById("login").style.display = "none";
-                localStorage.setItem("mylocal", logindata[0].srno + "#" + logindata[0].name )
+     localStorage.setItem("mylocal", logindata[0].srno + "#" + logindata[0].name + "#" + Date().toString().substring(4,21) )
                 //writeToLog(logindata[0].srno, logindata[0].name) //remove comments when live
             }
             else {

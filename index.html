@@ -87,7 +87,7 @@ a {text-decoration:none; color:black; visited:white;}
 <p id='locname' class='pname'></p>
 <p id='loctime' ></p>
 
-<div id='gotoabk' class="btns btn1" onclick='gotoaddbook()'>Continue to address book</div>
+<div >Wait... Loading....</div>
 
 
 </div>
@@ -229,7 +229,8 @@ document.getElementById('buttonsDiv').style.display='block'
             alphasorted = tempData.sort(function (a, b) { return a.name.localeCompare(b.name) })
             mycities = Array.from(new Set(alphasorted.map(s => s.add3))).sort()
             if (tempData.length>0){document.getElementById('tdgo').style.color="yellow";
-            document.getElementById('gotoabk').style.display='block'}
+            //document.getElementById('gotoabk').style.display='block';
+				  gotoaddbook()}
             getVariousArrays()
 
 

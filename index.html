@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html>
 
@@ -76,6 +77,8 @@ a {text-decoration:none; color:black; visited:white;}
 #ifr {width:350px; height:600px; border:none; display:none}
 #loc{height:260px; margin: 100px auto; width:350px; border-radius:25px; text-align:center; display:none; background:LightGray;  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4)  }
 #gotoabk {display:none}
+#wt{animation:pl2 1s infinite linear; width:200px; margin:0 auto; background:red; color:white; border-radius:15px;}
+@keyframes pl2 {100% {box-shadow: 0 0 0 10px red}}
 
     </style>
 </head>
@@ -87,7 +90,7 @@ a {text-decoration:none; color:black; visited:white;}
 <p id='locname' class='pname'></p>
 <p id='loctime' ></p>
 
-<div >Wait... Loading....</div>
+<div id='wt'>Wait... Loading....</div>
 
 
 </div>
@@ -204,8 +207,10 @@ writeToLog(l[0] ,l[1]))) :
 
 
 function gotoaddbook(){
+ldiv = document.getElementById("login").style.display
+ldiv === 'block' ? document.getElementById('buttonsDiv').style.display='none': document.getElementById('buttonsDiv').style.display='block'
+
 document.getElementById('loc').style.display='none'
-document.getElementById('buttonsDiv').style.display='block'
 }
 
 
@@ -302,7 +307,6 @@ function welf(){
             document.getElementById("display1").style.display = "none"
             document.getElementById("myInputCity").style.display = "none"
             document.getElementById("display2").innerHTML = citytable
-		window.scrollTo(0,0)
         }
 
         function getVariousArrays() {
@@ -356,8 +360,6 @@ function welf(){
             document.getElementById("display1").style.display = "none"
             document.getElementById("myInputBrWorked").style.display = "none"
             document.getElementById("display2").innerHTML = workedlist += "</table><br><br><br>"
-	       		window.scrollTo(0,0)
-
         }
 
         function eventsThisWeek_create() {

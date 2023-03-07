@@ -181,7 +181,7 @@ a {text-decoration:none; color:black; visited:white;}
 
     </div> 
 
-    <div id="myModal" class="modal">
+    <div  ontouchstart='modalhide()' id="myModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h4  id="nameHeader">Sudhakar Babu</h4>
@@ -608,6 +608,10 @@ function aboutData() {
             }
         }
 
+	    function modalhide(){
+                modal.style.display = "none";
+
+}
         function seachPlaceOfStay() {
             inputbox = document.getElementById("myInputCity");
             tableid = document.getElementById("citiesTable");

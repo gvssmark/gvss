@@ -383,12 +383,12 @@ function welf(){
 function bdtablenew(){
 bdttabletext = `<br><h4>Eventes This Week: Birthdays:</h4> <div class='bdiv'><table border=0 class='fixed'><tr>`
 bdt1=''
-allbd.forEach(function (a) {bdt1 += `<td><span onClick='nameclick(this.id)' id= ${a.srno} > <img  src='https://drive.google.com/uc?export=view&id=${a.photo}' border=0 align='center' alt='Smiley face' width='100' height='150'  style='border-radius:10px;'><br>${monthsArray[a.bm]}-${a.bd}</span>`})
+allbd.forEach(function (a) {bdt1 += `<td><span onClick='nameclick(this.id)' id= ${a.srno} > <img  src='https://drive.google.com/thumbnail?export=view&id=${a.photo}' border=0 align='center' alt='Smiley face' width='100' height='150'  style='border-radius:10px;'><br>${monthsArray[a.bm]}-${a.bd}</span>`})
 bdttabletext +=bdt1 + `</table></div>`
 
 mdttabletext = `<br><h4>Eventes This Week: Marriagedays: </h4><div class='bdiv'><table border=0 class='fixed'><tr>`
 mdt1=''
-allmd.forEach(function (a) {mdt1 += `<td><span onClick='nameclick(this.id)' id= ${a.srno} > <img  src='https://drive.google.com/uc?export=view&id=${a.photo}' border=0 align='center' alt='Smiley face' width='100' height='150'  style='border-radius:10px;'><br>${monthsArray[a.mm]}-${a.md}</span> `})
+allmd.forEach(function (a) {mdt1 += `<td><span onClick='nameclick(this.id)' id= ${a.srno} > <img  src='https://drive.google.com/thumbnail?export=view&id=${a.photo}' border=0 align='center' alt='Smiley face' width='100' height='150'  style='border-radius:10px;'><br>${monthsArray[a.mm]}-${a.md}</span> `})
 mdttabletext +=mdt1 + `</table></div>`
 
 }
@@ -525,7 +525,7 @@ whatSort.forEach(function (a) { xx += `<tr align=center onClick='nameclick(this.
             em=mydata.email.length>0?`${trtd}<b>Email: </b><a href = 'mailto:${mydata.email}'><mark>${mydata.email}</mark>`:""
             tab=`
             <table class='bio' width=100% border=0>
-            <tr><td><b>Address: </b><br>${mydata.add1}<br>${mydata.add2}<br>${mydata.add3}-${mydata.pin} <br>${mydata.add4}<td width=75><img  src='https://drive.google.com/uc?export=view&id=${mydata.photoid}' border=0 align='center' alt='Smiley face' width='75' height='100'  style='border-radius:10px;'> 
+            <tr><td><b>Address: </b><br>${mydata.add1}<br>${mydata.add2}<br>${mydata.add3}-${mydata.pin} <br>${mydata.add4}<td width=75><img  src='https://drive.google.com/thumbnail?export=view&id=${mydata.photoid}' border=0 align='center' alt='Smiley face' width='75' height='100'  style='border-radius:10px;'> 
             ${trtd}<b>Phones: </b>
                 <a href='tel:${mob1}'><mark style='text-decoration: none;line-height: 1.6 ' > ${ mob1 }</mark></a>&nbsp;
                 <a href='tel:${mob2}'><mark style='text-decoration: none;line-height: 1.6 ' > ${ mob2 }</mark></a>&nbsp;

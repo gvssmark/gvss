@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>All Events</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {width:360px; height:90vh; background: powderblue; margin:0 auto; font-family:sans-serif;}
+div { margin:5px auto; width:90%; text-align:center; }
+.div1 { background:yellow; padding:5px; width:100%;}
+select { width:100%; padding:5px; font-size:16px; border-radius:5px; }
+p {overflow-y:scroll; height:65vh; margin: 5px; font-size:small; background:white; padding:5px; border-radius:5px;}
+h3 {margin:5px 0; text-align:center; }
+.eventRow { display: flex; justify-content: space-between; padding: 5px; border-bottom: 1px solid #ccc; border-radius: 5px; margin: 2px 0; width:96%;}
+.birthday { background-color: rgba(255, 0, 145, 0.2); }
+.marriage { background-color: rgba(0, 255, 5, 0.2); }
+
+.modal {
+  display: none; position: fixed; z-index: 1; left: 0; top: 0;
+  width: 100%; height: 100%; overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+.modal-content {
+  background-color: #fff; margin: 15% auto; padding: 20px;
+  border: 1px solid #888; width: 90%; border-radius: 10px;
+  max-height: 70vh; overflow-y: auto;
+}
+.close {
+  color: #aaa; float: right; font-size: 28px; font-weight: bold;
+}
+.close:hover, .close:focus {
+  color: #000; text-decoration: none; cursor: pointer;
+}
+.disptable { border-collapse: collapse; width: 100%; }
+#eventlist {width:350px;}
+</style>
+</head>
+<body>
+
+<h3>All Events</h3>
+
+<div class="div1">
+  <select id="monthDropdown" onchange="monthClick(this.value)">
+    <option value="">-- Select Month --</option>
+  </select>
+</div>
+
+<p id='eventlist'></p>
+
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h4 align="center" id="nameHeader"></h4>
+    <p id="modalData"></p>
+  </div>
+</div>
+
+<script>
+const url = 'https://script.google.com/macros/s/AKfycbwU43y7aw-hY8rjx77YgViB5Vs2H5yv7i5GMuUUfB6YMLbEQn3D/exec'
+const monthsArray = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+let tempData = [], bdays = [], mdays = []
+
+document.addEventListener("DOMContentLoaded", () => {
+  const dropdown = document.getElementById("monthDropdown")
+  monthsArray.forEach((m, i) => {
+    if (i === 0) return
+    let opt = document.createElement("option")
+    opt.value = i
+    opt.textContent = m
+    dropdown.appendChild(opt)
+  })
+  getMyData()
+})
+
+async function getMyData() {
+  const response = await fetch(url)
+  const data = await response.json()
+  tempData = data["user"].sort((a, b) => a.name.localeCompare(b.name))
+  bdays = tempData.map(a => ({ srno: a.srno, name: a.name, bm: a.bm, bd: a.bd }))
+  mdays = tempData.map(a => ({ srno: a.srno, name: a.name, mm: a.mm, md: a.md }))
+}
+
+function monthClick(m) {
+  let eventsB = bdays.filter(a => a.bm == m).sort((a, b) => a.bd - b.bd)
+  let eventsM = mdays.filter(a => a.mm == m).sort((a, b) => a.md - b.md)
+  let combined = []
+
+  eventsB.forEach(a => {
+    combined.push({ type: 'birthday', date: `${monthsArray[a.bm]}, ${a.bd}`, name: a.name, srno: a.srno })
+  })
+
+  eventsM.forEach(a => {
+    combined.push({ type: 'marriage', date: `${monthsArray[a.mm]}, ${a.md}`, name: a.name, srno: a.srno })
+  })
+
+  combined.sort((a, b) => {
+    const aDay = parseInt(a.date.split(', ')[1])
+    const bDay = parseInt(b.date.split(', ')[1])
+    return aDay - bDay
+  })
+
+  let html = combined.map(e =>
+    `<div class="eventRow ${e.type}"><span>${e.date}</span><span onclick="nameclick(${e.srno})" style="cursor:pointer;color:blue;">${e.name}</span></div>`
+  ).join("")
+
+  document.getElementById("eventlist").innerHTML = html
+}
+
+function nameclick(membershipNo) {
+  const membData = tempData.find(a => a.srno === membershipNo * 1)
+  const picture = "<img  src='https://drive.google.com/thumbnail?id=" + membData.photoid + "' width='100' height='100' style='border-radius:10px;'>"
+  let toDisplay = `<table class='disptable'><tr><td><b>Address:</b><br>${membData.add1}<br>${membData.add2}<br>${membData.add3}-${membData.pin}<br>${membData.add4}<td style='width:100px;'>${picture}</tr><tr><td colspan=2>`
+
+  if (membData.email) {
+    toDisplay += `<b>Email:</b><br><a href='mailto:${membData.email}'><mark>Send Email to ${membData.email}</mark></a><br>`
+  }
+
+  toDisplay += `<b>Phones:</b><br><a href='tel:${membData.mob1}'><mark>Call ${membData.mob1}</mark></a>`
+  if (membData.mob2) toDisplay += ` / <a href='tel:${membData.mob2}'><mark>${membData.mob2}</mark></a>`
+  if (membData.fix) toDisplay += ` / <a href='tel:${membData.fix}'><mark>${membData.fix}</mark></a>`
+
+  toDisplay += `<tr><td colspan=2><b>Retired on:</b> ${new Date(membData.retdate).toDateString()}<br>`
+  toDisplay += `<b>Last Br:</b> ${membData.lastbr}<br><b>Pension Br:</b> ${membData.penbr}<br>`
+
+  if (membData.bm) toDisplay += `<b>Birthday:</b> ${monthsArray[membData.bm]}, ${membData.bd}<br>`
+  if (membData.mm) toDisplay += `<b>Marriage Anniversary:</b> ${monthsArray[membData.mm]}, ${membData.md}<br>`
+
+  toDisplay += `<b>Branches Worked:</b> ${membData.brlist}</table>`
+  document.getElementById("nameHeader").innerHTML = membData.name
+  document.getElementById("modalData").innerHTML = toDisplay
+  document.getElementById("myModal").style.display = "block"
+}
+
+document.querySelector(".close").onclick = function () {
+  document.getElementById("myModal").style.display = "none"
+}
+window.onclick = function (event) {
+  if (event.target == document.getElementById("myModal")) {
+    document.getElementById("myModal").style.display = "none"
+  }
+}
+</script>
+
+</body>
+</html>

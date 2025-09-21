@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Offline Cache PWA Example</title>
+  <script>
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('ibappwasw.js').then(() => {
+          console.log('Service Worker registered');
+        });
+      });
+    }
+
+    async function getAndReportData() {
+      const dataUrl = 'https://script.google.com/macros/s/AKfycbwU43y7aw-hY8rjx77YgViB5Vs2H5yv7i5GMuUUfB6YMLbEQn3D/exec';
+      const cacheKey = '/custom/alphasorted.json';
+      const cache = await caches.open('ibap-cache');
+
+      let cachedData, freshData;
+      const cached = await cache.match(cacheKey);
+
+      if (cached) {
+        cachedData = await cached.json();
+        document.getElementById('report').innerHTML = 'Cached data: ' + cachedData.user[1].name;
+      } else {
+        document.getElementById('report').innerHTML = 'No cached data.';
+      }
+
+      try {
+        const response = await fetch(dataUrl);
+        freshData = await response.json();
+
+        if (!cachedData || JSON.stringify(cachedData) !== JSON.stringify(freshData)) {
+          await cache.put(cacheKey, new Response(JSON.stringify(freshData), { headers: { 'Content-Type': 'application/json' } }));
+          document.getElementById('report').innerHTML += '<br>New data: ' + freshData.user[1].name;
+        }
+      } catch (error) {
+        // Fetch failed, possibly offline, just keep cached data
+        console.log('Fetch failed, possibly offline:', error);
+      }
+    }
+
+    window.addEventListener('load', getAndReportData);
+  </script>
+</head>
+<body>
+  <h1>Offline Cache PWA Example</h1>
+  <p id="report">Loading data...</p>
+</body>
+</html>

@@ -23,7 +23,7 @@
 
       if (cached) {
         cachedData = await cached.json();
-        document.getElementById('report').innerHTML = 'Cached data: ' + cachedData.user[1].name;
+        document.getElementById('report').innerHTML =  cachedData.user[1].name;
       } else {
         document.getElementById('report').innerHTML = 'No cached data.';
       }
@@ -34,7 +34,7 @@
 
         if (!cachedData || JSON.stringify(cachedData) !== JSON.stringify(freshData)) {
           await cache.put(cacheKey, new Response(JSON.stringify(freshData), { headers: { 'Content-Type': 'application/json' } }));
-          document.getElementById('report').innerHTML += '<br>New data: ' + freshData.user[1].name;
+          document.getElementById('report').innerHTML =  freshData.user[1].name;
         }
       } catch (error) {
         // Fetch failed, possibly offline, just keep cached data

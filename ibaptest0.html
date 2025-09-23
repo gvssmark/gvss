@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -86,9 +87,9 @@
       <input id="srnoInput" type="number" inputmode="numeric" placeholder="e.g. 1948" />
       <div class="row" style="margin-top:12px">
         <button id="srSubmit">Submit</button>
-        <button id="useLocal" class="secondary">Use local mylocal</button>
+ <!--       <button id="useLocal" class="secondary">Use local mylocal</button>
       </div>
-      <small class="muted">If you have mylocal stored (format: srno#Name#Mon dd yyyy hh:mm), click "Use local mylocal".</small>
+      <small class="muted">If you have mylocal stored (format: srno#Name#Mon dd yyyy hh:mm), click "Use local mylocal".</small> -->
       <div id="loginMsg" class="topnote"></div>
     </div>
   </section>
@@ -107,6 +108,35 @@
     </div>
   </section>
 </main>
+
+<!--
+<div id="goUpBtn" style="
+  position:fixed;bottom:24px;right:24px;width:25px;height:25px;
+  background:red;color:#fff;border-radius:50px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;z-index:100;font-size:14px;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+  ↑
+</div> -->
+<div id="goUpBtn" style="
+  position:fixed;
+  top:50%;
+  float:right;
+right:0;
+  width:50px;
+  height:50px;
+  background:red;
+  color:#fff;
+  border-radius:50px;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  z-index:100;
+  font-size:20px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.2);">
+  TOP
+</div>
+
+
 
 <!-- Modal -->
 <div id="modalBack" class="modal-back" role="dialog" aria-modal="true">
@@ -177,6 +207,7 @@ function loadCache(){
     return s ? JSON.parse(s) : null;
   }catch(e){ return null; }
 }
+
 function saveUpdatedOn(val){ localStorage.setItem(updatedOnKey, val); }
 function getUpdatedOn(){ return localStorage.getItem(updatedOnKey); }
 function setMylocal(val){ localStorage.setItem(mylocalKey, val); }
@@ -196,7 +227,7 @@ function parseMylocal(str){
 
 /* Render members or events (list of member-like objects).
    Sort by name before rendering. */
-function renderCards(list){
+/* function renderCards(list){
   cardsWrap.innerHTML = '';
   if(!list || list.length===0){
     cardsWrap.innerHTML = '<div style="padding:18px">No results</div>';
@@ -249,7 +280,7 @@ function renderCards(list){
         baseView = 'members';
         baseList = listMembers.slice();
         runFilter(searchInput.value || '');
-        reportInfo.textContent = `${baseList.length} members in branch ${branch}`;
+        reportInfo.textContent = `${baseList.length} members Worked in ${branch} branch `;
       });
     } else {
       // default: open member modal
@@ -259,6 +290,81 @@ function renderCards(list){
     cardsWrap.appendChild(el);
   });
 }
+*/
+
+function renderCards(list){
+  cardsWrap.innerHTML = '';
+  if(!list || list.length===0){
+    cardsWrap.innerHTML = '<div style="padding:18px">No results</div>';
+    return;
+  }
+
+  // sort by name (non-destructive)
+  const sorted = list.slice().sort((a,b)=> (String(a.name||'')).localeCompare(String(b.name||'')));
+
+  sorted.forEach(item=>{
+    const el = document.createElement('div');
+    el.className = 'card';
+    // if an actual member with srno, make id srno-...
+    if(item.srno !== undefined && item.srno !== null){
+      el.id = `srno-${item.srno}`;
+    }
+    el.tabIndex = 0;
+
+    // if item has _eventType (events view), show event badge and date
+    const eventBadge = item._eventType ? `<span class="badge">${escapeHtml(item._eventType)}</span>` : '';
+    const whenText = item._eventWhen ? ` • ${new Date(item._eventWhen).toDateString()}` : '';
+
+    // Conditional card content without SR No for places and branches views
+    let cardHtml = '';
+    if (baseView === 'places') {
+      cardHtml = `<h3>${escapeHtml(item.name || 'No name')}</h3>`;
+    } else if (baseView === 'branches') {
+      cardHtml = `<h3>${escapeHtml(item.name || 'No name')}</h3>`;
+    } else {
+      cardHtml = `<h3>${escapeHtml(item.name || 'No name')} ${eventBadge}</h3>
+        <p>SR No: ${item.srno || ''} • ${escapeHtml(item.add3 || '')}${whenText} ${item.mob1 ? '• ' + item.mob1 : ''}</p>`;
+    }
+    el.innerHTML = cardHtml;
+
+    // Click behavior depends on baseView:
+    if(baseView === 'places'){
+      // item represents a place (name property contains place)
+      el.setAttribute('data-place', item._place || item.name);
+      el.addEventListener('click', ()=> {
+        const place = el.getAttribute('data-place');
+        // show members for this place
+        const listMembers = data.filter(d=> (d.add3||'').trim() === place);
+        baseView = 'members';
+        baseList = listMembers.slice();
+        runFilter(searchInput.value || '');
+        reportInfo.textContent = `${baseList.length} members in ${place}`;
+      });
+    } else if(baseView === 'branches'){
+      el.setAttribute('data-branch', item._branch || item.name);
+      el.addEventListener('click', ()=>{
+        const branch = el.getAttribute('data-branch');
+        const listMembers = data.filter(d=>{
+          const nb = d.newbrlist || '';
+          const br = d.brlist || '';
+          const inNew = nb && nb.split(',').map(s=>s.trim()).includes(branch);
+          const inBr  = br && br.split(',').map(s=>s.trim()).includes(branch);
+          return inNew || inBr;
+        });
+        baseView = 'members';
+        baseList = listMembers.slice();
+        runFilter(searchInput.value || '');
+        reportInfo.textContent = `${baseList.length} members Worked in ${branch} branch`;
+      });
+    } else {
+      // default: open member modal
+      el.addEventListener('click', ()=> openModalFor(item));
+    }
+
+    cardsWrap.appendChild(el);
+  });
+}
+
 
 /* Basic escaping */
 function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c]); }
@@ -273,7 +379,7 @@ function openModalFor(item){
     <div><strong>Mobile:</strong> ${item.mob1 || ''} ${item.mob2 || ''}</div>
     <div><strong>Email:</strong> ${escapeHtml(item.email || '')}</div>
      `;
-  // attach set-as-mylocal
+  // attach set-as-mylocal - not implemented
   setTimeout(()=>{
     const btn = document.getElementById('modalGoto');
     if(btn){
@@ -369,10 +475,10 @@ function eventsThisWeek(){
     const bOcc = nextOccurrence(bIso);
     const mOcc = nextOccurrence(mIso);
     if(bOcc && bOcc >= now && bOcc <= end){
-      results.push({type:'Birthday', when:bOcc, item:d});
+     // results.push({type:'Birthday', when:bOcc, item:d}); // not to be evaluated
     }
     if(mOcc && mOcc >= now && mOcc <= end){
-      results.push({type:'Marriage', when:mOcc, item:d});
+    //  results.push({type:'Marriage', when:mOcc, item:d}); // not to be evaluated
     }
     // also check if bm/bd/mm/md fields exist (day and month as numbers or strings)
     if(d.bm && d.bd){
@@ -534,7 +640,7 @@ srSubmit.addEventListener('click', ()=>handleLoginSubmit(false));
 srnoInput.addEventListener('keydown', (ev)=>{ if(ev.key === 'Enter') handleLoginSubmit(false); });
 
 /* Use local mylocal button */
-useLocalBtn.addEventListener('click', ()=>handleLoginSubmit(true));
+//useLocalBtn.addEventListener('click', ()=>handleLoginSubmit(true));
 
 async function handleLoginSubmit(useLocal){
   setLoginMessage('');
@@ -610,6 +716,10 @@ function renderAfterDataLoad(){
   countMembersBadge.textContent = data.length || 0;
   reportInfo.textContent = `${filtered.length} of ${data.length}`;
   setLoginMessage('');
+  setTimeout(() => {
+    window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+  }, 500);
+  //window.scrollTo({top:0, left:0, behavior:'smooth'});
 }
 
 /* Select a member by srno and open modal */
@@ -736,6 +846,32 @@ function showBranchesList(){
 (function init(){
   initApp();
 })();
+
+/*const goUpBtn = document.getElementById('goUpBtn');
+goUpBtn.title = "Go Up";
+goUpBtn.onclick = () => window.scrollTo({top:0, left:0, behavior:'smooth'});*/
+
+const goUpBtn = document.getElementById('goUpBtn');
+goUpBtn.title = "Go Up";
+let hideTimeout = null;
+
+function showGoUpButton() {
+  clearTimeout(hideTimeout);
+  goUpBtn.style.display = 'flex';
+  // Hide after 5 seconds if no further scroll
+  hideTimeout = setTimeout(() => {
+    goUpBtn.style.display = 'none';
+  }, 3000);
+}
+
+// On scroll event
+window.addEventListener('scroll', () => {
+  showGoUpButton();
+});
+
+goUpBtn.onclick = () => window.scrollTo({top:0, left:0, behavior:'smooth'});
+
+
 
 </script>
 </body>

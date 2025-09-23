@@ -1,0 +1,801 @@
+
+
+<!doctype html>
+<html lang="en">
+<head>
+ <script src="index.js" defer></script>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#000000" />
+    <link rel="apple-touch-icon" href="ibap512.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&effect=neon|outline|emboss|shadow-multiple">
+
+    <meta name="viewport" content="width=device-width, maximum-scale=1 , initial-scale=1.0">
+    <meta name="theme-color" content="#000000" />
+<meta charset="utf-8" />
+
+<title>IBAP Retirees</title>
+<style>
+  :root{--bg:#f6f7fb;--card:#fff;--accent:#0b67ff;--muted:#666}
+  html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial}
+  body{background:var(--bg);color:#111}
+  /* header fixed */
+  header{position:fixed;left:0;right:0;top:0;height:56px;background:#ed8d8d;border-bottom:1px solid #eee;display:flex;align-items:center;gap:12px;padding:0 12px;z-index:30}
+  header h1{margin:0;font-size:18px;letter-spacing:1px; text-align:center}
+  .hamb{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:8px;cursor:pointer}
+  .hamb svg{width:22px;height:22px}
+  main{padding:76px 12px 24px 12px;max-width:980px;margin:0 auto}
+  /* login */
+  .login-box{background:var(--card);padding:18px;border-radius:10px;box-shadow:0 6px 18px rgba(20,20,40,0.04);max-width:560px;margin:20px auto}
+  label{display:block;margin-bottom:6px;font-weight:600}
+  input[type="number"], input[type="search"], input[type="text"]{width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;font-size:15px}
+  .row{display:flex;gap:8px;align-items:center;margin-top:10px}
+  button{background:var(--accent);color:#fff;padding:10px 14px;border-radius:8px;border:0;font-weight:600;cursor:pointer}
+  button.secondary{background:#eee;color:#111}
+  small.muted{color:var(--muted);display:block;margin-top:6px}
+  /* report list */
+  /* search area fixed (sticky) right under header */
+  .controls{display:flex;gap:8px;margin-bottom:12px;align-items:center;flex-wrap:wrap;
+            position:sticky; top:56px; background:var(--bg); z-index:25;
+            padding:8px 12px; border-bottom:1px solid #eee;}
+  .cards{display:grid;grid-template-columns: repeat(auto-fill,minmax(240px,1fr));gap:12px; padding-top:8px}
+  .card{background:var(--card);padding:12px;border-radius:10px;box-shadow:0 6px 12px rgba(10,10,30,0.03);cursor:pointer}
+  .card h3{margin:0;font-size:16px}
+  .card p{margin:6px 0 0 0;color:var(--muted);font-size:13px}
+  /* sidebar (hamb menu) */
+  .sidebar{position:fixed;left:0;top:56px;bottom:0;width:280px;background:#fff;border-right:1px solid #eee;padding:14px;transform:translateX(-110%);transition:transform .25s ease;z-index:40;overflow:auto}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar h4{margin:0 0 10px 0}
+  .menu-item{padding:10px;border-radius:8px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+  .menu-item:hover{background:#f2f6ff}
+  /* modal */
+  .modal-back{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:none;align-items:center;justify-content:center;z-index:60}
+  .modal-back.open{display:flex}
+  .modal{background:#fff;padding:16px;border-radius:12px;max-width:700px;width:95%;max-height:85vh;overflow:auto;box-shadow:0 20px 40px rgba(0,0,0,0.2)}
+  .modal .close{float:right;cursor:pointer;padding:6px}
+  .badge{display:inline-block;padding:6px 8px;border-radius:999px;background:#f1f3ff;color:#0b67ff;font-weight:700;font-size:12px}
+  /* responsive tweaks */
+  @media (max-width:520px){
+    header h1{font-size:15px}
+    .cards{grid-template-columns:1fr}
+    .sidebar{width:88%}
+  }
+  .topnote{font-size:13px;color:var(--muted);margin-top:8px}
+#goUpBtn  {position:fixed;  top:50%;  float:right;right:0;  width:50px;  height:50px;  background:red;  color:#fff;  border-radius:50px;  display:none;  align-items:center;
+  justify-content:center;  cursor:pointer;  z-index:100;  font-size:20px;  box-shadow:0 2px 8px rgba(0,0,0,0.2);}
+</style>
+</head>
+<body>
+<header>
+  <div id="hamb" class="hamb" title="Menu" aria-label="Menu">
+    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z"/></svg>
+  </div>
+  <h1>IBAP RETIREES</h1>
+  <div style="flex:1"></div>
+  <div id="status" style="font-size:13px;color:var(--muted)"></div>
+</header>
+
+<!-- Sidebar / Hamburger menu -->
+<aside id="sidebar" class="sidebar" aria-hidden="true">
+  <h4>Menu</h4>
+  <div class="menu-item" data-action="listMembers">1. List of Members <span class="badge" id="countMembers"></span></div>
+  <div class="menu-item" data-action="eventsWeek">2. Events this week</div>
+  <div class="menu-item" data-action="membersLiving">3. Members living In</div>
+  <div class="menu-item" data-action="branchesList">4. Branches list</div>
+  <div class="menu-item" data-action="dataCorrection">5. Data correction</div>
+  <div class="menu-item" data-action="otherLinks">6. Other Links</div>
+  <div class="menu-item" data-action="about">7. About</div>
+  <hr/>
+  <div style="margin-top:8px">
+    <button id="clearLocal" class="secondary" style="width:100%">Clear local mylocal</button>
+  </div>
+</aside>
+
+<main>
+  <!-- Login view -->
+  <section id="loginView">
+    <div class="login-box">
+      <label for="srnoInput">Enter SR No</label>
+      <input id="srnoInput" type="number" inputmode="numeric" placeholder="e.g. 1948" />
+      <div class="row" style="margin-top:12px">
+        <button id="srSubmit">Submit</button>
+ <!--       <button id="useLocal" class="secondary">Use local mylocal</button>
+      </div>
+      <small class="muted">If you have mylocal stored (format: srno#Name#Mon dd yyyy hh:mm), click "Use local mylocal".</small> -->
+      <div id="loginMsg" class="topnote"></div>
+    </div>
+  </section>
+
+  <!-- Report view -->
+  <section id="reportView" style="display:none">
+    <div class="controls">
+      <input id="searchInput" type="search" placeholder="Search by name, srno, city..." />
+      <button id="refreshData" class="secondary">Refresh</button>
+      <div style="flex:1"></div>
+      
+      <div id="reportInfo" class="topnote"></div>
+    </div>
+
+    <div id="reportArea">
+      <div id="cards" class="cards"></div>
+    </div>
+  </section>
+</main>
+
+<!--
+<div id="goUpBtn" style="
+  position:fixed;bottom:24px;right:24px;width:25px;height:25px;
+  background:red;color:#fff;border-radius:50px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;z-index:100;font-size:14px;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+  ↑
+</div> -->
+<div id="goUpBtn" style=" ">  TOP</div>
+<!-- Modal -->
+<div id="modalBack" class="modal-back" role="dialog" aria-modal="true">
+  <div class="modal" id="modal">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <h3 id="modalTitle">Member</h3>
+      <div class="close" id="modalClose" title="Close">&times;</div>
+    </div>
+    <div id="modalBody" style="margin-top:8px;font-size:14px;color:#222"></div>
+  </div>
+</div>
+
+<script>
+/* ---------- Configuration (from user) ---------- */
+const dataurl = 'https://script.google.com/macros/s/AKfycbwU43y7aw-hY8rjx77YgViB5Vs2H5yv7i5GMuUUfB6YMLbEQn3D/exec';
+const timestampurl = 'https://script.google.com/macros/s/AKfycbwo-TtPn3DAjHSPCXDwPFerT36QyfPPvUTi7uQEvcmjJso_aWpaKefUsgx_vpJOowHUgg/exec?sheetid=1YIV80pXwoaMT4FeYfDIBcYSkhUz7iNTn_te7h9yylIY&sheetname=UpdatedOn';
+const cacheStorageKey = 'ibap-cache'; // store data array as JSON string
+const cacheKeyPath = '/custom/alphasorted.json'; // noted by user (not directly used as storage key)
+const updatedOnKey = 'ibapUpdatedOn';
+const mylocalKey = 'mylocal';
+
+/* ---------- App state ---------- */
+let data = [];        // full dataset (array of member objects)
+let filtered = [];    // current filtered list shown
+let currentView = 'login'; // 'login' or 'report'
+const today = new Date();
+
+/* NEW: baseList and baseView
+   baseList = the array currently shown (e.g. events list, places list, or member subset)
+   baseView = 'members' | 'events' | 'places' | 'branches'  */
+let baseList = [];
+let baseView = 'members';
+
+/* ---------- DOM refs ---------- */
+const loginView = document.getElementById('loginView');
+const reportView = document.getElementById('reportView');
+const srnoInput = document.getElementById('srnoInput');
+const srSubmit = document.getElementById('srSubmit');
+const useLocalBtn = document.getElementById('useLocal');
+const loginMsg = document.getElementById('loginMsg');
+const searchInput = document.getElementById('searchInput');
+const cardsWrap = document.getElementById('cards');
+const reportInfo = document.getElementById('reportInfo');
+const refreshDataBtn = document.getElementById('refreshData');
+const modalBack = document.getElementById('modalBack');
+const modalClose = document.getElementById('modalClose');
+const modalTitle = document.getElementById('modalTitle');
+const modalBody = document.getElementById('modalBody');
+const hamb = document.getElementById('hamb');
+const sidebar = document.getElementById('sidebar');
+const clearLocalBtn = document.getElementById('clearLocal');
+const statusEl = document.getElementById('status');
+const countMembersBadge = document.getElementById('countMembers');
+
+/* ---------- Helpers ---------- */
+function logStatus(msg){
+  statusEl.textContent = msg;
+}
+function setLoginMessage(msg){ loginMsg.textContent = msg; }
+function saveCache(arr){
+  try{
+    localStorage.setItem(cacheStorageKey, JSON.stringify(arr));
+  }catch(e){ console.warn('saveCache err', e) }
+}
+function loadCache(){
+  try{
+    const s = localStorage.getItem(cacheStorageKey);
+    return s ? JSON.parse(s) : null;
+  }catch(e){ return null; }
+}
+
+function saveUpdatedOn(val){ localStorage.setItem(updatedOnKey, val); }
+function getUpdatedOn(){ return localStorage.getItem(updatedOnKey); }
+function setMylocal(val){ localStorage.setItem(mylocalKey, val); }
+function getMylocal(){ return localStorage.getItem(mylocalKey); }
+function clearMylocal(){ localStorage.removeItem(mylocalKey); }
+
+/* parse mylocal format srno#Name#Mon dd yyyy hh:mm  */
+function parseMylocal(str){
+  if(!str) return null;
+  const parts = str.split('#');
+  if(parts.length < 1) return null;
+  const srno = Number(parts[0]) || null;
+  return { srno, raw: str, name: parts[1] || '' };
+}
+
+/* ---------- Rendering functions ---------- */
+function renderCards(list){
+  cardsWrap.innerHTML = '';
+  if(!list || list.length===0){
+    cardsWrap.innerHTML = '<div style="padding:18px">No results</div>';
+    return;
+  }
+
+  // sort by name (non-destructive)
+  const sorted = list.slice().sort((a,b)=> (String(a.name||'')).localeCompare(String(b.name||'')));
+
+  sorted.forEach(item=>{
+    const el = document.createElement('div');
+    el.className = 'card';
+    // if an actual member with srno, make id srno-...
+    if(item.srno !== undefined && item.srno !== null){
+      el.id = `srno-${item.srno}`;
+    }
+    el.tabIndex = 0;
+
+    // if item has _eventType (events view), show event badge and date
+    const eventBadge = item._eventType ? `<span class="badge">${escapeHtml(item._eventType)}</span>` : '';
+    const whenText = item._eventWhen ? ` • ${new Date(item._eventWhen).toDateString()}` : '';
+
+    // Conditional card content without SR No for places and branches views
+    let cardHtml = '';
+    if (baseView === 'places') {
+      cardHtml = `<h3>${escapeHtml(item.name || 'No name')}</h3>`;
+    } else if (baseView === 'branches') {
+      cardHtml = `<h3>${escapeHtml(item.name || 'No name')}</h3>`;
+    } else {
+      cardHtml = `<h3>${escapeHtml(item.name || 'No name')} ${eventBadge}</h3>
+        <p>SR No: ${item.srno || ''} • ${escapeHtml(item.add3 || '')}${whenText} ${item.mob1 ? '• ' + item.mob1 : ''}</p>`;
+    }
+    el.innerHTML = cardHtml;
+
+    // Click behavior depends on baseView:
+    if(baseView === 'places'){
+      // item represents a place (name property contains place)
+      el.setAttribute('data-place', item._place || item.name);
+      el.addEventListener('click', ()=> {
+        const place = el.getAttribute('data-place');
+        // show members for this place
+        const listMembers = data.filter(d=> (d.add3||'').trim() === place);
+        baseView = 'members';
+        baseList = listMembers.slice();
+        runFilter(searchInput.value || '');
+        reportInfo.textContent = `${baseList.length} members in ${place}`;
+      });
+    } else if(baseView === 'branches'){
+      el.setAttribute('data-branch', item._branch || item.name);
+      el.addEventListener('click', ()=>{
+        const branch = el.getAttribute('data-branch');
+        const listMembers = data.filter(d=>{
+          const nb = d.newbrlist || '';
+          const br = d.brlist || '';
+          const inNew = nb && nb.split(',').map(s=>s.trim()).includes(branch);
+          const inBr  = br && br.split(',').map(s=>s.trim()).includes(branch);
+          return inNew || inBr;
+        });
+        baseView = 'members';
+        baseList = listMembers.slice();
+        runFilter(searchInput.value || '');
+        reportInfo.textContent = `${baseList.length} members Worked in ${branch} branch`;
+      });
+    } else {
+      // default: open member modal
+      el.addEventListener('click', ()=> openModalFor(item));
+    }
+
+    cardsWrap.appendChild(el);
+  });
+}
+
+
+/* Basic escaping */
+function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c]); }
+
+/* Open modal with member data (fields can be finalised later) */
+function openModalFor(item){
+  modalTitle.textContent = `${item.name || 'Member'}`;
+  modalBody.innerHTML = `
+    <div><strong>SR No:</strong> ${item.srno || ''}</div>
+    <div><strong>Name:</strong> ${escapeHtml(item.name || '')}</div>
+    <div><strong>Address:</strong> ${escapeHtml([item.add1,item.add2,item.add3,item.add4].filter(Boolean).join(', '))}</div>
+    <div><strong>Mobile:</strong> ${item.mob1 || ''} ${item.mob2 || ''}</div>
+    <div><strong>Email:</strong> ${escapeHtml(item.email || '')}</div>
+     `;
+  // attach set-as-mylocal - not implemented
+  setTimeout(()=>{
+    const btn = document.getElementById('modalGoto');
+    if(btn){
+      btn.addEventListener('click', ()=>{
+        const now = new Date();
+        const mylocalVal = `${item.srno}#${item.name}#${now.toLocaleString('en-US',{month:'short'})} ${now.getDate()} ${now.getFullYear()} ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
+        setMylocal(mylocalVal);
+        alert('mylocal set. You can use it on login.');
+        closeModal();
+      });
+    }
+  },10);
+  modalBack.classList.add('open');
+}
+
+/* close modal */
+function closeModal(){ modalBack.classList.remove('open'); }
+
+/* ---------- Filtering logic (search works on baseList only) ---------- */
+function runFilter(q){
+  // source is baseList if present, otherwise the full data
+  const src = (baseList && baseList.length) ? baseList : data.slice();
+
+  if(!q) {
+    filtered = src.slice();
+  } else {
+    q = q.trim().toLowerCase();
+    filtered = src.filter(d=>{
+      // support group items (places/branches) which only have name
+      return (String(d.name||'').toLowerCase().includes(q))
+        || (String(d.srno||'').toLowerCase().includes(q))
+        || (String(d.add3||'').toLowerCase().includes(q))
+      /*  || (String(d._place||'').toLowerCase().includes(q))
+        || (String(d._branch||'').toLowerCase().includes(q));*/
+    });
+  }
+
+  // For events, keep the event metadata if present
+  // Sort results by name
+  filtered.sort((a,b)=> (String(a.name||'')).localeCompare(String(b.name||'')));
+
+  // Render according to baseView:
+  renderCards(filtered);
+
+  // Update report info
+  reportInfo.textContent = `${filtered.length} of ${src.length}`;
+}
+
+/* Get unique places from add3 */
+function uniquePlaces(){
+  const map = new Map();
+  data.forEach(d=>{
+    const place = (d.add3||'').trim();
+    if(place) map.set(place, (map.get(place)||0)+1);
+  });
+  return Array.from(map.keys()).sort((a,b)=>a.localeCompare(b));
+}
+
+/* Parse newbrlist and create unique branch list */
+function uniqueBranches(){
+  const set = new Set();
+  data.forEach(d=>{
+    if(d.newbrlist){
+      d.newbrlist.split(',').map(s=>s.trim()).filter(Boolean).forEach(b=>set.add(b));
+    }
+  /*  if(d.brlist){
+      d.brlist.split(',').map(s=>s.trim()).filter(Boolean).forEach(b=>set.add(b));
+    } */
+  });
+  return Array.from(set).sort((a,b)=>a.localeCompare(b));
+}
+
+/* Events this week: use birthday/marriage day fields or bm/bd/mm/md if present
+   We'll extract month & date from birthday/mday or bday/mday fields (ISO strings) */
+function eventsThisWeek(){
+  const results = [];
+  const now = new Date();
+  const end = new Date(now.getTime() + 7*24*3600*1000);
+  // normalize function to next occurrence for this year
+  function nextOccurrence(iso){
+    try{
+      if(!iso) return null;
+      const d = new Date(iso);
+      if(isNaN(d)) return null;
+      const occ = new Date(now.getFullYear(), d.getMonth(), d.getDate());
+      if(occ < now) occ.setFullYear(now.getFullYear()+1);
+      return occ;
+    }catch(e){return null;}
+  }
+  data.forEach(d=>{
+    const bIso = d.bday || d.birthday || d.birthdate;
+    const mIso = d.mday || d.marriageday || d.marriage;
+    const bOcc = nextOccurrence(bIso);
+    const mOcc = nextOccurrence(mIso);
+    if(bOcc && bOcc >= now && bOcc <= end){
+     // results.push({type:'Birthday', when:bOcc, item:d}); // not to be evaluated
+    }
+    if(mOcc && mOcc >= now && mOcc <= end){
+    //  results.push({type:'Marriage', when:mOcc, item:d}); // not to be evaluated
+    }
+    // also check if bm/bd/mm/md fields exist (day and month as numbers or strings)
+    if(d.bm && d.bd){
+      const mon = Number(d.bm)-1 || (isNaN(d.bm)?monthStrToNum(d.bm)-1:0);
+      const day = Number(d.bd);
+      if(mon>=0 && day>=1){
+        const occ = new Date(now.getFullYear(), mon, day);
+        if(occ < now) occ.setFullYear(now.getFullYear()+1);
+        if(occ >= now && occ <= end) results.push({type:'Birthday', when:occ, item:d});
+      }
+    }
+    if(d.mm && d.md){
+      const mon = Number(d.mm)-1 || (isNaN(d.mm)?monthStrToNum(d.mm)-1:0);
+      const day = Number(d.md);
+      if(mon>=0 && day>=1){
+        const occ = new Date(now.getFullYear(), mon, day);
+        if(occ < now) occ.setFullYear(now.getFullYear()+1);
+        if(occ >= now && occ <= end) results.push({type:'Marriage', when:occ, item:d});
+      }
+    }
+  });
+  // sort by when
+  results.sort((a,b)=>a.when - b.when);
+  return results;
+}
+function monthStrToNum(s){
+  if(!s) return NaN;
+  const map = {jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
+  const key = s.toString().toLowerCase().slice(0,3);
+  return map[key] || NaN;
+}
+
+/* ---------- Data fetching & cache logic ---------- */
+
+/* fetch timestamp (returns string) */
+async function fetchTimestamp(){
+  try{
+    const r = await fetch(timestampurl, {cache:'no-store'});
+    if(!r.ok) throw new Error('ts fetch failed');
+    const text = await r.text();
+    // assume response is short string or JSON; try parse
+    try{
+      const j = JSON.parse(text);
+      // If JSON: try to find a timestamp field or first value
+      if(typeof j === 'string') return j;
+      if(j.updatedOn) return String(j.updatedOn);
+      if(typeof j === 'object'){
+        // pick first property value
+        const v = Object.values(j)[0];
+        return typeof v === 'string' ? v : JSON.stringify(j);
+      }
+    }catch(e){
+      return text.trim();
+    }
+  }catch(e){
+    console.warn('fetchTimestamp error', e);
+    return null;
+  }
+}
+
+/* fetch data array from dataurl */
+async function fetchDataFromServer(){
+  try{
+    logStatus('Downloading data...');
+    const r = await fetch(dataurl, {cache:'no-store'});
+    if(!r.ok) throw new Error('data fetch failed');
+    const j = await r.json();
+   // console.log(j.user)
+    // Many endpoints return { user: [...] } - use j.user if present, else use j directly
+    const arr = Array.isArray(j.user) ? j.user : (Array.isArray(j) ? j : (j.data || []));
+    data = arr;
+    saveCache(data);
+    // update ibapUpdatedOn with timestamp fetch (try to get timestamp now)
+    const ts = await fetchTimestamp();
+    if(ts) saveUpdatedOn(ts);
+    logStatus('Data saved locally');
+    return data;
+  }catch(e){
+    console.error('fetchDataFromServer err', e);
+    logStatus('Failed to download data');
+    return null;
+  }
+}
+
+/* initialize app: check mylocal, cache, etc */
+async function initApp(){
+  // Check mylocal
+  const my = getMylocal();
+  if(my){
+    const parsed = parseMylocal(my);
+    if(parsed && parsed.srno){
+      // If cached data contains srno, go to report and select it.
+      const c = loadCache();
+      if(c && Array.isArray(c)){
+        data = c;                 // <-- treat cache as array (not c.user)
+        showReportView();
+        //selectMember(parsed.srno);
+        // Meanwhile check timestamp to see if update needed
+        checkAndUpdateCache();
+        return;
+      } else {
+        // no cache: fetch data first
+        setLoginMessage('Found mylocal but no local data. Fetching data...');
+        await fetchDataFromServer();
+        if(data && data.length>0){
+          showReportView();
+          selectMember(parsed.srno);
+        }else{
+          setLoginMessage('Could not fetch data. Try Refresh.');
+        }
+        return;
+      }
+    }
+  }
+
+  // If no mylocal auto-go, but if cache exists prepare report for faster UX and then check timestamp
+  const c = loadCache();
+  if(c && Array.isArray(c)){
+    data = c;   // <-- previously code used c.user; corrected to c
+  //  console.log(data)
+    setLoginMessage('Loaded from cache. You  submit SR No');
+    // preload report so that if user logs in we can switch quickly
+    checkAndUpdateCache(); // triggers background update if needed
+    return;
+  }
+
+  // No cache -> keep login and fetch data in background (but we must not block)
+  setLoginMessage('No cache present. Data will be fetched when needed or on Refresh.');
+}
+
+/* compare timestamp and update cache if needed; returns true if updated */
+async function checkAndUpdateCache(){
+  try{
+    const serverTs = await fetchTimestamp();
+    const localTs = getUpdatedOn();
+    if(serverTs && serverTs !== localTs){
+      // fetch new data
+      await fetchDataFromServer();
+      renderAfterDataLoad();
+      return true;
+    } else if(!localTs){
+      // no local record, but if cache exists keep it; update updatedOn if possible
+      if(serverTs) saveUpdatedOn(serverTs);
+      return false;
+    } else {
+      // timestamps equal - nothing to do
+      return false;
+    }
+  }catch(e){
+    console.warn('checkAndUpdateCache err', e);
+    return false;
+  }
+}
+
+/* ---------- UI actions ---------- */
+
+/* On submit SR no */
+srSubmit.addEventListener('click', ()=>handleLoginSubmit(false));
+srnoInput.addEventListener('keydown', (ev)=>{ if(ev.key === 'Enter') handleLoginSubmit(false); });
+
+/* Use local mylocal button */
+//useLocalBtn.addEventListener('click', ()=>handleLoginSubmit(true));
+
+async function handleLoginSubmit(useLocal){
+  setLoginMessage('');
+  if(useLocal){
+    const my = getMylocal();
+    if(!my) { setLoginMessage('No mylocal in localStorage'); return; }
+    const p = parseMylocal(my);
+    if(!p || !p.srno) { setLoginMessage('Invalid mylocal value'); return; }
+    // ensure data loaded
+    if(!data || data.length===0){
+      setLoginMessage('Loading cached data (or fetching from server)...');
+      const c = loadCache();
+      if(c && c.length>0) data = c;
+      else {
+        await fetchDataFromServer();
+      }
+    }
+    if(!data || data.length===0){ setLoginMessage('No data available'); return; }
+    showReportView();
+    selectMember(p.srno);
+    return;
+  } else {
+    const val = Number(srnoInput.value);
+    if(!val){ setLoginMessage('Enter SR No'); return; }
+    // ensure data loaded (use cache or fetch)
+    let c = loadCache();
+    if(c && c.length>0) data = c;
+    else {
+      setLoginMessage('Fetching data from server...');
+      await fetchDataFromServer();
+    }
+    if(!data || data.length===0){
+      setLoginMessage('No data found');
+      return;
+    }
+    const found = data.find(d=>Number(d.srno) === Number(val));
+    if(found){
+      // set mylocal automatically
+      const now = new Date();
+      const mylocalVal = `${found.srno}#${found.name}#${now.toLocaleString('en-US',{month:'short'})} ${now.getDate()} ${now.getFullYear()} ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
+      setMylocal(mylocalVal);
+      showReportView();
+      selectMember(found.srno);
+    } else {
+      setLoginMessage('SR No not found in data.');
+    }
+  }
+}
+
+/* Show report view */
+function showReportView(){
+  currentView = 'report';
+  loginView.style.display = 'none';
+  reportView.style.display = '';
+  if(!data || data.length===0){
+    // try load from cache
+    const c = loadCache(); if(c) data = c;
+  }
+  // reset base view to members (full list)
+  baseView = 'members';
+  baseList = data.slice();
+  renderAfterDataLoad();
+}
+
+/* Render after data loaded */
+function renderAfterDataLoad(){
+  if(!data) data = [];
+  filtered = data.slice();
+  // set baseList to full members list
+  baseList = data.slice();
+  baseView = 'members';
+  runFilter('');
+  countMembersBadge.textContent = data.length || 0;
+  reportInfo.textContent = `${filtered.length} of ${data.length}`;
+  setLoginMessage('');
+  setTimeout(() => {
+    window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+  }, 500);
+  //window.scrollTo({top:0, left:0, behavior:'smooth'});
+}
+
+/* Select a member by srno and open modal */
+function selectMember(srno){
+  const m = data.find(d=>Number(d.srno) === Number(srno));
+  if(m) {
+    // if report not visible, show it
+    if(currentView !== 'report') showReportView();
+    openModalFor(m);
+    // scroll into view if card exists
+    setTimeout(()=>{
+      const el = document.getElementById(`srno-${m.srno}`);
+      if(el) el.scrollIntoView({behavior:'smooth',block:'center'});
+    },200);
+  } else {
+    alert('Member not found locally');
+  }
+}
+
+/* Search input */
+searchInput.addEventListener('input', ()=>runFilter(searchInput.value));
+
+/* Refresh button -> force fetch */
+refreshDataBtn.addEventListener('click', async ()=>{
+  await fetchDataFromServer();
+  // after fetching, reset base to members (full list)
+  baseView = 'members';
+  baseList = data.slice();
+  renderAfterDataLoad();
+});
+
+/* modal close */
+modalClose.addEventListener('click', closeModal);
+modalBack.addEventListener('click', (ev)=>{ if(ev.target === modalBack) closeModal(); });
+
+/* hamburger toggle */
+hamb.addEventListener('click', ()=>{ sidebar.classList.toggle('open'); sidebar.setAttribute('aria-hidden', !sidebar.classList.contains('open')) });
+
+/* sidebar menu actions */
+sidebar.addEventListener('click', (ev)=>{
+  const mi = ev.target.closest('.menu-item');
+  if(!mi) return;
+  const act = mi.getAttribute('data-action');
+  sidebar.classList.remove('open');
+  // go to top of window when menu clicked (as requested)
+  window.scrollTo({top:0,left:0,behavior:'smooth'});
+
+  if(act === 'listMembers') {
+    showMembersList();
+  } else if(act === 'eventsWeek'){
+    showEventsWeek();
+  } else if(act === 'membersLiving'){
+    showMembersLiving();
+  } else if(act === 'branchesList'){
+    showBranchesList();
+  } else if(act === 'dataCorrection'){
+    alert('Data correction: will be addressed later.');
+  } else if(act === 'otherLinks'){
+    alert('Other links: will be addressed later.');
+  } else if(act === 'about'){
+    alert('About: will be addressed later.');
+  }
+});
+
+/* clear mylocal */
+clearLocalBtn.addEventListener('click', ()=>{ clearMylocal(); alert('mylocal cleared'); });
+
+/* Menu functions implementations */
+
+/* 1. List of Members (shows same report page) */
+function showMembersList(){
+  if(currentView !== 'report') showReportView();
+  baseView = 'members';
+  baseList = data.slice();
+  runFilter(searchInput.value || '');
+}
+
+/* 2. Events this week */
+function showEventsWeek(){
+  if(!data || data.length===0){
+    alert('No data loaded. Please Refresh first.');
+    return;
+  }
+  const evs = eventsThisWeek();
+  if(evs.length===0){
+    alert('No events this week.');
+    return;
+  }
+  // prepare baseList as member-like objects with event metadata
+  baseList = evs.map(e => {
+    return Object.assign({}, e.item, {_eventType: e.type, _eventWhen: e.when});
+  });
+  baseView = 'events';
+  runFilter(searchInput.value || '');
+  reportInfo.textContent = `${baseList.length} upcoming events`;
+}
+
+/* 3. Members living In */
+function showMembersLiving(){
+  if(!data || data.length===0) { alert('No data loaded.'); return; }
+  const places = uniquePlaces();
+  if(places.length===0){ alert('No places found in data'); return; }
+  // baseList represents places (group view). Each item has .name and _place
+  baseList = places.map(p => ({ name: p, _place: p }));
+  baseView = 'places';
+  runFilter(searchInput.value || '');
+  reportInfo.textContent = `${places.length} places`;
+}
+
+/* 4. Branches List */
+function showBranchesList(){
+  if(!data || data.length===0) { alert('No data loaded.'); return; }
+  const branches = uniqueBranches();
+  if(branches.length===0){ alert('No branches in data'); return; }
+  baseList = branches.map(b => ({ name: b, _branch: b }));
+  baseView = 'branches';
+  runFilter(searchInput.value || '');
+  reportInfo.textContent = `${branches.length} branches`;
+}
+
+/* ---------- Utilities for initial rendering ---------- */
+
+/* When data is available on load (either cache or fetch) */
+(function init(){
+  initApp();
+})();
+
+/*const goUpBtn = document.getElementById('goUpBtn');
+goUpBtn.title = "Go Up";
+goUpBtn.onclick = () => window.scrollTo({top:0, left:0, behavior:'smooth'});*/
+
+const goUpBtn = document.getElementById('goUpBtn');
+goUpBtn.title = "Go Up";
+let hideTimeout = null;
+
+function showGoUpButton() {
+  clearTimeout(hideTimeout);
+  goUpBtn.style.display = 'flex';
+  // Hide after 5 seconds if no further scroll
+  hideTimeout = setTimeout(() => {
+    goUpBtn.style.display = 'none';
+  }, 3000);
+}
+
+// On scroll event
+window.addEventListener('scroll', () => {
+  showGoUpButton();
+});
+
+goUpBtn.onclick = () => window.scrollTo({top:0, left:0, behavior:'smooth'});
+
+
+
+</script>
+</body>
+</html>

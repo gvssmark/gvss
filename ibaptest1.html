@@ -126,8 +126,7 @@ a, a:visited, a:active {
   <div class="menu-item" data-action="dataCorrection">5. Data correction</div>
   <div class="menu-item" data-action="otherLinks">6. Other Links</div>
   <div class="menu-item" data-action="about">7. About</div>
-  <div class="menu-item" data-action="fullEventsList">8. Full Events List</div>
-
+  
   <hr/>
   <div style="margin-top:8px">
     <button id="clearLocal" class="secondary" style="width:100%">Clear local mylocal</button>
@@ -776,10 +775,6 @@ sidebar.addEventListener('click', (ev)=>{
   } else if(act === 'about'){
     alert('About: will be addressed later.');
   }
-  else if(act === 'fullEventsList'){
-  showFullEventsList();
-}
-
 });
 
 /* clear mylocal */
@@ -869,120 +864,6 @@ window.addEventListener('scroll', () => {
 });
 
 goUpBtn.onclick = () => window.scrollTo({top:0, left:0, behavior:'smooth'});
-
-function showFullEventsList() {
-  if(!data || data.length === 0) {
-    alert('No data loaded. Please Refresh first.');
-    return;
-  }
-
-  // Extract all events from data with birthday and marriage dates
-  const allEvents = [];
-
-  data.forEach(d => {
-    // Birthday info
-    if(d.bm && d.bd){
-      const monthNum = Number(d.bm);
-      const dayNum = Number(d.bd);
-      if(monthNum >= 1 && dayNum >= 1) {
-        allEvents.push({ type: 'Birthday', month: monthNum, day: dayNum, item: d });
-      }
-    }
-    // Marriage anniversary info
-    if(d.mm && d.md){
-      const monthNum = Number(d.mm);
-      const dayNum = Number(d.md);
-      if(monthNum >= 1 && dayNum >= 1) {
-        allEvents.push({ type: 'Marriage', month: monthNum, day: dayNum, item: d });
-      }
-    }
-  });
-
-  // Store full list globally for filtering
-  baseList = allEvents;
-  baseView = 'fullEvents';
-
-  // Show month filter dropdown UI before cards
-  renderFullEventsUI();
-}
-
-function renderFullEventsUI() {
-  // Controls area: replace current controls with dropdown and reset button
-  const monthNames = ["All Months","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-
-  reportView.style.display = '';
-
-  loginView.style.display = 'none';
-
-  // Build month selector dropdown
-  const controlsEl = reportView.querySelector('.controls');
-  controlsEl.innerHTML = `
-    <label for="monthFilter">Select Month:</label>
-    <select id="monthFilter">
-      ${monthNames.map((m, i) => `<option value="${i}">${m}</option>`).join('')}
-    </select>
-    <button id="resetFilter" class="secondary">Reset</button>
-    <div style="flex:1"></div>
-    <div id="reportInfo" class="topnote"></div>
-  `;
-
-  // Add event listeners on dropdown and reset button
-  const monthFilter = document.getElementById('monthFilter');
-  const resetFilter = document.getElementById('resetFilter');
-  const reportInfo = document.getElementById('reportInfo');
-
-  function applyMonthFilter() {
-    const val = Number(monthFilter.value);
-    let filteredEvents;
-
-    if(val === 0) {
-      filteredEvents = baseList.slice(); // all months
-    } else {
-      filteredEvents = baseList.filter(e => e.month === val);
-    }
-
-    renderFullEventsCards(filteredEvents);
-    reportInfo.textContent = `${filteredEvents.length} events${val === 0 ? '' : ' in ' + monthNames[val]}`;
-  }
-
-  monthFilter.addEventListener('change', applyMonthFilter);
-  resetFilter.addEventListener('click', () => {
-    monthFilter.value = 0;
-    applyMonthFilter();
-  });
-
-  applyMonthFilter();
-}
-
-function renderFullEventsCards(events) {
-  cardsWrap.innerHTML = '';
-  if(!events || events.length === 0) {
-    cardsWrap.innerHTML = '<div style="padding:18px">No events found</div>';
-    return;
-  }
-
-  // Sort events by month then day then name
-  events.sort((a,b) => (a.month - b.month) || (a.day - b.day) || ((a.item.name || '').localeCompare(b.item.name || '')));
-
-  events.forEach(e => {
-    const el = document.createElement('div');
-    el.className = 'card';
-    el.tabIndex = 0;
-
-    const eventDate = `${String(e.day).padStart(2,'0')}-${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][e.month-1]}`;
-
-    el.innerHTML = `
-      <h3>${escapeHtml(e.item.name || 'No name')} <span class="badge">${escapeHtml(e.type)}</span></h3>
-      <p>Date: ${eventDate}</p>
-      <p>SR No: ${e.item.srno || ''} • ${escapeHtml(e.item.add3 || '')}</p>
-    `;
-
-    el.addEventListener('click', () => openModalFor(e.item));
-
-    cardsWrap.appendChild(el);
-  });
-}
-
 
 
 

@@ -1,5 +1,6 @@
 
 
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -63,7 +64,7 @@
 #goUpBtn  {position:fixed;  top:50%;  float:right;right:0;  width:50px;  height:50px;  background:red;  color:#fff;  border-radius:50px;  display:none;  align-items:center;
   justify-content:center;  cursor:pointer;  z-index:100;  font-size:20px;  box-shadow:0 2px 8px rgba(0,0,0,0.2);}
   
-  #myphoto {}
+  #myphoto {width:110px}
 .modal {
   background: #c02595;
   color: #fff;
@@ -76,7 +77,7 @@
   font-weight: bold;
   margin-bottom:10px;
   letter-spacing: 0.5px;
-  text-align: left;
+  text-align: center;
   
 }
 #modalBody {
@@ -172,15 +173,15 @@ a, a:visited, a:active {
 <!-- Modal -->
 <div id="modalBack" class="modal-back" role="dialog" aria-modal="true">
   <div class="modal" id="modal">
-    <div style="display:flex;align-items:flex-start;justify-content:space-between;">
-      <h3 id="modalTitle" style="flex:1; margin-right:12px;"></h3>
+    <div >
+      <h3 id="modalTitle" style="text-align:centre; color:white;"></h3>
       <div class="close" id="modalClose" title="Close" style="font-size:1.5em;">&times;</div>
     </div>
     <div >
       <div>
         <div id="modalBody"></div>
       </div>
-      <div id="myphoto" style="min-width:110px; text-align:center;"></div>
+      <!--<div id="myphoto" style="min-width:110px; text-align:center;"></div> -->
     </div>
   </div>
 </div>
@@ -348,13 +349,13 @@ function openModalFor(item) {
   modalTitle.textContent = item.name || 'Member';
 
   // Photo floated right
-  document.getElementById('myphoto').innerHTML =
-    item.photoid
-      ? `<img src='https://drive.google.com/thumbnail?id=${item.photoid}' alt='Photo'>`
-      : '';
+  //document.getElementById('myphoto').innerHTML =
+  //  item.photoid
+  //    ? `<img src='https://drive.google.com/thumbnail?id=${item.photoid}' alt='Photo'>`
+  //    : '';
 
   // Highlight phone and email, match structure
-  modalBody.innerHTML = `
+  modalBody.innerHTML = `<table width=100%><tr><td>
     <div><strong>Address:</strong><br>
     ${item.add1}<br>
     ${item.add2}<br>
@@ -366,11 +367,11 @@ function openModalFor(item) {
     <div style="margin-top:5px;"><strong>Email:</strong>
       ${escapeHtml(item.email || '')}
     </div>
-    
-    
+    <td id='myphoto'><img src='https://drive.google.com/thumbnail?id=${item.photoid}' alt='Photo'>
+    <tr><td colspan=2>
     <div style="margin-top:5px;">
       <strong>Branches Worked:</strong> ${cleanBranchList(item.newbrlist)}
-    </div>
+    </div></table>
   `;
 
   modalBack.classList.add('open');

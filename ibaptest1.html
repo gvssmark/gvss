@@ -63,6 +63,42 @@
 #goUpBtn  {position:fixed;  top:50%;  float:right;right:0;  width:50px;  height:50px;  background:red;  color:#fff;  border-radius:50px;  display:none;  align-items:center;
   justify-content:center;  cursor:pointer;  z-index:100;  font-size:20px;  box-shadow:0 2px 8px rgba(0,0,0,0.2);}
   #myphoto {  display: flex;  justify-content: center;  align-items: center;  margin-top:10px;  margin-bottom:10px;}
+.modal {
+  background: #c02595;
+  color: #fff;
+  padding: 18px;
+  border-radius: 15px;
+  max-width:400px;
+}
+#modalTitle {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom:8px;
+  letter-spacing: 0.5px;
+  text-align: left;
+}
+#modalBody {
+  font-size: 16px;
+  color: #fff;
+}
+#myphoto img {
+  width: 100px;
+  height: 120px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+}
+.highlight {
+  background: #fff700;
+  color: #222;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-weight: bold;
+}
+a, a:visited, a:active {
+  color: #ffee7c;
+  text-decoration: underline;
+}
 
 </style>
 </head>
@@ -134,16 +170,19 @@
 <!-- Modal -->
 <div id="modalBack" class="modal-back" role="dialog" aria-modal="true">
   <div class="modal" id="modal">
-  <div class="close" id="modalClose" title="Close">&times;</div>
-    <div id='myphoto'></div>
-    <div style="display:flex;align-items:center;justify-content:space-between">
-    
-      <h3 id="modalTitle">Member</h3>
-      
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;">
+      <h3 id="modalTitle" style="flex:1; margin-right:12px;"></h3>
+      <div class="close" id="modalClose" title="Close" style="font-size:1.5em;">&times;</div>
     </div>
-    <div id="modalBody" style="margin-top:8px;font-size:14px;color:#222"></div>
+    <div >
+      <div>
+        <div id="modalBody"></div>
+      </div>
+      <div id="myphoto" style="min-width:110px; text-align:center;"></div>
+    </div>
   </div>
 </div>
+
 
 
 
@@ -300,30 +339,39 @@ function renderCards(list){
 function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c]); }
 
 /* Open modal with member data (fields can be finalised later) */
-function openModalFor(item){
-document.getElementById('myphoto').innerHTML =`<img src="https://drive.google.com/thumbnail?id=${item.photoid}" alt="Member photo" width="100" height="150" style="border-radius:10px; display:block;">`;
-modalTitle.textContent = `${item.name || 'Member'}`;
-  modalBody.innerHTML = `    <div><strong>SR No:</strong> ${item.srno || ''}</div>
-    <div><strong>Name:</strong> ${escapeHtml(item.name || '')}</div>
-    <div><strong>Address:</strong> ${escapeHtml([item.add1,item.add2,item.add3,item.add4].filter(Boolean).join(', '))}</div>
-    <div><strong>Mobile:</strong> ${item.mob1 || ''} ${item.mob2 || ''}</div>
-    <div><strong>Email:</strong> ${escapeHtml(item.email || '')}</div>
-     `;
-  // attach set-as-mylocal - not implemented
-  setTimeout(()=>{
-    const btn = document.getElementById('modalGoto');
-    if(btn){
-      btn.addEventListener('click', ()=>{
-        const now = new Date();
-        const mylocalVal = `${item.srno}#${item.name}#${now.toLocaleString('en-US',{month:'short'})} ${now.getDate()} ${now.getFullYear()} ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
-        setMylocal(mylocalVal);
-        alert('mylocal set. You can use it on login.');
-        closeModal();
-      });
-    }
-  },10);
+function openModalFor(item) {
+  // Name as modal title
+  modalTitle.textContent = item.name || 'Member';
+
+  // Photo floated right
+  document.getElementById('myphoto').innerHTML =
+    item.photoid
+      ? `<img src='https://drive.google.com/thumbnail?id=${item.photoid}' alt='Photo'>`
+      : '';
+
+  // Highlight phone and email, match structure
+  modalBody.innerHTML = `
+    <div><strong>Address:</strong><br>
+    ${item.add1}<br>
+    ${item.add2}<br>
+    ${item.add3},    ${item.add4}
+    
+    <div style="margin-top:8px;"><strong>Phones:</strong>
+      ${item.mob1 || ''}
+    </div>
+    <div style="margin-top:5px;"><strong>Email:</strong>
+      ${escapeHtml(item.email || '')}
+    </div>
+    
+    
+    <div style="margin-top:5px;">
+      <strong>Branches Worked:</strong> ${item.newbrlist.replaceAll(",", ", ").replaceAll(" , ", "")}
+    </div>
+  `;
+
   modalBack.classList.add('open');
 }
+
 
 /* close modal */
 function closeModal(){ modalBack.classList.remove('open'); }

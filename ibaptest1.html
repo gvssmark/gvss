@@ -62,6 +62,8 @@
   .topnote{font-size:13px;color:var(--muted);margin-top:8px}
 #goUpBtn  {position:fixed;  top:50%;  float:right;right:0;  width:50px;  height:50px;  background:red;  color:#fff;  border-radius:50px;  display:none;  align-items:center;
   justify-content:center;  cursor:pointer;  z-index:100;  font-size:20px;  box-shadow:0 2px 8px rgba(0,0,0,0.2);}
+  #myphoto {  display: flex;  justify-content: center;  align-items: center;  margin-top:10px;  margin-bottom:10px;}
+
 </style>
 </head>
 <body>
@@ -132,13 +134,18 @@
 <!-- Modal -->
 <div id="modalBack" class="modal-back" role="dialog" aria-modal="true">
   <div class="modal" id="modal">
+  <div class="close" id="modalClose" title="Close">&times;</div>
+    <div id='myphoto'></div>
     <div style="display:flex;align-items:center;justify-content:space-between">
+    
       <h3 id="modalTitle">Member</h3>
-      <div class="close" id="modalClose" title="Close">&times;</div>
+      
     </div>
     <div id="modalBody" style="margin-top:8px;font-size:14px;color:#222"></div>
   </div>
 </div>
+
+
 
 <script>
 /* ---------- Configuration (from user) ---------- */
@@ -294,9 +301,9 @@ function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, c=>({ '&':'&amp
 
 /* Open modal with member data (fields can be finalised later) */
 function openModalFor(item){
-  modalTitle.textContent = `${item.name || 'Member'}`;
-  modalBody.innerHTML = `
-    <div><strong>SR No:</strong> ${item.srno || ''}</div>
+document.getElementById('myphoto').innerHTML =`<img src="https://drive.google.com/thumbnail?id=${item.photoid}" alt="Member photo" width="100" height="150" style="border-radius:10px; display:block;">`;
+modalTitle.textContent = `${item.name || 'Member'}`;
+  modalBody.innerHTML = `    <div><strong>SR No:</strong> ${item.srno || ''}</div>
     <div><strong>Name:</strong> ${escapeHtml(item.name || '')}</div>
     <div><strong>Address:</strong> ${escapeHtml([item.add1,item.add2,item.add3,item.add4].filter(Boolean).join(', '))}</div>
     <div><strong>Mobile:</strong> ${item.mob1 || ''} ${item.mob2 || ''}</div>

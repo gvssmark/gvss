@@ -66,19 +66,19 @@
 .modal {
   background: #c02595;
   color: #fff;
-  padding: 18px;
+  padding: 8px;
   border-radius: 15px;
   max-width:400px;
 }
 #modalTitle {
   font-size: 22px;
   font-weight: bold;
-  margin-bottom:8px;
+  margin-bottom:10px;
   letter-spacing: 0.5px;
   text-align: left;
 }
 #modalBody {
-  font-size: 16px;
+  font-size: small;
   color: #fff;
 }
 #myphoto img {
@@ -365,11 +365,21 @@ function openModalFor(item) {
     
     
     <div style="margin-top:5px;">
-      <strong>Branches Worked:</strong> ${item.newbrlist.replaceAll(",", ", ").replaceAll(" , ", "")}
+      <strong>Branches Worked:</strong> ${cleanBranchList(item.newbrlist)}
     </div>
   `;
 
   modalBack.classList.add('open');
+}
+
+
+function cleanBranchList(str) {
+  if(!str) return '';
+  return str
+    .split(',')
+    .map(s => s.trim())
+    .filter(s => s)           // Remove empty entries
+    .join(', ');              // Join with ", " (comma + space)
 }
 
 

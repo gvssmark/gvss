@@ -62,7 +62,8 @@
   .topnote{font-size:13px;color:var(--muted);margin-top:8px}
 #goUpBtn  {position:fixed;  top:50%;  float:right;right:0;  width:50px;  height:50px;  background:red;  color:#fff;  border-radius:50px;  display:none;  align-items:center;
   justify-content:center;  cursor:pointer;  z-index:100;  font-size:20px;  box-shadow:0 2px 8px rgba(0,0,0,0.2);}
-  #myphoto {  display: flex;  justify-content: center;  align-items: center;  margin-top:10px;  margin-bottom:10px;}
+  
+  #myphoto {  align-items: center;  margin-top:-195px;  margin-bottom:10px; float:right}
 .modal {
   background: #c02595;
   color: #fff;
@@ -312,19 +313,21 @@ function renderCards(list){
     } else if(baseView === 'branches'){
       el.setAttribute('data-branch', item._branch || item.name);
       el.addEventListener('click', ()=>{
-        const branch = el.getAttribute('data-branch');
-        const listMembers = data.filter(d=>{
-          const nb = d.newbrlist || '';
-          const br = d.brlist || '';
-          const inNew = nb && nb.split(',').map(s=>s.trim()).includes(branch);
-          const inBr  = br && br.split(',').map(s=>s.trim()).includes(branch);
-          return inNew || inBr;
-        });
-        baseView = 'members';
-        baseList = listMembers.slice();
-        runFilter(searchInput.value || '');
-        reportInfo.textContent = `${baseList.length} members Worked in ${branch} branch`;
-      });
+  const branch = el.getAttribute('data-branch');
+  const listMembers = data.filter(d=>{
+    const nb = d.newbrlist || '';
+    const br = d.brlist || '';
+    const inNew = nb && nb.split(',').map(s=>s.trim()).includes(branch);
+    const inBr  = br && br.split(',').map(s=>s.trim()).includes(branch);
+    return inNew || inBr;
+  });
+  baseView = 'members';
+  baseList = listMembers.slice();
+  searchInput.value = '';   // Clear search input to reset filtering
+  runFilter('');
+  reportInfo.textContent = `${baseList.length} members Worked in ${branch} branch`;
+});
+
     } else {
       // default: open member modal
       el.addEventListener('click', ()=> openModalFor(item));
@@ -387,32 +390,26 @@ function cleanBranchList(str) {
 function closeModal(){ modalBack.classList.remove('open'); }
 
 /* ---------- Filtering logic (search works on baseList only) ---------- */
+
 function runFilter(q){
-  // source is baseList if present, otherwise the full data
   const src = (baseList && baseList.length) ? baseList : data.slice();
-
-  if(!q) {
-    filtered = src.slice();
+  q = (q||'').trim().toLowerCase();
+  if (baseView === 'branches') {
+    // Only filter branch names in branches view
+    filtered = src.filter(d => String(d.name||'').toLowerCase().includes(q));
   } else {
-    q = q.trim().toLowerCase();
-    filtered = src.filter(d=>{
-      // support group items (places/branches) which only have name
-      return (String(d.name||'').toLowerCase().includes(q))
-        || (String(d.srno||'').toLowerCase().includes(q))
-        || (String(d.add3||'').toLowerCase().includes(q))
-      /*  || (String(d._place||'').toLowerCase().includes(q))
-        || (String(d._branch||'').toLowerCase().includes(q));*/
-    });
+    if(!q) {
+      filtered = src.slice();
+    } else {
+      filtered = src.filter(d=>{
+        return (String(d.name||'').toLowerCase().includes(q))
+          || (String(d.srno||'').toLowerCase().includes(q))
+          || (String(d.add3||'').toLowerCase().includes(q));
+      });
+    }
   }
-
-  // For events, keep the event metadata if present
-  // Sort results by name
   filtered.sort((a,b)=> (String(a.name||'')).localeCompare(String(b.name||'')));
-
-  // Render according to baseView:
   renderCards(filtered);
-
-  // Update report info
   reportInfo.textContent = `${filtered.length} of ${src.length}`;
 }
 
@@ -822,11 +819,12 @@ function showBranchesList(){
   if(!data || data.length===0) { alert('No data loaded.'); return; }
   const branches = uniqueBranches();
   if(branches.length===0){ alert('No branches in data'); return; }
-  baseList = branches.map(b => ({ name: b, _branch: b }));
+  baseList = branches.map(b => ({ name: b, _branch: b }));  // Always rebuild full list
   baseView = 'branches';
-  runFilter(searchInput.value || '');
+  runFilter(searchInput.value || ''); // Now filter is run on complete branch list
   reportInfo.textContent = `${branches.length} branches`;
 }
+
 
 /* ---------- Utilities for initial rendering ---------- */
 

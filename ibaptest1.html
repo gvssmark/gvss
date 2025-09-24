@@ -1,6 +1,7 @@
 
 
 
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -557,7 +558,9 @@ async function initApp(){
   if(my){
     const parsed = parseMylocal(my);
     if(parsed && parsed.srno){
+    //alert(parsed.name)
       // If cached data contains srno, go to report and select it.
+      //alert(parsed.srno) // capture login. 
       const c = loadCache();
       if(c && Array.isArray(c)){
         data = c;                 // <-- treat cache as array (not c.user)
@@ -587,6 +590,7 @@ async function initApp(){
     data = c;   // <-- previously code used c.user; corrected to c
   //  console.log(data)
     setLoginMessage('Loaded from cache. You  submit SR No');
+    
     // preload report so that if user logs in we can switch quickly
     checkAndUpdateCache(); // triggers background update if needed
     return;
@@ -666,6 +670,7 @@ async function handleLoginSubmit(useLocal){
     const found = data.find(d=>Number(d.srno) === Number(val));
     if(found){
       // set mylocal automatically
+      //alert('fresh login') // capture login found.srno, found.name
       const now = new Date();
       const mylocalVal = `${found.srno}#${found.name}#${now.toLocaleString('en-US',{month:'short'})} ${now.getDate()} ${now.getFullYear()} ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
       setMylocal(mylocalVal);

@@ -1,7 +1,3 @@
-
-
-
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -348,8 +344,10 @@ function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, c=>({ '&':'&amp
 /* Open modal with member data (fields can be finalised later) */
 function openModalFor(item) {
   // Name as modal title
+  monthsArray = [,'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
   modalTitle.textContent = item.name || 'Member';
-
+  if(item.bm){bday =`Birthday ${monthsArray[item.bm]}- ${item.bd}`}
+  if(item.mm){mday =`Marriage Anniversary ${monthsArray[item.mm]}- ${item.md}`}
   // Photo floated right
   //document.getElementById('myphoto').innerHTML =
   //  item.photoid
@@ -366,6 +364,13 @@ function openModalFor(item) {
     <div style="margin-top:8px;"><strong>Phones:</strong>
       ${item.mob1 || ''}
     </div>
+    <div style="margin-top:5px;"><strong>Events:</strong>
+      ${bday}  
+    </div>
+    <div style="margin-top:5px;"><strong>Events:</strong>
+       ${mday} 
+    </div>
+    
     <div style="margin-top:5px;"><strong>Email:</strong>
       ${escapeHtml(item.email || '')}
     </div>

@@ -7,3 +7,6 @@ if ('serviceWorker' in navigator) {
 }
 
 // Code to handle install prompt on desktop
+
+
+

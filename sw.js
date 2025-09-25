@@ -20,11 +20,3 @@ self.addEventListener('fetch', (e) => {
 
 
 
-
-
-
-
-
-
-
-

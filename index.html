@@ -347,8 +347,8 @@ function openModalFor(item) {
   // Name as modal title
   monthsArray = [,'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
   modalTitle.textContent = item.name || 'Member';
-  if(item.bm){bday =`Birthday ${monthsArray[item.bm]}- ${item.bd}`}
-  if(item.mm){mday =`Marriage Anniversary ${monthsArray[item.mm]}- ${item.md}`}
+  bday = item.bm? `<div style="margin-top:5px;"><strong>Events:</strong>Birthday ${monthsArray[item.bm]}- ${item.bd}</div>`: ""
+  mday = item.mm? `<div style="margin-top:5px;"><strong>Events:</strong>Marriage Anniversary ${monthsArray[item.mm]}- ${item.md}</div>`: ""
   // Photo floated right
   //document.getElementById('myphoto').innerHTML =
   //  item.photoid
@@ -365,12 +365,12 @@ function openModalFor(item) {
     <div style="margin-top:8px;"><strong>Phones:</strong>
       ${item.mob1 || ''}
     </div>
-    <div style="margin-top:5px;"><strong>Events:</strong>
+    
       ${bday}  
-    </div>
-    <div style="margin-top:5px;"><strong>Events:</strong>
+    
+    
        ${mday} 
-    </div>
+    
     
     <div style="margin-top:5px;"><strong>Email:</strong>
       ${escapeHtml(item.email || '')}

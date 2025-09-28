@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -100,6 +101,46 @@ a, a:visited, a:active {
   text-decoration: underline;
 }
  #refreshData {display:none}
+/* Carousel styles for events cards */
+#carouselWrap {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto 16px auto;
+  min-height: 280px;
+  overflow: hidden;
+}
+.carousel-card {
+  position: absolute;
+  left: 0; top: 0; right: 0; bottom: 0;
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.4,0,0.2,1);
+  pointer-events: none;
+  z-index: 5;
+  min-height: 240px; /* <-- add this */
+  background: #fff; /* to ensure text is visible */
+  overflow: auto;   /* allow overflow if needed */
+  display: flex; flex-direction: column; align-items: center;
+  }
+.carousel-card.active {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 10;
+}
+
+#carouselDots {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-top:8px;
+}
+.carousel-dot {
+  width: 10px; height: 10px; border-radius:50%; background: #ed8d8d7d;
+  cursor: pointer;
+}
+.carousel-dot.active {
+  background: #ed8d8d;
+}
 
 </style>
 </head>
@@ -189,23 +230,18 @@ a, a:visited, a:active {
 
 
 <script>
-/* ---------- Configuration (from user) ---------- */
+/* ---------- Configuration ---------- */
 const dataurl = 'https://script.google.com/macros/s/AKfycbwU43y7aw-hY8rjx77YgViB5Vs2H5yv7i5GMuUUfB6YMLbEQn3D/exec';
 const timestampurl = 'https://script.google.com/macros/s/AKfycbwo-TtPn3DAjHSPCXDwPFerT36QyfPPvUTi7uQEvcmjJso_aWpaKefUsgx_vpJOowHUgg/exec?sheetid=1YIV80pXwoaMT4FeYfDIBcYSkhUz7iNTn_te7h9yylIY&sheetname=UpdatedOn';
-const cacheStorageKey = 'ibap-cache'; // store data array as JSON string
-const cacheKeyPath = '/custom/alphasorted.json'; // noted by user (not directly used as storage key)
+const cacheStorageKey = 'ibap-cache';
 const updatedOnKey = 'ibapUpdatedOn';
 const mylocalKey = 'mylocal';
 
 /* ---------- App state ---------- */
-let data = [];        // full dataset (array of member objects)
-let filtered = [];    // current filtered list shown
-let currentView = 'login'; // 'login' or 'report'
+let data = [];
+let filtered = [];
+let currentView = 'login';
 const today = new Date();
-
-/* NEW: baseList and baseView
-   baseList = the array currently shown (e.g. events list, places list, or member subset)
-   baseView = 'members' | 'events' | 'places' | 'branches'  */
 let baseList = [];
 let baseView = 'members';
 
@@ -214,7 +250,6 @@ const loginView = document.getElementById('loginView');
 const reportView = document.getElementById('reportView');
 const srnoInput = document.getElementById('srnoInput');
 const srSubmit = document.getElementById('srSubmit');
-const useLocalBtn = document.getElementById('useLocal');
 const loginMsg = document.getElementById('loginMsg');
 const searchInput = document.getElementById('searchInput');
 const cardsWrap = document.getElementById('cards');
@@ -231,62 +266,119 @@ const statusEl = document.getElementById('status');
 const countMembersBadge = document.getElementById('countMembers');
 
 /* ---------- Helpers ---------- */
-function logStatus(msg){
-  statusEl.textContent = msg;
-}
+function logStatus(msg){ statusEl.textContent = msg; }
 function setLoginMessage(msg){ loginMsg.textContent = msg; }
-function saveCache(arr){
-  try{
-    localStorage.setItem(cacheStorageKey, JSON.stringify(arr));
-  }catch(e){ console.warn('saveCache err', e) }
-}
-function loadCache(){
-  try{
-    const s = localStorage.getItem(cacheStorageKey);
-    return s ? JSON.parse(s) : null;
-  }catch(e){ return null; }
-}
-
+function saveCache(arr){ try{ localStorage.setItem(cacheStorageKey, JSON.stringify(arr)); }catch(e){} }
+function loadCache(){ try{ const s = localStorage.getItem(cacheStorageKey); return s ? JSON.parse(s) : null; }catch(e){ return null; } }
 function saveUpdatedOn(val){ localStorage.setItem(updatedOnKey, val); }
 function getUpdatedOn(){ return localStorage.getItem(updatedOnKey); }
 function setMylocal(val){ localStorage.setItem(mylocalKey, val); }
 function getMylocal(){ return localStorage.getItem(mylocalKey); }
 function clearMylocal(){ localStorage.removeItem(mylocalKey); }
+function parseMylocal(str){ if(!str) return null; const parts = str.split('#'); if(parts.length<1) return null; const srno = Number(parts[0])||null; return {srno, raw:str, name:parts[1]||''}; }
+function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c])); }
+function cleanBranchList(str){ if(!str) return ''; return str.split(',').map(s=>s.trim()).filter(s=>s).join(', '); }
 
-/* parse mylocal format srno#Name#Mon dd yyyy hh:mm  */
-function parseMylocal(str){
-  if(!str) return null;
-  const parts = str.split('#');
-  if(parts.length < 1) return null;
-  const srno = Number(parts[0]) || null;
-  return { srno, raw: str, name: parts[1] || '' };
+/* ---------- Rendering ---------- */
+
+function renderCarouselCards(list) {
+  cardsWrap.innerHTML = '';
+  if (!list || list.length === 0) {
+    cardsWrap.innerHTML = '<div style="padding:18px">No events</div>';
+    return;
+  }
+
+  // Sort by name (non-destructive)
+//  const sorted = list.slice().sort((a,b)=> (String(a.name||'')).localeCompare(String(b.name||'')));
+const sorted = list.slice().sort((a, b) => {
+  const dateA = new Date(a._eventWhen);
+  const dateB = new Date(b._eventWhen);
+  return dateA - dateB;
+});
+
+  // Carousel structure
+  const wrap = document.createElement('div');
+  wrap.id = 'carouselWrap';
+
+  sorted.forEach((item, i) => {
+    const el = document.createElement('div');
+    el.className = 'carousel-card' + (i === 0 ? ' active' : '');
+    const eventBadge = item._eventType ? `<span class="badge">${escapeHtml(item._eventType)}</span>` : '';
+    const whenText = item._eventWhen ? ` • ${new Date(item._eventWhen).toDateString()}` : '';
+    el.innerHTML = `
+  <div style="width:100%;text-align:center;">
+    <img src="https://drive.google.com/thumbnail?id=${item.photoid || ''}" 
+         alt="Photo" style="display:block;margin:auto;height:120px;width:auto;max-width:96%;border-radius:12px;object-fit:cover;box-shadow:0 2px 10px rgba(0,0,0,0.12);background:#eee;">
+  </div>
+  <h3 style="margin-top:10px;margin-bottom:5px; text-align:centre;">${escapeHtml(item.name || 'No name')} </h3> <p>${eventBadge}</p>
+  <p style="margin:5px 0 2px 0;color:#555;">${escapeHtml(item.add3 || '')} ${whenText}</p>
+  <p style="margin:2px 0 0 0;font-size:13px;color:#777;">SR No: ${item.srno || ''} ${item.mob1 ? '• ' + item.mob1 : ''}</p>
+`;
+
+;
+    el.addEventListener('click',()=>openModalFor(item));
+    wrap.appendChild(el);
+  });
+
+  // Dots
+  const dots = document.createElement('div');
+  dots.id = 'carouselDots';
+  sorted.forEach((item, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+    dots.appendChild(dot);
+  });
+
+  cardsWrap.appendChild(wrap);
+  cardsWrap.appendChild(dots);
+
+  // Carousel autoplay logic
+  let curIdx = 0;
+  let timer = null;
+  function showCarousel(idx){
+    curIdx = idx;
+    [...wrap.children].forEach((c,i)=>c.classList.toggle('active',i===idx));
+    [...dots.children].forEach((d,i)=>d.classList.toggle('active',i===idx));
+  }
+  function nextCard(){
+    curIdx = (curIdx+1)%sorted.length;
+    showCarousel(curIdx);
+  }
+  timer = setInterval(nextCard,2000);
+
+  [...dots.children].forEach((dot,i)=>{
+    dot.onclick = ()=>{
+      showCarousel(i);
+      clearInterval(timer);
+      timer = setInterval(nextCard,2000);
+    };
+  });
+
+  showCarousel(0);
 }
 
-/* ---------- Rendering functions ---------- */
 function renderCards(list){
+  if(baseView==='events'){
+    renderCarouselCards(list);
+    return;
+  }
   cardsWrap.innerHTML = '';
   if(!list || list.length===0){
     cardsWrap.innerHTML = '<div style="padding:18px">No results</div>';
     return;
   }
 
-  // sort by name (non-destructive)
   const sorted = list.slice().sort((a,b)=> (String(a.name||'')).localeCompare(String(b.name||'')));
 
   sorted.forEach(item=>{
     const el = document.createElement('div');
     el.className = 'card';
-    // if an actual member with srno, make id srno-...
     if(item.srno !== undefined && item.srno !== null){
       el.id = `srno-${item.srno}`;
     }
     el.tabIndex = 0;
-
-    // if item has _eventType (events view), show event badge and date
     const eventBadge = item._eventType ? `<span class="badge">${escapeHtml(item._eventType)}</span>` : '';
     const whenText = item._eventWhen ? ` • ${new Date(item._eventWhen).toDateString()}` : '';
-
-    // Conditional card content without SR No for places and branches views
     let cardHtml = '';
     if (baseView === 'places') {
       cardHtml = `<h3>${escapeHtml(item.name || 'No name')}</h3>`;
@@ -294,17 +386,14 @@ function renderCards(list){
       cardHtml = `<h3>${escapeHtml(item.name || 'No name')}</h3>`;
     } else {
       cardHtml = `<h3>${escapeHtml(item.name || 'No name')} ${eventBadge}</h3>
-        <p>SR No: ${item.srno || ''} • ${escapeHtml(item.add3 || '')}${whenText} ${item.mob1 ? '• ' + item.mob1 : ''}</p>`;
+        <p>SR No: ${item.srno || ''} • ${escapeHtml(item.add3 || '')} ${whenText} ${item.mob1 ? '• ' + item.mob1 : ''}</p>`;
     }
     el.innerHTML = cardHtml;
 
-    // Click behavior depends on baseView:
     if(baseView === 'places'){
-      // item represents a place (name property contains place)
       el.setAttribute('data-place', item._place || item.name);
       el.addEventListener('click', ()=> {
         const place = el.getAttribute('data-place');
-        // show members for this place
         const listMembers = data.filter(d=> (d.add3||'').trim() === place);
         baseView = 'members';
         baseList = listMembers.slice();
@@ -314,64 +403,43 @@ function renderCards(list){
     } else if(baseView === 'branches'){
       el.setAttribute('data-branch', item._branch || item.name);
       el.addEventListener('click', ()=>{
-  const branch = el.getAttribute('data-branch');
-  const listMembers = data.filter(d=>{
-    const nb = d.newbrlist || '';
-    const br = d.brlist || '';
-    const inNew = nb && nb.split(',').map(s=>s.trim()).includes(branch);
-    const inBr  = br && br.split(',').map(s=>s.trim()).includes(branch);
-    return inNew || inBr;
-  });
-  baseView = 'members';
-  baseList = listMembers.slice();
-  searchInput.value = '';   // Clear search input to reset filtering
-  runFilter('');
-  reportInfo.textContent = `${baseList.length} members Worked in ${branch} branch`;
-});
-
+        const branch = el.getAttribute('data-branch');
+        const listMembers = data.filter(d=>{
+          const nb = d.newbrlist || '';
+          const br = d.brlist || '';
+          const inNew = nb && nb.split(',').map(s=>s.trim()).includes(branch);
+          const inBr  = br && br.split(',').map(s=>s.trim()).includes(branch);
+          return inNew || inBr;
+        });
+        baseView = 'members';
+        baseList = listMembers.slice();
+        searchInput.value = '';
+        runFilter('');
+        reportInfo.textContent = `${baseList.length} members Worked in ${branch} branch`;
+      });
     } else {
-      // default: open member modal
       el.addEventListener('click', ()=> openModalFor(item));
     }
-
     cardsWrap.appendChild(el);
   });
 }
 
-
-/* Basic escaping */
-function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c]); }
-
-/* Open modal with member data (fields can be finalised later) */
+/* ---------- Modal ---------- */
 function openModalFor(item) {
-  // Name as modal title
-  monthsArray = [,'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+  const monthsArray = [,'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   modalTitle.textContent = item.name || 'Member';
-  bday = item.bm? `<div style="margin-top:5px;"><strong>Events:</strong>Birthday ${monthsArray[item.bm]}- ${item.bd}</div>`: ""
-  mday = item.mm? `<div style="margin-top:5px;"><strong>Events:</strong>Marriage Anniversary ${monthsArray[item.mm]}- ${item.md}</div>`: ""
-  // Photo floated right
-  //document.getElementById('myphoto').innerHTML =
-  //  item.photoid
-  //    ? `<img src='https://drive.google.com/thumbnail?id=${item.photoid}' alt='Photo'>`
-  //    : '';
-
-  // Highlight phone and email, match structure
+  const bday = item.bm ? `<div style="margin-top:5px;"><strong>Events:</strong>Birthday ${monthsArray[item.bm]}- ${item.bd}</div>` : '';
+  const mday = item.mm ? `<div style="margin-top:5px;"><strong>Events:</strong>Marriage Anniversary ${monthsArray[item.mm]}- ${item.md}</div>` : '';
   modalBody.innerHTML = `<table width=100%><tr><td>
     <div><strong>Address:</strong><br>
     ${item.add1}<br>
     ${item.add2}<br>
     ${item.add3},    ${item.add4}
-    
     <div style="margin-top:8px;"><strong>Phones:</strong>
       ${item.mob1 || ''}
     </div>
-    
       ${bday}  
-    
-    
        ${mday} 
-    
-    
     <div style="margin-top:5px;"><strong>Email:</strong>
       ${escapeHtml(item.email || '')}
     </div>
@@ -381,31 +449,16 @@ function openModalFor(item) {
       <strong>Branches Worked:</strong> ${cleanBranchList(item.newbrlist)}
     </div></table>
   `;
-
   modalBack.classList.add('open');
 }
-
-
-function cleanBranchList(str) {
-  if(!str) return '';
-  return str
-    .split(',')
-    .map(s => s.trim())
-    .filter(s => s)           // Remove empty entries
-    .join(', ');              // Join with ", " (comma + space)
-}
-
-
-/* close modal */
 function closeModal(){ modalBack.classList.remove('open'); }
 
-/* ---------- Filtering logic (search works on baseList only) ---------- */
-
+/* ---------- Filtering logic ---------- */
 function runFilter(q){
   const src = (baseList && baseList.length) ? baseList : data.slice();
   q = (q||'').trim().toLowerCase();
+
   if (baseView === 'branches') {
-    // Only filter branch names in branches view
     filtered = src.filter(d => String(d.name||'').toLowerCase().includes(q));
   } else {
     if(!q) {
@@ -423,7 +476,7 @@ function runFilter(q){
   reportInfo.textContent = `${filtered.length} of ${src.length}`;
 }
 
-/* Get unique places from add3 */
+/* ---------- Unique lists ---------- */
 function uniquePlaces(){
   const map = new Map();
   data.forEach(d=>{
@@ -432,28 +485,21 @@ function uniquePlaces(){
   });
   return Array.from(map.keys()).sort((a,b)=>a.localeCompare(b));
 }
-
-/* Parse newbrlist and create unique branch list */
 function uniqueBranches(){
   const set = new Set();
   data.forEach(d=>{
     if(d.newbrlist){
       d.newbrlist.split(',').map(s=>s.trim()).filter(Boolean).forEach(b=>set.add(b));
     }
-  /*  if(d.brlist){
-      d.brlist.split(',').map(s=>s.trim()).filter(Boolean).forEach(b=>set.add(b));
-    } */
   });
   return Array.from(set).sort((a,b)=>a.localeCompare(b));
 }
 
-/* Events this week: use birthday/marriage day fields or bm/bd/mm/md if present
-   We'll extract month & date from birthday/mday or bday/mday fields (ISO strings) */
+/* ---------- Events logic ---------- */
 function eventsThisWeek(){
   const results = [];
   const now = new Date();
   const end = new Date(now.getTime() + 7*24*3600*1000);
-  // normalize function to next occurrence for this year
   function nextOccurrence(iso){
     try{
       if(!iso) return null;
@@ -465,17 +511,6 @@ function eventsThisWeek(){
     }catch(e){return null;}
   }
   data.forEach(d=>{
-    const bIso = d.bday || d.birthday || d.birthdate;
-    const mIso = d.mday || d.marriageday || d.marriage;
-    const bOcc = nextOccurrence(bIso);
-    const mOcc = nextOccurrence(mIso);
-    if(bOcc && bOcc >= now && bOcc <= end){
-     // results.push({type:'Birthday', when:bOcc, item:d}); // not to be evaluated
-    }
-    if(mOcc && mOcc >= now && mOcc <= end){
-    //  results.push({type:'Marriage', when:mOcc, item:d}); // not to be evaluated
-    }
-    // also check if bm/bd/mm/md fields exist (day and month as numbers or strings)
     if(d.bm && d.bd){
       const mon = Number(d.bm)-1 || (isNaN(d.bm)?monthStrToNum(d.bm)-1:0);
       const day = Number(d.bd);
@@ -495,8 +530,7 @@ function eventsThisWeek(){
       }
     }
   });
-  // sort by when
-  results.sort((a,b)=>a.when - b.when);
+  results.sort((a,b)=>a.when-b.when);
   return results;
 }
 function monthStrToNum(s){
@@ -506,22 +540,17 @@ function monthStrToNum(s){
   return map[key] || NaN;
 }
 
-/* ---------- Data fetching & cache logic ---------- */
-
-/* fetch timestamp (returns string) */
+/* ---------- Data fetching ---------- */
 async function fetchTimestamp(){
   try{
     const r = await fetch(timestampurl, {cache:'no-store'});
     if(!r.ok) throw new Error('ts fetch failed');
     const text = await r.text();
-    // assume response is short string or JSON; try parse
     try{
       const j = JSON.parse(text);
-      // If JSON: try to find a timestamp field or first value
       if(typeof j === 'string') return j;
       if(j.updatedOn) return String(j.updatedOn);
       if(typeof j === 'object'){
-        // pick first property value
         const v = Object.values(j)[0];
         return typeof v === 'string' ? v : JSON.stringify(j);
       }
@@ -529,118 +558,51 @@ async function fetchTimestamp(){
       return text.trim();
     }
   }catch(e){
-    console.warn('fetchTimestamp error', e);
     return null;
   }
 }
-
-/* fetch data array from dataurl */
 async function fetchDataFromServer(){
   try{
     logStatus('Downloading data...');
     const r = await fetch(dataurl, {cache:'no-store'});
     if(!r.ok) throw new Error('data fetch failed');
     const j = await r.json();
-   // console.log(j.user)
-    // Many endpoints return { user: [...] } - use j.user if present, else use j directly
     const arr = Array.isArray(j.user) ? j.user : (Array.isArray(j) ? j : (j.data || []));
     data = arr;
     saveCache(data);
-    // update ibapUpdatedOn with timestamp fetch (try to get timestamp now)
     const ts = await fetchTimestamp();
     if(ts) saveUpdatedOn(ts);
     logStatus('Data saved locally');
     return data;
   }catch(e){
-    console.error('fetchDataFromServer err', e);
     logStatus('Failed to download data');
     return null;
   }
 }
 
-/* initialize app: check mylocal, cache, etc */
-async function initApp(){
-  // Check mylocal
-  const my = getMylocal();
-  if(my){
-    const parsed = parseMylocal(my);
-    if(parsed && parsed.srno){
-    //alert(parsed.name)
-      // If cached data contains srno, go to report and select it.
-      //alert(parsed.srno) // capture login. 
-          writeToLog(parsed.srno, parsed.name)
-      const c = loadCache();
-      if(c && Array.isArray(c)){
-        data = c;                 // <-- treat cache as array (not c.user)
-        showReportView();
-        //selectMember(parsed.srno);
-        // Meanwhile check timestamp to see if update needed
-        checkAndUpdateCache();
-        return;
-      } else {
-        // no cache: fetch data first
-        setLoginMessage('Found mylocal but no local data. Fetching data...');
-        await fetchDataFromServer();
-        if(data && data.length>0){
-          showReportView();
-          selectMember(parsed.srno);
-        }else{
-          setLoginMessage('Could not fetch data. Try Refresh.');
-        }
-        return;
-      }
-    }
-  }
-
-  // If no mylocal auto-go, but if cache exists prepare report for faster UX and then check timestamp
-  const c = loadCache();
-  if(c && Array.isArray(c)){
-    data = c;   // <-- previously code used c.user; corrected to c
-  //  console.log(data)
-    setLoginMessage('Loaded from cache. You  submit SR No');
-    
-    // preload report so that if user logs in we can switch quickly
-    checkAndUpdateCache(); // triggers background update if needed
-    return;
-  }
-
-  // No cache -> keep login and fetch data in background (but we must not block)
-  setLoginMessage('No cache present. Data will be fetched when needed or on Refresh.');
-}
-
-/* compare timestamp and update cache if needed; returns true if updated */
+/* ---------- App init ---------- */
 async function checkAndUpdateCache(){
   try{
     const serverTs = await fetchTimestamp();
     const localTs = getUpdatedOn();
     if(serverTs && serverTs !== localTs){
-      // fetch new data
       await fetchDataFromServer();
       renderAfterDataLoad();
       return true;
     } else if(!localTs){
-      // no local record, but if cache exists keep it; update updatedOn if possible
       if(serverTs) saveUpdatedOn(serverTs);
       return false;
     } else {
-      // timestamps equal - nothing to do
       return false;
     }
   }catch(e){
-    console.warn('checkAndUpdateCache err', e);
     return false;
   }
 }
 
-/* ---------- UI actions ---------- */
-
-/* On submit SR no */
+/* ---------- UI Actions ---------- */
 srSubmit.addEventListener('click', ()=>handleLoginSubmit(false));
 srnoInput.addEventListener('keydown', (ev)=>{ if(ev.key === 'Enter') handleLoginSubmit(false); });
-
-/* Use local mylocal button */
-//useLocalBtn.addEventListener('click', ()=>handleLoginSubmit(true));
-
 async function handleLoginSubmit(useLocal){
   setLoginMessage('');
   if(useLocal){
@@ -648,7 +610,6 @@ async function handleLoginSubmit(useLocal){
     if(!my) { setLoginMessage('No mylocal in localStorage'); return; }
     const p = parseMylocal(my);
     if(!p || !p.srno) { setLoginMessage('Invalid mylocal value'); return; }
-    // ensure data loaded
     if(!data || data.length===0){
       setLoginMessage('Loading cached data (or fetching from server)...');
       const c = loadCache();
@@ -664,7 +625,6 @@ async function handleLoginSubmit(useLocal){
   } else {
     const val = Number(srnoInput.value);
     if(!val){ setLoginMessage('Enter SR No'); return; }
-    // ensure data loaded (use cache or fetch)
     let c = loadCache();
     if(c && c.length>0) data = c;
     else {
@@ -677,9 +637,6 @@ async function handleLoginSubmit(useLocal){
     }
     const found = data.find(d=>Number(d.srno) === Number(val));
     if(found){
-      // set mylocal automatically
-      //alert('fresh login') // capture login found.srno, found.name
-          writeToLog(found.srno, found.name)
       const now = new Date();
       const mylocalVal = `${found.srno}#${found.name}#${now.toLocaleString('en-US',{month:'short'})} ${now.getDate()} ${now.getFullYear()} ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
       setMylocal(mylocalVal);
@@ -697,10 +654,8 @@ function showReportView(){
   loginView.style.display = 'none';
   reportView.style.display = '';
   if(!data || data.length===0){
-    // try load from cache
     const c = loadCache(); if(c) data = c;
   }
-  // reset base view to members (full list)
   baseView = 'members';
   baseList = data.slice();
   renderAfterDataLoad();
@@ -710,7 +665,6 @@ function showReportView(){
 function renderAfterDataLoad(){
   if(!data) data = [];
   filtered = data.slice();
-  // set baseList to full members list
   baseList = data.slice();
   baseView = 'members';
   runFilter('');
@@ -720,54 +674,40 @@ function renderAfterDataLoad(){
   setTimeout(() => {
     window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
   }, 500);
-  //window.scrollTo({top:0, left:0, behavior:'smooth'});
 }
 
-/* Select a member by srno and open modal */
+/* Select a member */
 function selectMember(srno){
   const m = data.find(d=>Number(d.srno) === Number(srno));
   if(m) {
-    // if report not visible, show it
     if(currentView !== 'report') showReportView();
     openModalFor(m);
-    // scroll into view if card exists
     setTimeout(()=>{
       const el = document.getElementById(`srno-${m.srno}`);
       if(el) el.scrollIntoView({behavior:'smooth',block:'center'});
     },200);
-  } else {
-    alert('Member not found locally');
   }
 }
 
 /* Search input */
 searchInput.addEventListener('input', ()=>runFilter(searchInput.value));
-
-/* Refresh button -> force fetch */
 refreshDataBtn.addEventListener('click', async ()=>{
   await fetchDataFromServer();
-  // after fetching, reset base to members (full list)
   baseView = 'members';
   baseList = data.slice();
   renderAfterDataLoad();
 });
 
-/* modal close */
 modalClose.addEventListener('click', closeModal);
 modalBack.addEventListener('click', (ev)=>{ if(ev.target === modalBack) closeModal(); });
 
-/* hamburger toggle */
 hamb.addEventListener('click', ()=>{ sidebar.classList.toggle('open'); sidebar.setAttribute('aria-hidden', !sidebar.classList.contains('open')) });
-
-/* sidebar menu actions */
 sidebar.addEventListener('click', (ev)=>{
   const mi = ev.target.closest('.menu-item');
   if(!mi) return;
   const act = mi.getAttribute('data-action');
   sidebar.classList.remove('open');
-  // go to top of window when menu clicked (as requested)
   window.scrollTo({top:0,left:0,behavior:'smooth'});
-
   if(act === 'listMembers') {
     showMembersList();
   } else if(act === 'eventsWeek'){
@@ -776,29 +716,19 @@ sidebar.addEventListener('click', (ev)=>{
     showMembersLiving();
   } else if(act === 'branchesList'){
     showBranchesList();
-  } else if(act === 'dataCorrection'){
-    alert('Data correction: will be addressed later.');
-  } else if(act === 'otherLinks'){
-    alert('Other links: will be addressed later.');
-  } else if(act === 'about'){
-    alert('About: will be addressed later.');
+  } else if(act === 'dataCorrection' || act === 'otherLinks' || act === 'about'){
+    alert('This section will be addressed later.');
   }
 });
-
-/* clear mylocal */
 clearLocalBtn.addEventListener('click', ()=>{ clearMylocal(); alert('mylocal cleared'); });
 
-/* Menu functions implementations */
-
-/* 1. List of Members (shows same report page) */
+/* Menu functions */
 function showMembersList(){
   if(currentView !== 'report') showReportView();
   baseView = 'members';
   baseList = data.slice();
   runFilter(searchInput.value || '');
 }
-
-/* 2. Events this week */
 function showEventsWeek(){
   if(!data || data.length===0){
     alert('No data loaded. Please Refresh first.');
@@ -809,7 +739,6 @@ function showEventsWeek(){
     alert('No events this week.');
     return;
   }
-  // prepare baseList as member-like objects with event metadata
   baseList = evs.map(e => {
     return Object.assign({}, e.item, {_eventType: e.type, _eventWhen: e.when});
   });
@@ -817,67 +746,84 @@ function showEventsWeek(){
   runFilter(searchInput.value || '');
   reportInfo.textContent = `${baseList.length} upcoming events`;
 }
-
-/* 3. Members living In */
 function showMembersLiving(){
   if(!data || data.length===0) { alert('No data loaded.'); return; }
   const places = uniquePlaces();
   if(places.length===0){ alert('No places found in data'); return; }
-  // baseList represents places (group view). Each item has .name and _place
   baseList = places.map(p => ({ name: p, _place: p }));
   baseView = 'places';
   runFilter(searchInput.value || '');
   reportInfo.textContent = `${places.length} places`;
 }
-
-/* 4. Branches List */
 function showBranchesList(){
   if(!data || data.length===0) { alert('No data loaded.'); return; }
   const branches = uniqueBranches();
   if(branches.length===0){ alert('No branches in data'); return; }
-  baseList = branches.map(b => ({ name: b, _branch: b }));  // Always rebuild full list
+  baseList = branches.map(b => ({ name: b, _branch: b }));
   baseView = 'branches';
-  runFilter(searchInput.value || ''); // Now filter is run on complete branch list
+  runFilter(searchInput.value || '');
   reportInfo.textContent = `${branches.length} branches`;
 }
 
-
-/* ---------- Utilities for initial rendering ---------- */
-
-/* When data is available on load (either cache or fetch) */
+/* ---------- Initialization ---------- */
 (function init(){
   initApp();
 })();
+async function initApp(){
+  const my = getMylocal();
+  if(my){
+    const parsed = parseMylocal(my);
+    if(parsed && parsed.srno){
+      const c = loadCache();
+      if(c && Array.isArray(c)){
+        data = c;
+        showReportView();
+        checkAndUpdateCache();
+        return;
+      } else {
+        setLoginMessage('Found mylocal but no local data. Fetching data...');
+        await fetchDataFromServer();
+        if(data && data.length>0){
+          showReportView();
+          selectMember(parsed.srno);
+        }else{
+          setLoginMessage('Could not fetch data. Try Refresh.');
+        }
+        return;
+      }
+    }
+  }
+  const c = loadCache();
+  if(c && Array.isArray(c)){
+    data = c;
+    setLoginMessage('Loaded from cache. You may submit SR No');
+    checkAndUpdateCache();
+    return;
+  }
+  setLoginMessage('No cache present. Data will be fetched when needed or on Refresh.');
+}
 
-/*const goUpBtn = document.getElementById('goUpBtn');
-goUpBtn.title = "Go Up";
-goUpBtn.onclick = () => window.scrollTo({top:0, left:0, behavior:'smooth'});*/
-
+/* Go Up Button */
 const goUpBtn = document.getElementById('goUpBtn');
 goUpBtn.title = "Go Up";
 let hideTimeout = null;
-
 function showGoUpButton() {
   clearTimeout(hideTimeout);
   goUpBtn.style.display = 'flex';
-  // Hide after 5 seconds if no further scroll
   hideTimeout = setTimeout(() => {
     goUpBtn.style.display = 'none';
   }, 3000);
 }
-
-// On scroll event
 window.addEventListener('scroll', () => {
   showGoUpButton();
 });
-
 goUpBtn.onclick = () => window.scrollTo({top:0, left:0, behavior:'smooth'});
 function writeToLog(srno,name){
-formData = new FormData();
-formData.append('fname', srno);
-formData.append('lname', name );
-fetch("https://script.google.com/macros/s/AKfycbyfHambsSuB4tIQiUIIqIf72m7zgl7hT4FsW8N3TIVeQu9U6Po/exec",{body: formData,method: "post"});}
-
+  formData = new FormData();
+  formData.append('fname', srno);
+  formData.append('lname', name );
+  fetch("https://script.google.com/macros/s/AKfycbyfHambsSuB4tIQiUIIqIf72m7zgl7hT4FsW8N3TIVeQu9U6Po/exec",{body: formData,method: "post"});
+}
 
 
 </script>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employee Carousel</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #f0f0f0;
+      overflow-x: hidden;
+    }
+    .carousel-container {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      margin: auto;
+      overflow: hidden;
+    }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+    .card {
+      min-width: 100%;
+      box-sizing: border-box;
+      padding: 20px;
+      background: white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      text-align: center;
+    }
+    .card img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+    .card h3 {
+      margin: 10px 0 5px;
+    }
+    .card p {
+      margin: 0;
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+<div class="carousel-container" id="carousel">
+  <div class="carousel-track" id="track"></div>
+</div>
+
+<script>
+  const employees = [
+    { id: 1, name: "Vinjamuri Rama Krishna", birthday: "1990-01-15", day: 15, month: "January", photoid: "1tdYHCmXe-qgzA_1TXzepoAwltiatMY3w" },
+    { id: 2, name: "Padmaraz AVS", birthday: "1985-02-20", day: 20, month: "February", photoid: "1fAuirQHY0IFZQhNrd-thbTgSH1coQ5OL" },
+    { id: 3, name: "Markandeyulu GVSS", birthday: "1985-02-25", day: 25, month: "February", photoid: "1Sx25j5Y84ocFntSiJCwgOFGd1GouE153" },
+    
+    
+    // Add 8 more employees here...
+  ];
+
+  const track = document.getElementById("track");
+
+  // Render cards
+  employees.forEach(emp => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <img src="https://drive.google.com/thumbnail?id=${emp.photoid}" alt="${emp.name}" />
+      <h3>${emp.name}</h3>
+      <p>Birthday: ${emp.day} ${emp.month}</p>
+    `;
+    track.appendChild(card);
+  });
+
+  // Carousel logic
+  let index = 0;
+  const moveCarousel = () => {
+    index = (index + 1) % employees.length;
+    track.style.transform = `translateX(-${index * 100}%)`;
+  };
+  let interval = setInterval(moveCarousel, 2000);
+
+  // Swipe support
+  let startX = 0;
+  document.getElementById("carousel").addEventListener("touchstart", e => {
+    startX = e.touches[0].clientX;
+    clearInterval(interval);
+  });
+
+  document.getElementById("carousel").addEventListener("touchend", e => {
+    const endX = e.changedTouches[0].clientX;
+    const diff = endX - startX;
+    if (diff > 50) {
+      index = (index - 1 + employees.length) % employees.length;
+    } else if (diff < -50) {
+      index = (index + 1) % employees.length;
+    }
+    track.style.transform = `translateX(-${index * 100}%)`;
+    interval = setInterval(moveCarousel, 2000);
+  });
+</script>
+
+</body>
+</html>

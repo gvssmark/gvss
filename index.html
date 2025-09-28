@@ -526,7 +526,7 @@ function eventsThisWeek(){
       if(mon>=0 && day>=1){
         const occ = new Date(now.getFullYear(), mon, day);
         if(occ < now) occ.setFullYear(now.getFullYear()+1);
-        if(occ >= now && occ <= end) results.push({type:'Marriage', when:occ, item:d});
+        if(occ >= now && occ <= end) results.push({type:'Marriage Anniversary ', when:occ, item:d});
       }
     }
   });

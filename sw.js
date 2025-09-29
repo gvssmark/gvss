@@ -3,6 +3,7 @@ self.addEventListener('install', (e) => {
     caches.open('fox-store').then((cache) => cache.addAll([
       '/gvss/',
       '/gvss/index.js',
+      '/gvss/sw.js',
        '/gvss//index.html',
       '/gvss/images/ibap192.png',
       '/gvss/images/ibap512.png',
